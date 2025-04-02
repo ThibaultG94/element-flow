@@ -1,35 +1,93 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router";
+import "./App.css";
+import HomePage from "./pages/HomePage";
+import HtmlPage from "./pages/HtmlPage";
+import CssPage from "./pages/CssPage";
+import JsPage from "./pages/JsPage";
+import ElementDetailPage from "./pages/ElementDetailPage";
 
-function App() {
-  const [count, setCount] = useState(0)
+const MainLayout = ({ children }) => {
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      {/* Header */}
+      <header>
+        <div>
+          <div>
+            <div>
+              <span>ElementFlow</span>
+            </div>
+
+            {/* Search bar */}
+            <div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Rechercher un élément..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button>
+                  <svg>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Dark/light theme button */}
+            <button>
+              <svg>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main navigation */}
+      <nav>
+        <div>
+          <div>
+            <Link to="/html">HTML</Link>
+            <Link to="/css">CSS</Link>
+            <Link to="/javascript">JavaScript</Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* Main content */}
+      <main>{children}</main>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/html" element={<HtmlPage />} />
+          <Route path="/css" element={<CssPage />} />
+          <Route path="/javascript" element={<JsPage />} />
+          <Route path="/element/:id" element={<ElementDetailPage />} />
+        </Routes>
+      </MainLayout>
+    </Router>
+  );
 }
 
-export default App
+export default App;
