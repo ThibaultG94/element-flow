@@ -53,7 +53,7 @@ const MainLayout = ({ children }) => {
 
             {/* Dark/light theme button */}
             <button
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
+              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 cursor-pointer"
               onClick={() => document.documentElement.classList.toggle("dark")}
             >
               <svg
