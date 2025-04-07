@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import ElementCard from "../components/ElementCard";
+import ElementModal from "../components/ElementModal";
 
 // Temporary data - to be replaced by API calls to Strapi
 const htmlCategories = [
@@ -91,12 +92,46 @@ const htmlElements = [
     name: "<button>",
     category: "form",
     description: "Bouton cliquable",
-  },
-  {
-    id: "table",
-    name: "<table>",
-    category: "table",
-    description: "Tableau de données",
+    attributes: [
+      { name: "disabled", description: "Désactive le bouton" },
+      { name: "form", description: "Associe le bouton à un formulaire" },
+      { name: "type", description: "Type du bouton (button, submit, reset)" },
+    ],
+    examples: [
+      { title: "Bouton simple", code: "<button>Cliquez ici</button>" },
+      {
+        title: "Bouton de validation",
+        code: '<button type="submit">Envoyer</button>',
+      },
+      {
+        title: "Bouton désactivé",
+        code: "<button disabled>Non disponible</button>",
+      },
+    ],
+    animations: [
+      {
+        title: "Comment utiliser un bouton",
+        steps: [
+          {
+            text: "Un bouton est interactif par défaut",
+            codeHighlight: "<button>",
+            visualEffect: "click-animation",
+          },
+          {
+            text: "Vous pouvez définir le type du bouton",
+            codeHighlight: 'type="submit"',
+            visualEffect: "highlight-type",
+          },
+          {
+            text: "Les boutons peuvent être désactivés",
+            codeHighlight: "disabled",
+            visualEffect: "disable-animation",
+          },
+        ],
+      },
+    ],
+    related: ["input", "form", "a"],
+    syntax: '<button type="button">Texte du bouton</button>',
   },
   {
     id: "tr",
@@ -114,12 +149,26 @@ const htmlElements = [
 
 const HtmlPage = () => {
   const [activeCategory, setActiveCategory] = useState("all");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [currentElement, setCurrentElement] = useState(null);
+
+  // Sets the current theme
+  const isDarkMode = document.documentElement.classList.contains("dark");
 
   // Filter items by selected category
   const filteredElements =
     activeCategory === "all"
       ? htmlElements
       : htmlElements.filter((element) => element.category === activeCategory);
+
+  const openElementModal = (element) => {
+    setCurrentElement(element);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   return (
     <div className="pb-12">
@@ -167,24 +216,26 @@ const HtmlPage = () => {
       {/* Element grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredElements.map((element) => (
-          <Link
+          <ElementCard
             key={element.id}
-            to={`/element/${element.id}`}
-            className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all bg-white dark:bg-gray-800"
-          >
-            <h3 className="font-mono text-lg font-medium text-gray-900 dark:text-white mb-1">
-              {element.name}
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-              {element.description}
-            </p>
-            <div className="text-xs font-medium px-2.5 py-0.5 inline-block rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-              {htmlCategories.find((cat) => cat.id === element.category)
-                ?.name || element.category}
-            </div>
-          </Link>
+            element={element}
+            openModal={openElementModal}
+            colorType="blue"
+            categoryLabel={
+              htmlCategories.find((cat) => cat.id === element.category)?.name ||
+              element.category
+            }
+          />
         ))}
       </div>
+
+      {/* Modal for selected element */}
+      <ElementModal
+        isOpen={modalIsOpen}
+        closeModal={closeModal}
+        element={currentElement}
+        theme={isDarkMode ? "dark" : "light"}
+      />
     </div>
   );
 };

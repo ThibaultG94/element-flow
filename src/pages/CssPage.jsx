@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import ElementCard from "../components/ElementCard";
+import ElementModal from "../components/ElementModal";
 
 // Temporary data - to be replaced by API calls to Strapi
 const cssCategories = [
@@ -18,6 +19,19 @@ const cssProperties = [
     name: "display",
     category: "layout",
     description: "Définit le mode d'affichage d'un élément",
+    attributes: [
+      { name: "block", description: "Affiche l'élément comme un bloc" },
+      { name: "inline", description: "Affiche l'élément en ligne" },
+      { name: "flex", description: "Définit un conteneur flexible" },
+      { name: "grid", description: "Définit un conteneur en grille" },
+      { name: "none", description: "Masque l'élément" },
+    ],
+    syntax: "display: flex;",
+    examples: [
+      { title: "Affichage en bloc", code: ".element { display: block; }" },
+      { title: "Affichage flexible", code: ".container { display: flex; }" },
+    ],
+    related: ["flex", "grid", "position"],
   },
   {
     id: "position",
@@ -30,6 +44,20 @@ const cssProperties = [
     name: "flex",
     category: "layout",
     description: "Raccourci pour flex-grow, flex-shrink et flex-basis",
+    attributes: [
+      { name: "flex-grow", description: "Facteur de croissance" },
+      { name: "flex-shrink", description: "Facteur de rétrécissement" },
+      { name: "flex-basis", description: "Taille de base" },
+    ],
+    syntax: "flex: 1 0 auto;",
+    examples: [
+      { title: "Flexibilité égale", code: ".item { flex: 1; }" },
+      {
+        title: "Flexibilité personnalisée",
+        code: ".item { flex: 2 0 300px; }",
+      },
+    ],
+    related: ["display", "flex-direction", "flex-wrap"],
   },
   {
     id: "grid",
@@ -137,12 +165,25 @@ const cssProperties = [
 
 const CssPage = () => {
   const [activeCategory, setActiveCategory] = useState("all");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [currentProperty, setCurrentProperty] = useState(null);
+
+  const isDarkMode = document.documentElement.classList.contains("dark");
 
   // Filter properties by selected category
   const filteredProperties =
     activeCategory === "all"
       ? cssProperties
       : cssProperties.filter((prop) => prop.category === activeCategory);
+
+  const openPropertyModal = (property) => {
+    setCurrentProperty(property);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   return (
     <div className="pb-12">
@@ -190,24 +231,26 @@ const CssPage = () => {
       {/* Property grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredProperties.map((property) => (
-          <Link
+          <ElementCard
             key={property.id}
-            to={`/element/${property.id}`}
-            className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md transition-all bg-white dark:bg-gray-800"
-          >
-            <h3 className="font-mono text-lg font-medium text-gray-900 dark:text-white mb-1">
-              {property.name}
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-              {property.description}
-            </p>
-            <div className="text-xs font-medium px-2.5 py-0.5 inline-block rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
-              {cssCategories.find((cat) => cat.id === property.category)
-                ?.name || property.category}
-            </div>
-          </Link>
+            element={property}
+            openModal={openPropertyModal}
+            colorType="indigo"
+            categoryLabel={
+              cssCategories.find((cat) => cat.id === property.category)?.name ||
+              property.category
+            }
+          />
         ))}
       </div>
+
+      {/* Modal for the selected property */}
+      <ElementModal
+        isOpen={modalIsOpen}
+        closeModal={closeModal}
+        element={currentProperty}
+        theme={isDarkMode ? "dark" : "light"}
+      />
     </div>
   );
 };
