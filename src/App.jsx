@@ -17,9 +17,12 @@ const MainLayout = ({ children }) => {
         <div className="mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <span className="text-blue-600 dark:text-blue-400 text-2xl font-bold">
+              <Link
+                to="/"
+                className="cursor-pointer text-blue-600 dark:text-blue-400 text-2xl font-bold"
+              >
                 ElementFlow
-              </span>
+              </Link>
             </div>
 
             {/* Search bar */}
