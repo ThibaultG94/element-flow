@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ElementCard from "../components/ElementCard";
-import ElementModal from "../components/ElementModal";
+import AnimatedElementModal from "../components/AnimatedElementModal";
+import ElementService from "../services/ElementService";
+import "../styles/animations.css";
 
-// Temporary data - to be replaced by API calls to Strapi
+// HTML categories (to be kept local for the time being)
 const htmlCategories = [
   { id: "structure", name: "Structure" },
   { id: "text", name: "Texte" },
@@ -12,162 +14,48 @@ const htmlCategories = [
   { id: "semantic", name: "Sémantique" },
 ];
 
-const htmlElements = [
-  {
-    id: "doctype",
-    name: "<!DOCTYPE>",
-    category: "structure",
-    description: "Définit le type de document",
-  },
-  {
-    id: "html",
-    name: "<html>",
-    category: "structure",
-    description: "Élément racine du document",
-  },
-  {
-    id: "head",
-    name: "<head>",
-    category: "structure",
-    description: "Contient les métadonnées du document",
-  },
-  {
-    id: "body",
-    name: "<body>",
-    category: "structure",
-    description: "Contient le contenu visible du document",
-  },
-  {
-    id: "header",
-    name: "<header>",
-    category: "semantic",
-    description: "En-tête de section ou de page",
-  },
-  {
-    id: "footer",
-    name: "<footer>",
-    category: "semantic",
-    description: "Pied de page ou de section",
-  },
-  {
-    id: "main",
-    name: "<main>",
-    category: "semantic",
-    description: "Contenu principal du document",
-  },
-  {
-    id: "h1",
-    name: "<h1>",
-    category: "text",
-    description: "Titre de niveau 1",
-  },
-  {
-    id: "p",
-    name: "<p>",
-    category: "text",
-    description: "Paragraphe de texte",
-  },
-  { id: "a", name: "<a>", category: "text", description: "Lien hypertexte" },
-  { id: "img", name: "<img>", category: "embed", description: "Image" },
-  {
-    id: "video",
-    name: "<video>",
-    category: "embed",
-    description: "Contenu vidéo",
-  },
-  {
-    id: "form",
-    name: "<form>",
-    category: "form",
-    description: "Formulaire interactif",
-  },
-  {
-    id: "input",
-    name: "<input>",
-    category: "form",
-    description: "Champ de saisie",
-  },
-  {
-    id: "button",
-    name: "<button>",
-    category: "form",
-    description: "Bouton cliquable",
-    attributes: [
-      { name: "disabled", description: "Désactive le bouton" },
-      { name: "form", description: "Associe le bouton à un formulaire" },
-      { name: "type", description: "Type du bouton (button, submit, reset)" },
-    ],
-    examples: [
-      { title: "Bouton simple", code: "<button>Cliquez ici</button>" },
-      {
-        title: "Bouton de validation",
-        code: '<button type="submit">Envoyer</button>',
-      },
-      {
-        title: "Bouton désactivé",
-        code: "<button disabled>Non disponible</button>",
-      },
-    ],
-    animations: [
-      {
-        title: "Comment utiliser un bouton",
-        steps: [
-          {
-            text: "Un bouton est interactif par défaut",
-            codeHighlight: "<button>",
-            visualEffect: "click-animation",
-          },
-          {
-            text: "Vous pouvez définir le type du bouton",
-            codeHighlight: 'type="submit"',
-            visualEffect: "highlight-type",
-          },
-          {
-            text: "Les boutons peuvent être désactivés",
-            codeHighlight: "disabled",
-            visualEffect: "disable-animation",
-          },
-        ],
-      },
-    ],
-    related: ["input", "form", "a"],
-    syntax: '<button type="button">Texte du bouton</button>',
-  },
-  {
-    id: "tr",
-    name: "<tr>",
-    category: "table",
-    description: "Ligne de tableau",
-  },
-  {
-    id: "td",
-    name: "<td>",
-    category: "table",
-    description: "Cellule de tableau",
-  },
-];
-
 const HtmlPage = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentElement, setCurrentElement] = useState(null);
+  const [currentElementId, setCurrentElementId] = useState(null);
+  const [elements, setElements] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Sets the current theme
   const isDarkMode = document.documentElement.classList.contains("dark");
+
+  // Load HTML elements on page load
+  useEffect(() => {
+    const fetchElements = async () => {
+      try {
+        setLoading(true);
+        const data = await ElementService.getAllElements("html");
+        setElements(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des éléments HTML:", error);
+        // Fallback: use temporary local data
+        setElements([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchElements();
+  }, []);
 
   // Filter items by selected category
   const filteredElements =
     activeCategory === "all"
-      ? htmlElements
-      : htmlElements.filter((element) => element.category === activeCategory);
+      ? elements
+      : elements.filter((element) => element.category === activeCategory);
 
   const openElementModal = (element) => {
-    setCurrentElement(element);
+    setCurrentElementId(element.id);
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
+    setCurrentElementId(null);
   };
 
   return (
@@ -178,8 +66,8 @@ const HtmlPage = () => {
           Éléments HTML
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Découvrez tous les éléments HTML avec des exemples et des explications
-          interactives.
+          Découvrez tous les éléments HTML avec des explications interactives et
+          des animations séquentielles.
         </p>
       </div>
 
@@ -213,27 +101,53 @@ const HtmlPage = () => {
         </div>
       </div>
 
-      {/* Element grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredElements.map((element) => (
-          <ElementCard
-            key={element.id}
-            element={element}
-            openModal={openElementModal}
-            colorType="blue"
-            categoryLabel={
-              htmlCategories.find((cat) => cat.id === element.category)?.name ||
-              element.category
-            }
-          />
-        ))}
-      </div>
+      {/* Loading status */}
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      ) : elements.length === 0 ? (
+        <div className="text-center py-10">
+          <p className="text-gray-600 dark:text-gray-400">
+            Aucune donnée d'élément disponible. Veuillez créer le fichier JSON
+            ou connecter l'API.
+          </p>
 
-      {/* Modal for selected element */}
-      <ElementModal
+          {/* Demo button for HTML element */}
+          <button
+            onClick={() => {
+              // Simulate an element for the demo
+              setCurrentElementId("html");
+              setModalIsOpen(true);
+            }}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Voir démo de l'élément &lt;html&gt;
+          </button>
+        </div>
+      ) : (
+        // Element grid
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredElements.map((element) => (
+            <ElementCard
+              key={element.id}
+              element={element}
+              openModal={openElementModal}
+              colorType="blue"
+              categoryLabel={
+                htmlCategories.find((cat) => cat.id === element.category)
+                  ?.name || element.category
+              }
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Animated modal for selected element */}
+      <AnimatedElementModal
         isOpen={modalIsOpen}
         closeModal={closeModal}
-        element={currentElement}
+        elementId={currentElementId}
         theme={isDarkMode ? "dark" : "light"}
       />
     </div>
