@@ -63,6 +63,7 @@ const ElementDetailPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
+    console.log("Loading element with ID:", id);
     // Simulate data loading (to be replaced by an API call)
     const fetchElement = async () => {
       setLoading(true);
