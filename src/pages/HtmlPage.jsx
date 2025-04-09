@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router";
 import ElementCard from "../components/ElementCard";
-import AnimatedElementModal from "../components/AnimatedElementModal";
+import NarrativeElementModal from "../components/NarrativeElementModal";
 import ElementService from "../services/ElementService";
 import "../styles/animations.css";
 
-// HTML categories (to be kept local for the time being)
+// Catégories HTML (à conserver en local pour le moment)
 const htmlCategories = [
   { id: "structure", name: "Structure" },
   { id: "text", name: "Texte" },
@@ -21,9 +22,10 @@ const HtmlPage = () => {
   const [elements, setElements] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Détermine le thème actuel
   const isDarkMode = document.documentElement.classList.contains("dark");
 
-  // Load HTML elements on page load
+  // Charger les éléments HTML au chargement de la page
   useEffect(() => {
     const fetchElements = async () => {
       try {
@@ -32,7 +34,7 @@ const HtmlPage = () => {
         setElements(data);
       } catch (error) {
         console.error("Erreur lors du chargement des éléments HTML:", error);
-        // Fallback: use temporary local data
+        // Fallback: utiliser les données locales temporaires
         setElements([]);
       } finally {
         setLoading(false);
@@ -48,14 +50,19 @@ const HtmlPage = () => {
       ? elements
       : elements.filter((element) => element.category === activeCategory);
 
+  // Ouvre le modal avec l'élément sélectionné
   const openElementModal = (element) => {
     setCurrentElementId(element.id);
     setModalIsOpen(true);
   };
 
+  // Ferme le modal
   const closeModal = () => {
     setModalIsOpen(false);
-    setCurrentElementId(null);
+    // Petit délai avant de réinitialiser l'ID pour éviter des problèmes d'animation
+    setTimeout(() => {
+      setCurrentElementId(null);
+    }, 300);
   };
 
   return (
@@ -66,8 +73,8 @@ const HtmlPage = () => {
           Éléments HTML
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Découvrez tous les éléments HTML avec des explications interactives et
-          des animations séquentielles.
+          Découvrez tous les éléments HTML avec des présentations narratives et
+          des animations interactives.
         </p>
       </div>
 
@@ -101,28 +108,28 @@ const HtmlPage = () => {
         </div>
       </div>
 
-      {/* Loading status */}
+      {/* État de chargement */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
         </div>
       ) : elements.length === 0 ? (
         <div className="text-center py-10">
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
             Aucune donnée d'élément disponible. Veuillez créer le fichier JSON
             ou connecter l'API.
           </p>
 
-          {/* Demo button for HTML element */}
+          {/* Bouton de démonstration pour l'élément HTML */}
           <button
             onClick={() => {
-              // Simulate an element for the demo
+              // Simuler un élément pour la démo
               setCurrentElementId("html");
               setModalIsOpen(true);
             }}
             className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
-            Voir démo de l'élément &lt;html&gt;
+            Voir démonstration narrative de &lt;html&gt;
           </button>
         </div>
       ) : (
@@ -143,8 +150,8 @@ const HtmlPage = () => {
         </div>
       )}
 
-      {/* Animated modal for selected element */}
-      <AnimatedElementModal
+      {/* Modal narratif pour l'élément sélectionné */}
+      <NarrativeElementModal
         isOpen={modalIsOpen}
         closeModal={closeModal}
         elementId={currentElementId}
