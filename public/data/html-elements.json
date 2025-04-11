@@ -1,73 +1,71 @@
 {
-    "html": {
-      "id": "html",
-      "name": "<html>",
-      "category": "structure",
-      "description": "L'élément racine qui contient tout le document HTML",
-      "syntax": "<html lang=\"fr\">...</html>",
-      "attributes": [
-        { 
-          "name": "lang", 
-          "description": "Définit la langue principale du document (fr, en, etc.)" 
-        },
-        { 
-          "name": "dir", 
-          "description": "Définit la direction du texte (ltr pour gauche à droite, rtl pour droite à gauche)" 
-        }
-      ],
-      "examples": [
-        { 
-          "title": "Structure HTML de base", 
-          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n  <head>\n    <title>Titre de la page</title>\n  </head>\n  <body>\n    <h1>Contenu principal</h1>\n  </body>\n</html>" 
-        }
-      ],
-      "animation": {
-        "title": "Comprendre l'élément HTML",
-        "autoPlay": true,
-        "duration": 2000,
-        "steps": [
-          {
-            "id": 1,
-            "title": "L'élément racine",
-            "text": "La balise <html> est l'élément racine de toute page web",
-            "code": "<html>...</html>",
-            "visualDemo": {
-              "type": "hierarchy",
-              "content": "<div class='root html-element'>html</div>"
-            }
-          },
-          {
-            "id": 2,
-            "title": "Structure de base",
-            "text": "Il contient deux éléments enfants : <head> et <body>",
-            "code": "<html>\n  <head>...</head>\n  <body>...</body>\n</html>",
-            "visualDemo": {
-              "type": "hierarchy",
-              "content": "<div class='root html-element'>html<div class='child head-element'>head</div><div class='child body-element'>body</div></div>"
-            }
-          },
-          {
-            "id": 3,
-            "title": "Attribut lang",
-            "text": "L'attribut lang définit la langue du document pour l'accessibilité et le référencement",
-            "code": "<html lang=\"fr\">...</html>",
-            "visualDemo": {
-              "type": "highlight",
-              "content": "<div class='html-element'>&lt;html <span class='highlight'>lang=\"fr\"</span>&gt;...&lt;/html&gt;</div>"
-            }
-          },
-          {
-            "id": 4,
-            "title": "Lien avec DOCTYPE",
-            "text": "Le DOCTYPE doit toujours précéder l'élément html",
-            "code": "<!DOCTYPE html>\n<html lang=\"fr\">...</html>",
-            "visualDemo": {
-              "type": "sequence",
-              "content": "<div class='doctype'>&lt;!DOCTYPE html&gt;</div><div class='html-element'>&lt;html lang=\"fr\"&gt;...&lt;/html&gt;</div>"
-            }
-          }
-        ]
+  "html": {
+    "id": "html",
+    "name": "<html>",
+    "category": "structure",
+    "description": "L'élément racine qui contient tout le document HTML",
+    "syntax": "<html lang=\"fr\">...</html>",
+    "attributes": [
+      { 
+        "name": "lang", 
+        "description": "Définit la langue principale du document (fr, en, etc.)" 
       },
-      "related": ["head", "body", "!doctype"]
-    }
+      { 
+        "name": "dir", 
+        "description": "Définit la direction du texte (ltr pour gauche à droite, rtl pour droite à gauche)" 
+      }
+    ],
+    "examples": [
+      { 
+        "title": "Structure HTML de base", 
+        "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n  <head>\n    <title>Titre de la page</title>\n  </head>\n  <body>\n    <h1>Contenu principal</h1>\n  </body>\n</html>" 
+      }
+    ],
+    "animation": {
+      "title": "Comprendre l'élément HTML",
+      "steps": [
+        {
+          "id": 1,
+          "title": "Élément fondamental",
+          "text": "La balise <html> est l'élément racine de tout document web",
+          "code": "<html>\n  <!-- Tout le contenu de la page -->\n</html>",
+          "visualDemo": {
+            "type": "simple",
+            "content": "<div class='html-element'>html</div>"
+          }
+        },
+        {
+          "id": 2,
+          "title": "Structure de base",
+          "text": "Un document HTML contient deux éléments principaux : <head> pour les métadonnées et <body> pour le contenu visible",
+          "code": "<html>\n  <head>\n    <!-- Métadonnées, titre, etc. -->\n  </head>\n  <body>\n    <!-- Contenu visible -->\n  </body>\n</html>",
+          "visualDemo": {
+            "type": "hierarchy",
+            "content": "<div class='html-element'>html<div class='head-element'>head</div><div class='body-element'>body</div></div>"
+          }
+        },
+        {
+          "id": 3,
+          "title": "Attribut de langue",
+          "text": "L'attribut 'lang' est essentiel pour l'accessibilité et l'indexation par les moteurs de recherche",
+          "code": "<html lang=\"fr\">\n  <!-- Document en français -->\n</html>",
+          "visualDemo": {
+            "type": "highlight",
+            "content": "<div class='html-element'>&lt;html <span class='highlight'>lang=\"fr\"</span>&gt;...&lt;/html&gt;</div>"
+          }
+        },
+        {
+          "id": 4,
+          "title": "Structure complète",
+          "text": "Un document HTML complet commence par le DOCTYPE, suivi de l'élément html contenant head et body",
+          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n  <head>\n    <title>Titre de la page</title>\n  </head>\n  <body>\n    <h1>Contenu principal</h1>\n  </body>\n</html>",
+          "visualDemo": {
+            "type": "sequence",
+            "content": "<div class='sequence'><div>&lt;!DOCTYPE html&gt;</div><div>&lt;html lang=\"fr\"&gt;</div><div>&nbsp;&nbsp;&lt;head&gt;...&lt;/head&gt;</div><div>&nbsp;&nbsp;&lt;body&gt;...&lt;/body&gt;</div><div>&lt;/html&gt;</div></div>"
+          }
+        }
+      ]
+    },
+    "related": ["head", "body", "!doctype"]
   }
+}
