@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
 import ElementCard from "../components/ElementCard";
 import ElementModal from "../components/ElementModal";
 
