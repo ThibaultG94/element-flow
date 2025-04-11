@@ -15,8 +15,7 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
     width: "90%",
     maxWidth: "800px",
-    height: "90vh",
-    minHeight: "600px",
+    height: "95vh",
     padding: "0",
     border: "none",
     borderRadius: "0.75rem",
@@ -51,6 +50,7 @@ const NarrativeElementModal = ({
   });
   const [isPaused, setIsPaused] = useState(false);
   const [animationStarted, setAnimationStarted] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false); // Nouveau flag pour marquer quand les données sont chargées
   const timeoutRef = useRef(null);
   const typingRef = useRef(null);
   const sequenceIndexRef = useRef(0);
@@ -64,6 +64,7 @@ const NarrativeElementModal = ({
     if (isOpen && elementId) {
       setLoading(true);
       setAnimationStarted(false);
+      setDataLoaded(false); // Réinitialise le flag de données chargées
 
       // Reset narrative state for new element
       setNarrativeState({
@@ -76,22 +77,23 @@ const NarrativeElementModal = ({
         typingProgress: 0,
       });
 
+      // Clean existing timers
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (typingRef.current) clearInterval(typingRef.current);
+
       // Simulate an API request (replace with fetch to your API)
       const fetchElement = async () => {
         try {
+          console.log("Chargement des données pour l'élément:", elementId);
           // Replace with a real API request
           const response = await fetch("/data/html-elements.json");
           const data = await response.json();
 
           if (data[elementId]) {
+            console.log("Données chargées avec succès:", data[elementId].name);
             setElement(data[elementId]);
             setLoading(false);
-
-            // Trigger animation automatically after loading data
-            setTimeout(() => {
-              startNarration();
-              setAnimationStarted(true);
-            }, 500);
+            setDataLoaded(true); // Marque les données comme chargées
           } else {
             console.error(`Élément ${elementId} non trouvé`);
             setLoading(false);
@@ -106,6 +108,19 @@ const NarrativeElementModal = ({
     }
   }, [isOpen, elementId]);
 
+  // Effet spécifique pour lancer l'animation une fois les données chargées
+  useEffect(() => {
+    // Vérifie si les données sont chargées, si l'animation n'a pas encore démarré et si l'élément existe
+    if (dataLoaded && !animationStarted && element && !loading && isOpen) {
+      console.log("Lancement de l'animation après chargement des données");
+      // Utilise un timeout pour s'assurer que le DOM est prêt
+      timeoutRef.current = setTimeout(() => {
+        startNarration();
+        setAnimationStarted(true);
+      }, 500);
+    }
+  }, [dataLoaded, animationStarted, element, loading, isOpen]);
+
   // Cleaning timeouts at closing
   useEffect(() => {
     return () => {
@@ -116,28 +131,38 @@ const NarrativeElementModal = ({
 
   // Function to start narrative animation
   const startNarration = () => {
+    console.log("Démarrage de la narration...");
     setIsPaused(false);
     animateStep(narrativeState.currentStep);
   };
 
   // Stage animation function
   const animateStep = (stepIndex) => {
+    console.log("Animation de l'étape:", stepIndex);
     if (!element || !element.animation || !element.animation.steps[stepIndex]) {
+      console.error("Impossible d'animer: données manquantes", {
+        element,
+        animation: element?.animation,
+        steps: element?.animation?.steps,
+      });
       return;
     }
 
     const step = element.animation.steps[stepIndex];
+    console.log("Étape en cours:", step.title || "Sans titre");
 
     // Animation sequence for this stage
     const sequence = [
       // Show title
       () => {
+        console.log("Séquence 1: Affichage du titre");
         setNarrativeState((prev) => ({ ...prev, showTitle: true }));
         if (!isPaused) scheduleNext(800);
       },
 
       // Start text typing animation
       () => {
+        console.log("Séquence 2: Animation de texte");
         const text = step.text;
         let progress = 0;
         setNarrativeState((prev) => ({
@@ -165,12 +190,14 @@ const NarrativeElementModal = ({
 
       // Show code
       () => {
+        console.log("Séquence 3: Affichage du code");
         setNarrativeState((prev) => ({ ...prev, showCode: true }));
         if (!isPaused) scheduleNext(1000);
       },
 
       // View visual demo
       () => {
+        console.log("Séquence 4: Démonstration visuelle");
         setNarrativeState((prev) => ({ ...prev, showVisual: true }));
 
         // Wait longer for visualization
@@ -179,6 +206,7 @@ const NarrativeElementModal = ({
 
       // Transition to next stage or end
       () => {
+        console.log("Séquence 5: Transition");
         // Gradually remove all
         setNarrativeState((prev) => ({
           ...prev,
@@ -192,12 +220,14 @@ const NarrativeElementModal = ({
         if (!isPaused) {
           timeoutRef.current = setTimeout(() => {
             if (stepIndex < element.animation.steps.length - 1) {
+              console.log("Passage à l'étape suivante");
               setNarrativeState((prev) => ({
                 ...prev,
                 currentStep: stepIndex + 1,
               }));
               animateStep(stepIndex + 1);
             } else {
+              console.log("Animation terminée");
               // End of animation - show a summary or start again
               setNarrativeState((prev) => ({
                 ...prev,
@@ -251,6 +281,7 @@ const NarrativeElementModal = ({
 
   // Restart animation
   const restartAnimation = () => {
+    console.log("Redémarrage de l'animation");
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (typingRef.current) clearInterval(typingRef.current);
 
@@ -304,13 +335,8 @@ const NarrativeElementModal = ({
       }}
       contentLabel={`Démonstration de ${element.name}`}
       onAfterOpen={() => {
-        // Start animation automatically if it hasn't started yet
-        if (!animationStarted && element) {
-          setTimeout(() => {
-            startNarration();
-            setAnimationStarted(true);
-          }, 300);
-        }
+        console.log("Modal ouvert");
+        // Nous ne démarrons plus l'animation ici, car c'est géré par l'useEffect spécifique
       }}
     >
       <div className="relative flex flex-col h-full">
