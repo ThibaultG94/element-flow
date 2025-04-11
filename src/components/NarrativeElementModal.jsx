@@ -15,10 +15,11 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
     width: "90%",
     maxWidth: "800px",
-    height: "80vh",
+    height: "90vh",
+    minHeight: "600px",
     padding: "0",
     border: "none",
-    borderRadius: "0.5rem",
+    borderRadius: "0.75rem",
     overflow: "hidden",
     backgroundColor: "var(--bg-color, white)",
   },
@@ -49,6 +50,7 @@ const NarrativeElementModal = ({
     typingProgress: 0,
   });
   const [isPaused, setIsPaused] = useState(false);
+  const [animationStarted, setAnimationStarted] = useState(false);
   const timeoutRef = useRef(null);
   const typingRef = useRef(null);
   const sequenceIndexRef = useRef(0);
@@ -61,6 +63,18 @@ const NarrativeElementModal = ({
   useEffect(() => {
     if (isOpen && elementId) {
       setLoading(true);
+      setAnimationStarted(false);
+
+      // Reset narrative state for new element
+      setNarrativeState({
+        currentStep: 0,
+        showTitle: false,
+        showText: false,
+        showCode: false,
+        showVisual: false,
+        typingText: "",
+        typingProgress: 0,
+      });
 
       // Simulate an API request (replace with fetch to your API)
       const fetchElement = async () => {
@@ -71,26 +85,19 @@ const NarrativeElementModal = ({
 
           if (data[elementId]) {
             setElement(data[elementId]);
-            // Reset narrative state
-            setNarrativeState({
-              currentStep: 0,
-              showTitle: false,
-              showText: false,
-              showCode: false,
-              showVisual: false,
-              typingText: "",
-              typingProgress: 0,
-            });
-            // Start animation automatically after a short delay
+            setLoading(false);
+
+            // Trigger animation automatically after loading data
             setTimeout(() => {
               startNarration();
+              setAnimationStarted(true);
             }, 500);
           } else {
             console.error(`Élément ${elementId} non trouvé`);
+            setLoading(false);
           }
         } catch (error) {
           console.error("Erreur lors du chargement des données:", error);
-        } finally {
           setLoading(false);
         }
       };
@@ -262,7 +269,7 @@ const NarrativeElementModal = ({
     }, 300);
   };
 
-  if (loading || !element) {
+  if (loading) {
     return (
       <Modal
         isOpen={isOpen}
@@ -270,11 +277,15 @@ const NarrativeElementModal = ({
         style={customStyles}
         contentLabel="Chargement..."
       >
-        <div className="p-8 flex items-center justify-center">
+        <div className="p-8 flex items-center justify-center h-full">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black dark:border-white"></div>
         </div>
       </Modal>
     );
+  }
+
+  if (!element) {
+    return null;
   }
 
   const currentStep = element.animation?.steps[narrativeState.currentStep];
@@ -292,6 +303,15 @@ const NarrativeElementModal = ({
         },
       }}
       contentLabel={`Démonstration de ${element.name}`}
+      onAfterOpen={() => {
+        // Start animation automatically if it hasn't started yet
+        if (!animationStarted && element) {
+          setTimeout(() => {
+            startNarration();
+            setAnimationStarted(true);
+          }, 300);
+        }
+      }}
     >
       <div className="relative flex flex-col h-full">
         {/* Modal header */}
@@ -300,7 +320,7 @@ const NarrativeElementModal = ({
           <div className="flex gap-2">
             <a
               href={`/element/${element.id}`}
-              className="px-2 py-1 text-xs text-black dark:text-white bg-gray-100 dark:bg-gray-900 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
+              className="px-2 py-1 text-xs text-black dark:text-white bg-gray-100 dark:bg-gray-900 rounded hover:bg-gray-200 dark:hover:bg-gray-800 transition-all duration-300"
             >
               Page détaillée →
             </a>
@@ -345,7 +365,7 @@ const NarrativeElementModal = ({
 
             {/* Text with typing effect */}
             <div
-              className={`max-w-xl text-center mb-8 transition-opacity duration-500 ${
+              className={`max-w-xl text-center mb-8 transition-opacity duration-500 min-h-[80px] ${
                 narrativeState.showText ? "opacity-100" : "opacity-0"
               }`}
             >
@@ -357,14 +377,14 @@ const NarrativeElementModal = ({
 
             {/* Visual demonstration with fade-in */}
             <div
-              className={`w-full max-w-2xl transition-all duration-700 ${
+              className={`w-full max-w-2xl transition-all duration-700 min-h-[200px] ${
                 narrativeState.showVisual
                   ? "opacity-100 transform-none"
                   : "opacity-0 translate-y-4"
               }`}
             >
               {currentStep?.visualDemo && (
-                <div className="bg-white dark:bg-black p-8 rounded-lg shadow-lg mb-6 border border-gray-200 dark:border-gray-800">
+                <div className="bg-white dark:bg-black p-8 rounded-lg shadow-lg mb-6 border border-gray-200 dark:border-gray-800 transition-colors duration-300">
                   <div
                     className="demo-container"
                     dangerouslySetInnerHTML={{
@@ -377,7 +397,7 @@ const NarrativeElementModal = ({
 
             {/* Code with fade-in */}
             <div
-              className={`w-full max-w-2xl transition-all duration-700 ${
+              className={`w-full max-w-2xl transition-all duration-700 min-h-[100px] ${
                 narrativeState.showCode
                   ? "opacity-100 transform-none"
                   : "opacity-0 translate-y-4"
@@ -409,7 +429,7 @@ const NarrativeElementModal = ({
               {element.animation?.steps.map((_, idx) => (
                 <div
                   key={idx}
-                  className={`w-2 h-2 rounded-full ${
+                  className={`w-2 h-2 rounded-full transition-colors duration-300 ${
                     idx === narrativeState.currentStep
                       ? "bg-black dark:bg-white"
                       : "bg-gray-300 dark:bg-gray-700"
@@ -423,7 +443,7 @@ const NarrativeElementModal = ({
           <div className="flex items-center gap-2">
             <button
               onClick={restartAnimation}
-              className="p-2 rounded-md bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
+              className="p-2 rounded-md bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-300"
               title="Redémarrer"
             >
               <svg
@@ -444,7 +464,7 @@ const NarrativeElementModal = ({
 
             <button
               onClick={togglePause}
-              className="p-2 rounded-md bg-black dark:bg-white text-white dark:text-black transition-colors"
+              className="p-2 rounded-md bg-black dark:bg-white text-white dark:text-black transition-colors duration-300 hover:bg-gray-800 dark:hover:bg-gray-200"
               title={isPaused ? "Reprendre" : "Pause"}
             >
               {isPaused ? (

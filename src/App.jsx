@@ -38,7 +38,6 @@ const NavLink = ({ to, children }) => {
 const MainLayout = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const location = useLocation();
 
   // Check for user preference on initial load
   useEffect(() => {
