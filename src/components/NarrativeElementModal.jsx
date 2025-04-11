@@ -23,7 +23,7 @@ const customStyles = {
     backgroundColor: "var(--bg-color, white)",
   },
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    backgroundColor: "rgba(0, 0, 0, 0.85)",
     zIndex: 1000,
   },
 };
@@ -54,8 +54,8 @@ const NarrativeElementModal = ({
   const sequenceIndexRef = useRef(0);
 
   // Defining CSS variables for the theme
-  const bgColor = theme === "dark" ? "#1f2937" : "white";
-  const textColor = theme === "dark" ? "white" : "#1f2937";
+  const bgColor = theme === "dark" ? "#121212" : "white";
+  const textColor = theme === "dark" ? "white" : "black";
 
   // Load element data from JSON
   useEffect(() => {
@@ -271,7 +271,7 @@ const NarrativeElementModal = ({
         contentLabel="Chargement..."
       >
         <div className="p-8 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black dark:border-white"></div>
         </div>
       </Modal>
     );
@@ -295,18 +295,18 @@ const NarrativeElementModal = ({
     >
       <div className="relative flex flex-col h-full">
         {/* Modal header */}
-        <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
           <h2 className="text-xl font-mono font-bold">{element.name}</h2>
           <div className="flex gap-2">
             <a
               href={`/element/${element.id}`}
-              className="px-2 py-1 text-xs text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 rounded hover:bg-blue-100 dark:hover:bg-blue-800/50"
+              className="px-2 py-1 text-xs text-black dark:text-white bg-gray-100 dark:bg-gray-900 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
             >
               Page détaillée →
             </a>
             <button
               onClick={closeModal}
-              className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
             >
               <svg
                 className="w-5 h-5"
@@ -327,7 +327,7 @@ const NarrativeElementModal = ({
         </div>
 
         {/* Main narrative animation zone */}
-        <div className="flex-grow flex flex-col bg-gray-100 dark:bg-gray-800 p-6 overflow-hidden">
+        <div className="flex-grow flex flex-col bg-gray-100 dark:bg-gray-900 p-6 overflow-hidden">
           {/* Animated content zone */}
           <div className="flex-grow flex flex-col items-center justify-center">
             {/* Stage title with fade-in */}
@@ -337,7 +337,7 @@ const NarrativeElementModal = ({
               }`}
             >
               {currentStep?.title && (
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+                <h3 className="text-2xl font-bold text-black dark:text-white">
                   {currentStep.title}
                 </h3>
               )}
@@ -349,7 +349,7 @@ const NarrativeElementModal = ({
                 narrativeState.showText ? "opacity-100" : "opacity-0"
               }`}
             >
-              <p className="text-xl text-gray-700 dark:text-gray-200">
+              <p className="text-xl text-gray-800 dark:text-gray-200">
                 {narrativeState.typingText}
                 <span className="typing-cursor">|</span>
               </p>
@@ -364,7 +364,7 @@ const NarrativeElementModal = ({
               }`}
             >
               {currentStep?.visualDemo && (
-                <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg mb-6">
+                <div className="bg-white dark:bg-black p-8 rounded-lg shadow-lg mb-6 border border-gray-200 dark:border-gray-800">
                   <div
                     className="demo-container"
                     dangerouslySetInnerHTML={{
@@ -397,7 +397,7 @@ const NarrativeElementModal = ({
         </div>
 
         {/* Animation controls at the bottom of the modal */}
-        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex items-center justify-between">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black flex items-center justify-between">
           {/* Progression */}
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -411,8 +411,8 @@ const NarrativeElementModal = ({
                   key={idx}
                   className={`w-2 h-2 rounded-full ${
                     idx === narrativeState.currentStep
-                      ? "bg-blue-600 dark:bg-blue-400"
-                      : "bg-gray-300 dark:bg-gray-600"
+                      ? "bg-black dark:bg-white"
+                      : "bg-gray-300 dark:bg-gray-700"
                   }`}
                 />
               ))}
@@ -423,7 +423,7 @@ const NarrativeElementModal = ({
           <div className="flex items-center gap-2">
             <button
               onClick={restartAnimation}
-              className="p-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              className="p-2 rounded-md bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
               title="Redémarrer"
             >
               <svg
@@ -444,7 +444,7 @@ const NarrativeElementModal = ({
 
             <button
               onClick={togglePause}
-              className="p-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white transition-colors"
+              className="p-2 rounded-md bg-black dark:bg-white text-white dark:text-black transition-colors"
               title={isPaused ? "Reprendre" : "Pause"}
             >
               {isPaused ? (

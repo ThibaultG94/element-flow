@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router";
 import ElementCard from "../components/ElementCard";
 import NarrativeElementModal from "../components/NarrativeElementModal";
 import ElementService from "../services/ElementService";
 import "../styles/animations.css";
 
-// Catégories HTML (à conserver en local pour le moment)
 const htmlCategories = [
   { id: "structure", name: "Structure" },
   { id: "text", name: "Texte" },
@@ -22,10 +20,9 @@ const HtmlPage = () => {
   const [elements, setElements] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Détermine le thème actuel
   const isDarkMode = document.documentElement.classList.contains("dark");
 
-  // Charger les éléments HTML au chargement de la page
+  // Load HTML elements on page load
   useEffect(() => {
     const fetchElements = async () => {
       try {
@@ -34,7 +31,7 @@ const HtmlPage = () => {
         setElements(data);
       } catch (error) {
         console.error("Erreur lors du chargement des éléments HTML:", error);
-        // Fallback: utiliser les données locales temporaires
+        // Fallback: use temporary local data
         setElements([]);
       } finally {
         setLoading(false);
@@ -44,22 +41,18 @@ const HtmlPage = () => {
     fetchElements();
   }, []);
 
-  // Filter items by selected category
   const filteredElements =
     activeCategory === "all"
       ? elements
       : elements.filter((element) => element.category === activeCategory);
 
-  // Ouvre le modal avec l'élément sélectionné
   const openElementModal = (element) => {
     setCurrentElementId(element.id);
     setModalIsOpen(true);
   };
 
-  // Ferme le modal
   const closeModal = () => {
     setModalIsOpen(false);
-    // Petit délai avant de réinitialiser l'ID pour éviter des problèmes d'animation
     setTimeout(() => {
       setCurrentElementId(null);
     }, 300);
@@ -69,7 +62,7 @@ const HtmlPage = () => {
     <div className="pb-12">
       {/* Page header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        <h1 className="text-3xl font-bold text-black dark:text-white mb-2">
           Éléments HTML
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -84,8 +77,8 @@ const HtmlPage = () => {
           <button
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
               activeCategory === "all"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                ? "bg-black dark:bg-white text-white dark:text-black"
+                : "bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
             }`}
             onClick={() => setActiveCategory("all")}
           >
@@ -97,8 +90,8 @@ const HtmlPage = () => {
               key={category.id}
               className={`px-4 py-2 rounded-lg text-sm font-medium ${
                 activeCategory === category.id
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                  ? "bg-black dark:bg-white text-white dark:text-black"
+                  : "bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
               }`}
               onClick={() => setActiveCategory(category.id)}
             >
@@ -108,10 +101,10 @@ const HtmlPage = () => {
         </div>
       </div>
 
-      {/* État de chargement */}
+      {/* Loading status */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black dark:border-white"></div>
         </div>
       ) : elements.length === 0 ? (
         <div className="text-center py-10">
@@ -120,14 +113,14 @@ const HtmlPage = () => {
             ou connecter l'API.
           </p>
 
-          {/* Bouton de démonstration pour l'élément HTML */}
+          {/* Demo button for HTML element */}
           <button
             onClick={() => {
-              // Simuler un élément pour la démo
+              // Simulate an element for the demo
               setCurrentElementId("html");
               setModalIsOpen(true);
             }}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="mt-4 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200"
           >
             Voir démonstration narrative de &lt;html&gt;
           </button>
@@ -140,7 +133,6 @@ const HtmlPage = () => {
               key={element.id}
               element={element}
               openModal={openElementModal}
-              colorType="blue"
               categoryLabel={
                 htmlCategories.find((cat) => cat.id === element.category)
                   ?.name || element.category
@@ -150,7 +142,7 @@ const HtmlPage = () => {
         </div>
       )}
 
-      {/* Modal narratif pour l'élément sélectionné */}
+      {/* Narrative modal for selected element */}
       <NarrativeElementModal
         isOpen={modalIsOpen}
         closeModal={closeModal}

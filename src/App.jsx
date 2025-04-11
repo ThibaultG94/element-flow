@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router";
 import "./App.css";
 import HomePage from "./pages/HomePage";
@@ -9,17 +9,35 @@ import ElementDetailPage from "./pages/ElementDetailPage";
 
 const MainLayout = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Check for user preference on initial load
+  useEffect(() => {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle("dark");
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
+      <header className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
         <div className="mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Link
                 to="/"
-                className="cursor-pointer text-blue-600 dark:text-blue-400 text-2xl font-bold"
+                className="cursor-pointer text-black dark:text-white text-2xl font-bold"
               >
                 ElementFlow
               </Link>
@@ -30,7 +48,7 @@ const MainLayout = ({ children }) => {
               <div className="relative">
                 <input
                   type="text"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200"
                   placeholder="Rechercher un élément..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -57,46 +75,63 @@ const MainLayout = ({ children }) => {
             {/* Dark/light theme button */}
             <button
               className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 cursor-pointer"
-              onClick={() => document.documentElement.classList.toggle("dark")}
+              onClick={toggleDarkMode}
             >
-              <svg
-                className="w-5 h-5 text-gray-800 dark:text-gray-200"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                ></path>
-              </svg>
+              {isDarkMode ? (
+                <svg
+                  className="w-5 h-5 text-gray-800 dark:text-gray-200"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                  ></path>
+                </svg>
+              ) : (
+                <svg
+                  className="w-5 h-5 text-gray-800 dark:text-gray-200"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  ></path>
+                </svg>
+              )}
             </button>
           </div>
         </div>
       </header>
 
       {/* Main navigation */}
-      <nav className="bg-white dark:bg-gray-800 shadow-sm border-b broder-gray-200 dark:border-gray-700">
+      <nav className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
         <div className="mx-auto px-4">
           <div className="flex space-x-8">
             <Link
               to="/html"
-              className="px-3 py-4 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:*:text-blue-400 border-b-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400"
+              className="px-3 py-4 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white border-b-2 border-transparent hover:border-black dark:hover:border-white"
             >
               HTML
             </Link>
             <Link
               to="/css"
-              className="px-3 py-4 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:*:text-blue-400 border-b-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400"
+              className="px-3 py-4 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white border-b-2 border-transparent hover:border-black dark:hover:border-white"
             >
               CSS
             </Link>
             <Link
               to="/javascript"
-              className="px-3 py-4 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:*:text-blue-400 border-b-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400"
+              className="px-3 py-4 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white border-b-2 border-transparent hover:border-black dark:hover:border-white"
             >
               JavaScript
             </Link>

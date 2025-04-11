@@ -126,7 +126,7 @@ const ElementDetailPage = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black dark:border-white"></div>
       </div>
     );
   }
@@ -134,7 +134,7 @@ const ElementDetailPage = () => {
   if (!element) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+        <h2 className="text-2xl font-bold text-black dark:text-white mb-4">
           Élément non trouvé
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
@@ -142,7 +142,7 @@ const ElementDetailPage = () => {
         </p>
         <Link
           to="/html"
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
         >
           Retour aux éléments HTML
         </Link>
@@ -156,28 +156,28 @@ const ElementDetailPage = () => {
       <div className="mb-6">
         <Link
           to="/html"
-          className="text-blue-600 dark:text-blue-400 hover:underline mb-2 inline-block"
+          className="text-black dark:text-white hover:underline mb-2 inline-block"
         >
           ← Retour aux éléments HTML
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-mono">
+        <h1 className="text-3xl font-bold text-black dark:text-white mb-2 font-mono">
           {element.name}
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-3xl">
           {element.description}
         </p>
-        <div className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium">
+        <div className="inline-block px-3 py-1 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-full text-sm font-medium">
           Catégorie: {element.category}
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
+      <div className="border-b border-gray-200 dark:border-gray-800 mb-6">
         <nav className="flex space-x-8">
           <button
             className={`py-4 px-1 border-b-2 font-medium text-sm ${
               currentTab === "overview"
-                ? "border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
+                ? "border-black text-black dark:border-white dark:text-white"
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
             }`}
             onClick={() => setCurrentTab("overview")}
@@ -187,7 +187,7 @@ const ElementDetailPage = () => {
           <button
             className={`py-4 px-1 border-b-2 font-medium text-sm ${
               currentTab === "animation"
-                ? "border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
+                ? "border-black text-black dark:border-white dark:text-white"
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
             }`}
             onClick={() => setCurrentTab("animation")}
@@ -197,7 +197,7 @@ const ElementDetailPage = () => {
           <button
             className={`py-4 px-1 border-b-2 font-medium text-sm ${
               currentTab === "examples"
-                ? "border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
+                ? "border-black text-black dark:border-white dark:text-white"
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
             }`}
             onClick={() => setCurrentTab("examples")}
@@ -213,10 +213,10 @@ const ElementDetailPage = () => {
         {currentTab === "overview" && (
           <div>
             <section className="mb-8">
-              <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+              <h2 className="text-xl font-bold text-black dark:text-white mb-4">
                 Syntaxe
               </h2>
-              <div className="bg-gray-800 rounded-lg overflow-hidden">
+              <div className="bg-gray-900 rounded-lg overflow-hidden">
                 <SyntaxHighlighter language="html" style={atomOneDark}>
                   {element.syntax}
                 </SyntaxHighlighter>
@@ -224,25 +224,25 @@ const ElementDetailPage = () => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+              <h2 className="text-xl font-bold text-black dark:text-white mb-4">
                 Attributs
               </h2>
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-50 dark:bg-gray-700">
+              <div className="rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-800">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                  <thead className="bg-gray-100 dark:bg-gray-900">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                         Nom
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                         Description
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                  <tbody className="bg-white dark:bg-black divide-y divide-gray-200 dark:divide-gray-800">
                     {element.attributes.map((attr, index) => (
                       <tr key={index}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white font-mono">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black dark:text-white font-mono">
                           {attr.name}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
@@ -257,7 +257,7 @@ const ElementDetailPage = () => {
 
             {element.related && element.related.length > 0 && (
               <section>
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+                <h2 className="text-xl font-bold text-black dark:text-white mb-4">
                   Éléments liés
                 </h2>
                 <div className="flex flex-wrap gap-2">
@@ -265,7 +265,7 @@ const ElementDetailPage = () => {
                     <Link
                       key={index}
                       to={`/element/${relatedId}`}
-                      className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-mono"
+                      className="px-3 py-1 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors font-mono"
                     >
                       {`<${relatedId}>`}
                     </Link>
@@ -281,28 +281,28 @@ const ElementDetailPage = () => {
           element.animations &&
           element.animations.length > 0 && (
             <div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+              <div className="bg-white dark:bg-black rounded-lg shadow-md p-6 mb-6 border border-gray-200 dark:border-gray-800">
+                <h2 className="text-xl font-bold text-black dark:text-white mb-4">
                   {element.animations[0].title}
                 </h2>
 
                 {/* Animation visualization */}
-                <div className="mb-6 bg-gray-100 dark:bg-gray-700 rounded-lg p-8 flex items-center justify-center min-h-64">
+                <div className="mb-6 bg-gray-100 dark:bg-gray-900 rounded-lg p-8 flex items-center justify-center min-h-64 border border-gray-200 dark:border-gray-800">
                   {/* Here, we implement the visual part of the animation */}
                   <div className="text-center">
-                    <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4">
+                    <h3 className="text-lg font-medium text-black dark:text-white mb-4">
                       {element.animations[0].steps[currentAnimationStep].text}
                     </h3>
 
                     {/* Demonstration area - to be adapted to the element */}
-                    <div className="p-4 border border-gray-300 dark:border-gray-600 rounded-md inline-block">
+                    <div className="p-4 border border-gray-300 dark:border-gray-700 rounded-md inline-block">
                       {element.name === "<button>" && (
                         <button
                           type={
                             currentAnimationStep === 1 ? "submit" : "button"
                           }
                           disabled={currentAnimationStep === 2}
-                          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                          className="px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
                           Bouton de démonstration
                         </button>
@@ -312,7 +312,7 @@ const ElementDetailPage = () => {
                 </div>
 
                 {/* Source code highlighted */}
-                <div className="bg-gray-800 rounded-lg overflow-hidden mb-6">
+                <div className="bg-gray-900 rounded-lg overflow-hidden mb-6">
                   <SyntaxHighlighter language="html" style={atomOneDark}>
                     {element.syntax}
                   </SyntaxHighlighter>
@@ -324,7 +324,7 @@ const ElementDetailPage = () => {
                     <button
                       onClick={handlePrevStep}
                       disabled={currentAnimationStep === 0}
-                      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 disabled:opacity-50"
+                      className="p-2 rounded-full bg-gray-200 dark:bg-gray-800 disabled:opacity-50"
                     >
                       <svg
                         className="w-5 h-5 text-gray-800 dark:text-gray-200"
@@ -344,11 +344,11 @@ const ElementDetailPage = () => {
 
                     <button
                       onClick={togglePlayPause}
-                      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
+                      className="p-2 rounded-full bg-black dark:bg-white text-white dark:text-black"
                     >
                       {isPlaying ? (
                         <svg
-                          className="w-5 h-5 text-gray-800 dark:text-gray-200"
+                          className="w-5 h-5"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -363,7 +363,7 @@ const ElementDetailPage = () => {
                         </svg>
                       ) : (
                         <svg
-                          className="w-5 h-5 text-gray-800 dark:text-gray-200"
+                          className="w-5 h-5"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -391,7 +391,7 @@ const ElementDetailPage = () => {
                         currentAnimationStep ===
                         element.animations[0].steps.length - 1
                       }
-                      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 disabled:opacity-50"
+                      className="p-2 rounded-full bg-gray-200 dark:bg-gray-800 disabled:opacity-50"
                     >
                       <svg
                         className="w-5 h-5 text-gray-800 dark:text-gray-200"
@@ -418,8 +418,8 @@ const ElementDetailPage = () => {
                         onClick={() => setCurrentAnimationStep(index)}
                         className={`w-2 h-2 rounded-full ${
                           index === currentAnimationStep
-                            ? "bg-blue-600 dark:bg-blue-400"
-                            : "bg-gray-300 dark:bg-gray-600"
+                            ? "bg-black dark:bg-white"
+                            : "bg-gray-300 dark:bg-gray-700"
                         }`}
                         aria-label={`Step ${index + 1}`}
                       />
@@ -436,19 +436,19 @@ const ElementDetailPage = () => {
             {element.examples.map((example, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6"
+                className="bg-white dark:bg-black rounded-lg shadow-md p-6 mb-6 border border-gray-200 dark:border-gray-800"
               >
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">
+                <h3 className="text-lg font-semibold text-black dark:text-white mb-3">
                   {example.title}
                 </h3>
 
-                <div className="bg-gray-800 rounded-lg overflow-hidden mb-4">
+                <div className="bg-gray-900 rounded-lg overflow-hidden mb-4">
                   <SyntaxHighlighter language="html" style={atomOneDark}>
                     {example.code}
                   </SyntaxHighlighter>
                 </div>
 
-                <div className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center border border-gray-200 dark:border-gray-800">
                   <div
                     className="result-preview"
                     dangerouslySetInnerHTML={{ __html: example.code }}
