@@ -163,6 +163,26 @@ const cssProperties = [
   },
 ];
 
+const CategoryButton = ({ category, isActive, onClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  return (
+    <button
+      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+        isActive
+          ? "bg-black text-white dark:bg-white dark:text-black"
+          : isHovered
+          ? "bg-gray-800 text-white dark:bg-gray-200 dark:text-black"
+          : "bg-white text-black dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-800"
+      }`}
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {category}
+    </button>
+  );
+};
+
 const CssPage = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -201,29 +221,19 @@ const CssPage = () => {
       {/* Filters by category */}
       <div className="mb-8">
         <div className="flex flex-wrap gap-2">
-          <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium ${
-              activeCategory === "all"
-                ? "bg-black dark:bg-white text-white dark:text-black"
-                : "bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-            }`}
+          <CategoryButton
+            category="Toutes"
+            isActive={activeCategory === "all"}
             onClick={() => setActiveCategory("all")}
-          >
-            Toutes
-          </button>
+          />
 
           {cssCategories.map((category) => (
-            <button
+            <CategoryButton
               key={category.id}
-              className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                activeCategory === category.id
-                  ? "bg-black dark:bg-white text-white dark:text-black"
-                  : "bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-              }`}
+              category={category.name}
+              isActive={activeCategory === category.id}
               onClick={() => setActiveCategory(category.id)}
-            >
-              {category.name}
-            </button>
+            />
           ))}
         </div>
       </div>

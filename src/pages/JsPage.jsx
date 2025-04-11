@@ -56,43 +56,6 @@ const jsElements = [
     name: "querySelector()",
     category: "dom",
     description: "Sélectionne un élément du DOM",
-    attributes: [
-      { name: "sélecteur", description: "Sélecteur CSS pour cibler l'élément" },
-    ],
-    syntax: "document.querySelector('.maClasse');",
-    examples: [
-      {
-        title: "Sélection par ID",
-        code: "const element = document.querySelector('#monId');",
-      },
-      {
-        title: "Sélection par classe",
-        code: "const element = document.querySelector('.maClasse');",
-      },
-    ],
-    animations: [
-      {
-        title: "Comment sélectionner des éléments",
-        steps: [
-          {
-            text: "Utilisez un sélecteur CSS pour cibler l'élément",
-            codeHighlight: "querySelector",
-            visualEffect: "highlight-selector",
-          },
-          {
-            text: "Vous pouvez utiliser n'importe quel sélecteur CSS valide",
-            codeHighlight: "'.maClasse'",
-            visualEffect: "highlight-argument",
-          },
-          {
-            text: "La méthode retourne le premier élément correspondant",
-            codeHighlight: "const element =",
-            visualEffect: "highlight-result",
-          },
-        ],
-      },
-    ],
-    related: ["querySelectorAll", "getElementById"],
   },
   {
     id: "createElement",
@@ -101,28 +64,10 @@ const jsElements = [
     description: "Crée un nouvel élément HTML",
   },
   {
-    id: "appendChild",
-    name: "appendChild()",
-    category: "dom",
-    description: "Ajoute un nœud enfant",
-  },
-  {
     id: "addEventListener",
     name: "addEventListener()",
     category: "events",
     description: "Ajoute un gestionnaire d'événement",
-  },
-  {
-    id: "removeEventListener",
-    name: "removeEventListener()",
-    category: "events",
-    description: "Supprime un gestionnaire d'événement",
-  },
-  {
-    id: "array-push",
-    name: "push()",
-    category: "arrays",
-    description: "Ajoute un élément à la fin d'un tableau",
   },
   {
     id: "array-map",
@@ -135,18 +80,6 @@ const jsElements = [
     name: "filter()",
     category: "arrays",
     description: "Filtre les éléments d'un tableau",
-  },
-  {
-    id: "object-create",
-    name: "Object.create()",
-    category: "objects",
-    description: "Crée un nouvel objet",
-  },
-  {
-    id: "object-assign",
-    name: "Object.assign()",
-    category: "objects",
-    description: "Copie les propriétés d'objets",
   },
   {
     id: "promises",
@@ -166,13 +99,27 @@ const jsElements = [
     category: "api",
     description: "Requêtes HTTP",
   },
-  {
-    id: "localstorage",
-    name: "localStorage",
-    category: "api",
-    description: "Stockage persistant côté client",
-  },
 ];
+
+const CategoryButton = ({ category, isActive, onClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  return (
+    <button
+      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+        isActive
+          ? "bg-black text-white dark:bg-white dark:text-black"
+          : isHovered
+          ? "bg-gray-800 text-white dark:bg-gray-200 dark:text-black"
+          : "bg-white text-black dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-800"
+      }`}
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {category}
+    </button>
+  );
+};
 
 const JsPage = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -212,29 +159,19 @@ const JsPage = () => {
       {/* Filters by category */}
       <div className="mb-8">
         <div className="flex flex-wrap gap-2">
-          <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium ${
-              activeCategory === "all"
-                ? "bg-black dark:bg-white text-white dark:text-black"
-                : "bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-            }`}
+          <CategoryButton
+            category="Tous"
+            isActive={activeCategory === "all"}
             onClick={() => setActiveCategory("all")}
-          >
-            Tous
-          </button>
+          />
 
           {jsCategories.map((category) => (
-            <button
+            <CategoryButton
               key={category.id}
-              className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                activeCategory === category.id
-                  ? "bg-black dark:bg-white text-white dark:text-black"
-                  : "bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-              }`}
+              category={category.name}
+              isActive={activeCategory === category.id}
               onClick={() => setActiveCategory(category.id)}
-            >
-              {category.name}
-            </button>
+            />
           ))}
         </div>
       </div>

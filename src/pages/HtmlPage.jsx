@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router";
 import ElementCard from "../components/ElementCard";
 import NarrativeElementModal from "../components/NarrativeElementModal";
 import ElementService from "../services/ElementService";
@@ -41,6 +42,7 @@ const HtmlPage = () => {
     fetchElements();
   }, []);
 
+  // Filter items by selected category
   const filteredElements =
     activeCategory === "all"
       ? elements
@@ -56,6 +58,26 @@ const HtmlPage = () => {
     setTimeout(() => {
       setCurrentElementId(null);
     }, 300);
+  };
+
+  const CategoryButton = ({ category, isActive, onClick }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    return (
+      <button
+        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+          isActive
+            ? "bg-black text-white dark:bg-white dark:text-black"
+            : isHovered
+            ? "bg-gray-800 text-white dark:bg-gray-200 dark:text-black"
+            : "bg-white text-black dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-800"
+        }`}
+        onClick={onClick}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {category}
+      </button>
+    );
   };
 
   return (
@@ -74,29 +96,19 @@ const HtmlPage = () => {
       {/* Filters by category */}
       <div className="mb-8">
         <div className="flex flex-wrap gap-2">
-          <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium ${
-              activeCategory === "all"
-                ? "bg-black dark:bg-white text-white dark:text-black"
-                : "bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-            }`}
+          <CategoryButton
+            category="Tous"
+            isActive={activeCategory === "all"}
             onClick={() => setActiveCategory("all")}
-          >
-            Tous
-          </button>
+          />
 
           {htmlCategories.map((category) => (
-            <button
+            <CategoryButton
               key={category.id}
-              className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                activeCategory === category.id
-                  ? "bg-black dark:bg-white text-white dark:text-black"
-                  : "bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-              }`}
+              category={category.name}
+              isActive={activeCategory === category.id}
               onClick={() => setActiveCategory(category.id)}
-            >
-              {category.name}
-            </button>
+            />
           ))}
         </div>
       </div>
@@ -120,7 +132,7 @@ const HtmlPage = () => {
               setCurrentElementId("html");
               setModalIsOpen(true);
             }}
-            className="mt-4 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200"
+            className="mt-4 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300"
           >
             Voir démonstration narrative de &lt;html&gt;
           </button>
