@@ -246,7 +246,7 @@ const NarrativeElementModal = ({
             clearInterval(typingRef.current);
             if (!isPaused) scheduleNext(1000);
           }
-        }, 30); // Typing speed
+        }, 20); // Typing speed
       },
 
       // Show code
