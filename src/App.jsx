@@ -12,6 +12,7 @@ import HtmlPage from "./pages/HtmlPage";
 import CssPage from "./pages/CssPage";
 import JsPage from "./pages/JsPage";
 import ElementDetailPage from "./pages/ElementDetailPage";
+import SearchBar from "./components/SearchBar";
 
 // Navigation link component with animation and active state
 const NavLink = ({ to, children }) => {
@@ -92,31 +93,8 @@ const MainLayout = ({ children }) => {
             </nav>
 
             <div className="flex items-center gap-4">
-              {/* Search bar */}
-              <div className="relative">
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-all"
-                  placeholder="Rechercher un élément..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    ></path>
-                  </svg>
-                </button>
+              <div className="w-64 md:w-80">
+                <SearchBar />
               </div>
 
               {/* Dark/light theme button */}
