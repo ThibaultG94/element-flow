@@ -69,7 +69,6 @@ const NarrativeElementModal = ({
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
-
       detectLayoutMode();
     };
 
@@ -121,6 +120,24 @@ const NarrativeElementModal = ({
     return 1;
   };
 
+  // Helper functions to clean up code
+  const resetNarrativeState = () => {
+    setNarrativeState({
+      currentStep: 0,
+      showTitle: false,
+      showText: false,
+      showCode: false,
+      showVisual: false,
+      typingText: "",
+      typingProgress: 0,
+    });
+  };
+
+  const clearAllTimers = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (typingRef.current) clearInterval(typingRef.current);
+  };
+
   // Load element data from JSON
   useEffect(() => {
     if (isOpen && elementId) {
@@ -129,26 +146,21 @@ const NarrativeElementModal = ({
       setDataLoaded(false);
 
       // Reset narrative state for new element
-      setNarrativeState({
-        currentStep: 0,
-        showTitle: false,
-        showText: false,
-        showCode: false,
-        showVisual: false,
-        typingText: "",
-        typingProgress: 0,
-      });
+      resetNarrativeState();
 
       // Clean existing timers
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      if (typingRef.current) clearInterval(typingRef.current);
+      clearAllTimers();
 
-      // Simulate an API request (replace with fetch to your API)
+      // Fetch data from the JSON file
       const fetchElement = async () => {
         try {
           console.log("Chargement des données pour l'élément:", elementId);
-          // Replace with a real API request
           const response = await fetch("/data/html-elements.json");
+
+          if (!response.ok) {
+            throw new Error(`Erreur HTTP: ${response.status}`);
+          }
+
           const data = await response.json();
 
           if (data[elementId]) {
@@ -162,7 +174,34 @@ const NarrativeElementModal = ({
           }
         } catch (error) {
           console.error("Erreur lors du chargement des données:", error);
-          setLoading(false);
+
+          // Fallback data for demo purposes if the element is "html"
+          if (elementId === "html") {
+            setElement({
+              id: "html",
+              name: "<html>",
+              description:
+                "L'élément racine qui contient tout le document HTML",
+              category: "structure",
+              animation: {
+                steps: [
+                  {
+                    title: "Structure de base",
+                    text: "Un document HTML contient deux éléments principaux : <head> pour les métadonnées et <body> pour le contenu visible",
+                    code: "<html>\n  <head>\n    <!-- Métadonnées, titre, etc. -->\n  </head>\n  <body>\n    <!-- Contenu visible -->\n  </body>\n</html>",
+                    visualDemo: {
+                      content:
+                        '<div class="html-element">html<div class="head-element">head</div><div class="body-element">body</div></div>',
+                    },
+                  },
+                ],
+              },
+            });
+            setLoading(false);
+            setDataLoaded(true);
+          } else {
+            setLoading(false);
+          }
         }
       };
 
@@ -185,8 +224,7 @@ const NarrativeElementModal = ({
   // Cleaning timeouts at closing
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      if (typingRef.current) clearInterval(typingRef.current);
+      clearAllTimers();
     };
   }, []);
 
@@ -246,7 +284,7 @@ const NarrativeElementModal = ({
             clearInterval(typingRef.current);
             if (!isPaused) scheduleNext(1000);
           }
-        }, 20); // Typing speed
+        }, 20); // Typing speed - Augmenté à 20ms pour que ce soit plus lisible
       },
 
       // Show code
@@ -335,26 +373,41 @@ const NarrativeElementModal = ({
       startNarration();
     } else {
       // Pause by cleaning up timeouts
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      if (typingRef.current) clearInterval(typingRef.current);
+      clearAllTimers();
     }
+  };
+
+  // Go to specific step (new function)
+  const goToStep = (stepIndex) => {
+    if (stepIndex === narrativeState.currentStep) {
+      return; // Already on this step
+    }
+
+    clearAllTimers(); // Stop current animation
+    setIsPaused(true); // Pause animation
+
+    // Reset state first
+    resetNarrativeState();
+
+    // Set to the new step and show it immediately
+    setTimeout(() => {
+      setNarrativeState({
+        currentStep: stepIndex,
+        showTitle: true,
+        showText: true,
+        showCode: true,
+        showVisual: true,
+        typingText: element.animation.steps[stepIndex].text,
+        typingProgress: element.animation.steps[stepIndex].text.length,
+      });
+    }, 100);
   };
 
   // Restart animation
   const restartAnimation = () => {
     console.log("Redémarrage de l'animation");
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    if (typingRef.current) clearInterval(typingRef.current);
-
-    setNarrativeState({
-      currentStep: 0,
-      showTitle: false,
-      showText: false,
-      showCode: false,
-      showVisual: false,
-      typingText: "",
-      typingProgress: 0,
-    });
+    clearAllTimers();
+    resetNarrativeState();
 
     setTimeout(() => {
       startNarration();
@@ -803,6 +856,13 @@ const NarrativeElementModal = ({
             <a
               href={`/element/${element.id}`}
               className="px-2 py-1 text-xs text-black dark:text-white bg-gray-100 dark:bg-gray-900 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
+              onClick={(e) => {
+                // Prevent default behavior to handle the navigation properly
+                e.preventDefault();
+                closeModal();
+                // Use client-side navigation to prevent page reload
+                window.location.href = `/element/${element.id}`;
+              }}
             >
               Page détaillée →
             </a>
@@ -843,13 +903,15 @@ const NarrativeElementModal = ({
             </span>
             <div className="flex gap-1 ml-1">
               {element.animation?.steps.map((_, idx) => (
-                <div
+                <button
                   key={idx}
-                  className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
+                  onClick={() => goToStep(idx)}
+                  className={`w-3 h-3 rounded-full transition-colors duration-300 ${
                     idx === narrativeState.currentStep
-                      ? "bg-black dark:bg-white"
-                      : "bg-gray-300 dark:bg-gray-700"
+                      ? "bg-black dark:bg-white scale-110"
+                      : "bg-gray-300 dark:bg-gray-700 hover:bg-gray-500 dark:hover:bg-gray-500"
                   }`}
+                  aria-label={`Étape ${idx + 1}`}
                 />
               ))}
             </div>

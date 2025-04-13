@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router";
 import ElementCard from "../components/ElementCard";
 import NarrativeElementModal from "../components/NarrativeElementModal";
-import ElementService from "../services/ElementService";
 import "../styles/animations.css";
 
 const htmlCategories = [
@@ -28,12 +27,46 @@ const HtmlPage = () => {
     const fetchElements = async () => {
       try {
         setLoading(true);
-        const data = await ElementService.getAllElements("html");
-        setElements(data);
+        // Fetch data from JSON file
+        const response = await fetch("/data/html-elements.json");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Convert object to array with ID included
+        const elementsArray = Object.entries(data).map(([id, element]) => ({
+          ...element,
+          id,
+        }));
+
+        setElements(elementsArray);
       } catch (error) {
         console.error("Erreur lors du chargement des éléments HTML:", error);
-        // Fallback: use temporary local data
-        setElements([]);
+        // Fallback: use minimal data for demo
+        setElements([
+          {
+            id: "html",
+            name: "<html>",
+            description: "L'élément racine qui contient tout le document HTML",
+            category: "structure",
+          },
+          {
+            id: "head",
+            name: "<head>",
+            description:
+              "Contient les métadonnées du document comme le titre, les liens CSS, etc.",
+            category: "structure",
+          },
+          {
+            id: "body",
+            name: "<body>",
+            description: "Contient tout le contenu visible de la page web",
+            category: "structure",
+          },
+        ]);
       } finally {
         setLoading(false);
       }
