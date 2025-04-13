@@ -41,19 +41,34 @@ const MainLayout = ({ children }) => {
 
   // Check for user preference on initial load
   useEffect(() => {
-    if (
+    // First check the localStorage
+    const savedTheme = localStorage.getItem("elementflow-theme");
+
+    if (savedTheme === "dark") {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else if (savedTheme === "light") {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    } else if (
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
     ) {
+      // If no saved preference, use system preference
       setIsDarkMode(true);
       document.documentElement.classList.add("dark");
     }
   }, []);
 
-  // Toggle dark mode
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+
+    // DOM update
     document.documentElement.classList.toggle("dark");
+
+    // Update localStorage
+    localStorage.setItem("elementflow-theme", newMode ? "dark" : "light");
   };
 
   return (
@@ -147,7 +162,7 @@ const MainLayout = ({ children }) => {
       </header>
 
       {/* Main content */}
-      <main className="mx-auto px-6 py-8">{children}</main>
+      <main className="mx-auto py-8">{children}</main>
     </div>
   );
 };
