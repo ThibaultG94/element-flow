@@ -206,7 +206,7 @@ const CssPage = () => {
   };
 
   return (
-    <div className="pb-12">
+    <div className="pb-12 px-5">
       {/* Page header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-black dark:text-white mb-2">

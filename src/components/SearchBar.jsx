@@ -226,7 +226,7 @@ const SearchBar = () => {
       handleResultClick(results[0].route);
     } else if (e.key === "Escape") {
       setShowResults(false);
-    } else if (e.key === "/" && (e.metaKey || e.ctrlKey)) {
+    } else if (e.key === ":" && (e.metaKey || e.ctrlKey)) {
       // Shortcut for search focus (Cmd+/ or Ctrl+/)
       e.preventDefault();
       searchInputRef.current?.focus();
@@ -236,7 +236,7 @@ const SearchBar = () => {
   // Add global keyboard shortcut
   useEffect(() => {
     const handleGlobalKeyDown = (e) => {
-      if (e.key === "/" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === ":" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         searchInputRef.current?.focus();
       }

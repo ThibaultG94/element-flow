@@ -128,7 +128,7 @@ const ElementDetailPage = () => {
   }
 
   return (
-    <div className="pb-16">
+    <div className="pb-16 px-5">
       {/* Header with navigation */}
       <div className="mb-6">
         <Link
