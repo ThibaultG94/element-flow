@@ -1,9 +1,13 @@
-/* Typing cursor animation */
+/* === BASIC ANIMATIONS === */
+
+/* Text typing animation */
 .typing-cursor {
     display: inline-block;
     width: 2px;
-    animation: blink 1s infinite;
+    height: 1em;
+    background-color: currentColor;
     margin-left: 2px;
+    animation: blink 1s infinite;
 }
 
 @keyframes blink {
@@ -18,49 +22,187 @@
     }
 }
 
-/* Fade-in animation for elements */
-.fade-in {
-    animation: fadeIn 0.8s ease forwards;
+/* Animation for titles */
+.title-animation-enter {
+    animation: titleFadeIn 0.7s cubic-bezier(0, 0.5, 0.2, 1.1) forwards;
 }
 
-.fade-out {
-    animation: fadeOut 0.8s ease forwards;
+.title-animation-exit {
+    animation: titleFadeOut 0.4s ease-out forwards;
 }
 
-@keyframes fadeIn {
-    from {
+@keyframes titleFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.95);
+        filter: blur(3px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes titleFadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.95);
+        filter: blur(3px);
+    }
+}
+
+/* Text animation */
+.text-animation-enter {
+    animation: textFadeIn 0.5s ease-out forwards;
+}
+
+.text-animation-exit {
+    animation: textFadeOut 0.4s ease-out forwards;
+}
+
+@keyframes textFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes textFadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+}
+
+/* Code animation */
+.code-animation-enter {
+    animation: codeFadeIn 0.6s ease-out forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.code-animation-exit {
+    animation: codeFadeOut 0.4s ease-out forwards;
+}
+
+.code-typing {
+    position: relative;
+}
+
+/* Typing cursor for code */
+.code-typing::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0.5em;
+    width: 4px;
+    height: 1em;
+    background: rgba(255, 255, 255, 0.7);
+    animation: blink 1s infinite;
+    display: inline-block;
+}
+
+@keyframes codeFadeIn {
+    0% {
         opacity: 0;
         transform: translateY(10px);
     }
 
-    to {
+    100% {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes fadeOut {
-    from {
+@keyframes codeFadeOut {
+    0% {
         opacity: 1;
         transform: translateY(0);
     }
 
-    to {
+    100% {
         opacity: 0;
         transform: translateY(-10px);
     }
 }
 
-/* Animations for visual demos */
-.demo-container {
-    position: relative;
-    min-height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Animation for visual demonstration */
+.visual-animation-enter {
+    animation: visualFadeIn 0.7s ease-out forwards;
 }
 
-/* Style for HTML elements in the demo */
+.visual-animation-exit {
+    animation: visualFadeOut 0.5s ease-out forwards;
+}
+
+@keyframes visualFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    70% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes visualFadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* Animation for visual demonstration */
+@keyframes highlightCode {
+    0% {
+        background-color: rgba(255, 255, 255, 0);
+    }
+
+    50% {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    100% {
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+
+.highlight-code {
+    animation: highlightCode 2s ease-in-out;
+}
+
+/* === SPECIFIC ANIMATIONS FOR HTML ELEMENTS === */
+
+/* Animation for main HTML element */
 .html-element {
     border: 2px solid #000000;
     background-color: rgba(0, 0, 0, 0.05);
@@ -78,6 +220,7 @@
     color: #ffffff;
 }
 
+/* Animation for the head element */
 .head-element {
     border: 2px solid #222222;
     background-color: rgba(0, 0, 0, 0.05);
@@ -96,6 +239,7 @@
     color: #ffffff;
 }
 
+/* Animation for the body element */
 .body-element {
     border: 2px solid #444444;
     background-color: rgba(0, 0, 0, 0.05);
@@ -114,173 +258,46 @@
     color: #ffffff;
 }
 
+/* Slide-in animation for HTML elements */
 @keyframes slideIn {
-    from {
-        opacity: 0;
+    0% {
         transform: translateX(-20px);
+        opacity: 0;
     }
 
-    to {
-        opacity: 1;
+    100% {
         transform: translateX(0);
+        opacity: 1;
     }
 }
 
-/* Highlighting animation */
-.highlight {
-    background-color: #f2f2f2;
-    color: #000000;
-    font-weight: bold;
-    padding: 0 0.25rem;
-    border-radius: 0.25rem;
-    animation: pulse 1.5s infinite;
+/* === ANIMATIONS FOR CONTROLS === */
+
+/* Animation for control buttons */
+.control-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
-.dark .highlight {
-    background-color: #333333;
-    color: #ffffff;
+.dark .control-button:focus {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Attention-grabbing pulse animation */
+.pulse {
+    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
     0% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
-    }
-
-    70% {
-        box-shadow: 0 0 0 6px rgba(0, 0, 0, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    }
-}
-
-/* Dark theme adjustments for the pulse animation */
-.dark .highlight {
-    animation: pulseDark 1.5s infinite;
-}
-
-@keyframes pulseDark {
-    0% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
-    }
-
-    70% {
-        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-    }
-}
-
-/* Zoom animation on a piece of code */
-.zoom-in {
-    animation: zoomIn 0.5s ease forwards;
-}
-
-@keyframes zoomIn {
-    from {
         transform: scale(1);
     }
 
-    to {
-        transform: scale(1.1);
-    }
-}
-
-/* Sequential appearance animation (for DOCTYPE structure, HTML, etc.) */
-.sequence>* {
-    opacity: 0;
-    animation: appearSequentially 0.6s ease forwards;
-}
-
-.sequence>*:nth-child(2) {
-    animation-delay: 0.6s;
-}
-
-.sequence>*:nth-child(3) {
-    animation-delay: 1.2s;
-}
-
-.sequence>*:nth-child(4) {
-    animation-delay: 1.8s;
-}
-
-@keyframes appearSequentially {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
+    50% {
+        transform: scale(1.05);
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    100% {
+        transform: scale(1);
     }
-}
-
-/* Improved step indicators */
-.step-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin: 0 3px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.step-indicator.active {
-    transform: scale(1.2);
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-}
-
-.dark .step-indicator.active {
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-}
-
-/* Fix for DOCTYPE rendering */
-.doctype-container {
-    font-family: monospace;
-    margin-bottom: 8px;
-    color: #666;
-    font-size: 0.9em;
-}
-
-.dark .doctype-container {
-    color: #aaa;
-}
-
-/* Ensure special characters are escaped properly */
-pre.html-escaped::before {
-    content: attr(data-content);
-    white-space: pre;
-}
-
-/* Dark mode adaptations */
-.dark .demo-container .html-element,
-.dark .demo-container .head-element,
-.dark .demo-container .body-element {
-    border-color: rgba(255, 255, 255, 0.6);
-    color: #fff;
-}
-
-/* Better spacing for element content */
-.element-content {
-    margin: 4px;
-    padding: 4px;
-    font-family: monospace;
-    font-size: 0.9em;
-}
-
-/* Fixed rendering for inline elements in examples */
-.result-preview {
-    overflow: auto;
-    max-width: 100%;
-    max-height: 300px;
-    padding: 8px;
-    font-family: system-ui, sans-serif;
-}
-
-.result-preview * {
-    font-family: inherit;
 }

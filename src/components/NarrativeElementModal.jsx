@@ -47,6 +47,8 @@ const NarrativeElementModal = ({
     showVisual: false,
     typingText: "",
     typingProgress: 0,
+    typingCode: "",
+    typingCodeProgress: 0,
   });
   const [isPaused, setIsPaused] = useState(false);
   const [animationStarted, setAnimationStarted] = useState(false);
@@ -56,6 +58,7 @@ const NarrativeElementModal = ({
 
   const timeoutRef = useRef(null);
   const typingRef = useRef(null);
+  const codeTypingRef = useRef(null);
   const sequenceIndexRef = useRef(0);
   const contentRef = useRef(null);
   const visualRef = useRef(null);
@@ -130,12 +133,15 @@ const NarrativeElementModal = ({
       showVisual: false,
       typingText: "",
       typingProgress: 0,
+      typingCode: "",
+      typingCodeProgress: 0,
     });
   };
 
   const clearAllTimers = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (typingRef.current) clearInterval(typingRef.current);
+    if (codeTypingRef.current) clearInterval(codeTypingRef.current);
   };
 
   // Load element data from JSON
@@ -252,7 +258,7 @@ const NarrativeElementModal = ({
 
     // Animation sequence for this stage
     const sequence = [
-      // Show title
+      // Show title with enhanced fade-in animation
       () => {
         console.log("Séquence 1: Affichage du titre");
         setNarrativeState((prev) => ({ ...prev, showTitle: true }));
@@ -271,7 +277,7 @@ const NarrativeElementModal = ({
           typingProgress: 0,
         }));
 
-        // Character-by-character text-typing animation
+        // Character-by-character text-typing animation - faster speed
         typingRef.current = setInterval(() => {
           if (progress < text.length) {
             progress++;
@@ -282,16 +288,40 @@ const NarrativeElementModal = ({
             }));
           } else {
             clearInterval(typingRef.current);
-            if (!isPaused) scheduleNext(1000);
+            if (!isPaused) scheduleNext(800);
           }
-        }, 20); // Typing speed - Augmenté à 20ms pour que ce soit plus lisible
+        }, 12); // Faster typing speed: 12ms
       },
 
-      // Show code
+      // Show code with typing animation
       () => {
         console.log("Séquence 3: Affichage du code");
         setNarrativeState((prev) => ({ ...prev, showCode: true }));
-        if (!isPaused) scheduleNext(1000);
+
+        // Start typing code animation
+        const code = step.code || "";
+        let codeProgress = 0;
+
+        setNarrativeState((prev) => ({
+          ...prev,
+          typingCode: "",
+          typingCodeProgress: 0,
+        }));
+
+        // Code typing animation - even faster than text
+        codeTypingRef.current = setInterval(() => {
+          if (codeProgress < code.length) {
+            codeProgress++;
+            setNarrativeState((prev) => ({
+              ...prev,
+              typingCode: code.substring(0, codeProgress),
+              typingCodeProgress: codeProgress,
+            }));
+          } else {
+            clearInterval(codeTypingRef.current);
+            if (!isPaused) scheduleNext(800);
+          }
+        }, 8); // Super fast typing for code: 8ms
       },
 
       // View visual demo
@@ -391,14 +421,19 @@ const NarrativeElementModal = ({
 
     // Set to the new step and show it immediately
     setTimeout(() => {
+      const stepText = element.animation.steps[stepIndex].text;
+      const stepCode = element.animation.steps[stepIndex].code || "";
+
       setNarrativeState({
         currentStep: stepIndex,
         showTitle: true,
         showText: true,
         showCode: true,
         showVisual: true,
-        typingText: element.animation.steps[stepIndex].text,
-        typingProgress: element.animation.steps[stepIndex].text.length,
+        typingText: stepText,
+        typingProgress: stepText.length,
+        typingCode: stepCode,
+        typingCodeProgress: stepCode.length,
       });
     }, 100);
   };
@@ -447,8 +482,10 @@ const NarrativeElementModal = ({
         >
           {/* Title */}
           <div
-            className={`text-center transition-opacity duration-500 mb-1 ${
-              narrativeState.showTitle ? "opacity-100" : "opacity-0"
+            className={`text-center mb-1 ${
+              narrativeState.showTitle
+                ? "title-animation-enter"
+                : "title-animation-exit"
             }`}
           >
             {currentStep?.title && (
@@ -460,23 +497,25 @@ const NarrativeElementModal = ({
 
           {/* Text with typing effect */}
           <div
-            className={`w-full max-w-xl text-center transition-opacity duration-500 mb-3 min-h-[60px] ${
-              narrativeState.showText ? "opacity-100" : "opacity-0"
+            className={`w-full max-w-xl text-center mb-3 min-h-[60px] ${
+              narrativeState.showText
+                ? "text-animation-enter"
+                : "text-animation-exit"
             }`}
           >
             <p className="text-base text-gray-800 dark:text-gray-200">
               {narrativeState.typingText}
-              <span className="typing-cursor">|</span>
+              <span className="typing-cursor"></span>
             </p>
           </div>
 
           {/* Visual demonstration */}
           <div
             ref={visualRef}
-            className={`w-full max-w-md transition-all duration-700 ${
+            className={`w-full max-w-md ${
               narrativeState.showVisual
-                ? "opacity-100 transform-none"
-                : "opacity-0 translate-y-2"
+                ? "visual-animation-enter"
+                : "visual-animation-exit"
             }`}
           >
             {currentStep?.visualDemo && (
@@ -491,16 +530,30 @@ const NarrativeElementModal = ({
             )}
           </div>
 
-          {/* Code */}
+          {/* Code with typing effect */}
           <div
             ref={codeRef}
-            className={`w-full max-w-md transition-all duration-700 ${
+            className={`w-full max-w-md ${
               narrativeState.showCode
-                ? "opacity-100 transform-none"
-                : "opacity-0 translate-y-2"
+                ? "code-animation-enter"
+                : "code-animation-exit"
             }`}
           >
-            {currentStep?.code && (
+            {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
+              <div className="code-typing rounded-md shadow-lg overflow-hidden">
+                <SyntaxHighlighter
+                  language="html"
+                  style={atomOneDark}
+                  className="text-sm"
+                  showLineNumbers={false}
+                  wrapLongLines={true}
+                >
+                  {narrativeState.typingCode}
+                </SyntaxHighlighter>
+              </div>
+            )}
+
+            {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
               <SyntaxHighlighter
                 language="html"
                 style={atomOneDark}
@@ -526,8 +579,10 @@ const NarrativeElementModal = ({
           {/* Title and text */}
           <div className="w-full mb-1">
             <div
-              className={`text-center transition-opacity duration-500 ${
-                narrativeState.showTitle ? "opacity-100" : "opacity-0"
+              className={`text-center ${
+                narrativeState.showTitle
+                  ? "title-animation-enter"
+                  : "title-animation-exit"
               }`}
             >
               {currentStep?.title && (
@@ -538,13 +593,15 @@ const NarrativeElementModal = ({
             </div>
 
             <div
-              className={`w-full max-w-xl mx-auto text-center transition-opacity duration-500 mb-2 min-h-[50px] ${
-                narrativeState.showText ? "opacity-100" : "opacity-0"
+              className={`w-full max-w-xl mx-auto text-center mb-2 min-h-[50px] ${
+                narrativeState.showText
+                  ? "text-animation-enter"
+                  : "text-animation-exit"
               }`}
             >
               <p className="text-base text-gray-800 dark:text-gray-200">
                 {narrativeState.typingText}
-                <span className="typing-cursor">|</span>
+                <span className="typing-cursor"></span>
               </p>
             </div>
           </div>
@@ -553,10 +610,10 @@ const NarrativeElementModal = ({
           <div className="w-full flex flex-row gap-3 justify-center">
             <div
               ref={visualRef}
-              className={`w-1/2 transition-all duration-700 ${
+              className={`w-1/2 ${
                 narrativeState.showVisual
-                  ? "opacity-100 transform-none"
-                  : "opacity-0 translate-x-2"
+                  ? "visual-animation-enter"
+                  : "visual-animation-exit"
               }`}
             >
               {currentStep?.visualDemo && (
@@ -573,13 +630,27 @@ const NarrativeElementModal = ({
 
             <div
               ref={codeRef}
-              className={`w-1/2 transition-all duration-700 ${
+              className={`w-1/2 ${
                 narrativeState.showCode
-                  ? "opacity-100 transform-none"
-                  : "opacity-0 translate-x-2"
+                  ? "code-animation-enter"
+                  : "code-animation-exit"
               }`}
             >
-              {currentStep?.code && (
+              {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
+                <div className="code-typing rounded-md shadow-lg overflow-hidden">
+                  <SyntaxHighlighter
+                    language="html"
+                    style={atomOneDark}
+                    className="text-sm"
+                    showLineNumbers={false}
+                    wrapLongLines={true}
+                  >
+                    {narrativeState.typingCode}
+                  </SyntaxHighlighter>
+                </div>
+              )}
+
+              {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
                 <SyntaxHighlighter
                   language="html"
                   style={atomOneDark}
@@ -596,7 +667,7 @@ const NarrativeElementModal = ({
       );
     }
 
-    // Fully horizontal mode - everything side by side
+    // Horizontal layout - everything side by side
     else if (layoutMode === "horizontal") {
       return (
         <div
@@ -606,8 +677,10 @@ const NarrativeElementModal = ({
           {/* Title and text */}
           <div className="w-1/3 pr-2">
             <div
-              className={`transition-opacity duration-500 ${
-                narrativeState.showTitle ? "opacity-100" : "opacity-0"
+              className={`${
+                narrativeState.showTitle
+                  ? "title-animation-enter"
+                  : "title-animation-exit"
               }`}
             >
               {currentStep?.title && (
@@ -618,13 +691,15 @@ const NarrativeElementModal = ({
             </div>
 
             <div
-              className={`transition-opacity duration-500 min-h-[50px] ${
-                narrativeState.showText ? "opacity-100" : "opacity-0"
+              className={`min-h-[50px] ${
+                narrativeState.showText
+                  ? "text-animation-enter"
+                  : "text-animation-exit"
               }`}
             >
               <p className="text-sm text-gray-800 dark:text-gray-200">
                 {narrativeState.typingText}
-                <span className="typing-cursor">|</span>
+                <span className="typing-cursor"></span>
               </p>
             </div>
           </div>
@@ -632,10 +707,10 @@ const NarrativeElementModal = ({
           {/* Visual */}
           <div
             ref={visualRef}
-            className={`w-1/3 transition-all duration-700 ${
+            className={`w-1/3 ${
               narrativeState.showVisual
-                ? "opacity-100 transform-none"
-                : "opacity-0 translate-y-2"
+                ? "visual-animation-enter"
+                : "visual-animation-exit"
             }`}
           >
             {currentStep?.visualDemo && (
@@ -653,13 +728,27 @@ const NarrativeElementModal = ({
           {/* Code */}
           <div
             ref={codeRef}
-            className={`w-1/3 transition-all duration-700 ${
+            className={`w-1/3 ${
               narrativeState.showCode
-                ? "opacity-100 transform-none"
-                : "opacity-0 translate-y-2"
+                ? "code-animation-enter"
+                : "code-animation-exit"
             }`}
           >
-            {currentStep?.code && (
+            {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
+              <div className="code-typing rounded-md shadow-lg overflow-hidden">
+                <SyntaxHighlighter
+                  language="html"
+                  style={atomOneDark}
+                  className="text-xs"
+                  showLineNumbers={false}
+                  wrapLongLines={true}
+                >
+                  {narrativeState.typingCode}
+                </SyntaxHighlighter>
+              </div>
+            )}
+
+            {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
               <SyntaxHighlighter
                 language="html"
                 style={atomOneDark}
@@ -675,7 +764,7 @@ const NarrativeElementModal = ({
       );
     }
 
-    // Vertical mode with scaling
+    // Scaled layout - vertically arranged with scaling
     else if (layoutMode === "scaled") {
       return (
         <div
@@ -686,10 +775,12 @@ const NarrativeElementModal = ({
             transformOrigin: "center center",
           }}
         >
-          {/* Same content as vertical mode, but with scale */}
+          {/* Title */}
           <div
-            className={`text-center transition-opacity duration-500 mb-1 ${
-              narrativeState.showTitle ? "opacity-100" : "opacity-0"
+            className={`text-center mb-1 ${
+              narrativeState.showTitle
+                ? "title-animation-enter"
+                : "title-animation-exit"
             }`}
           >
             {currentStep?.title && (
@@ -699,23 +790,27 @@ const NarrativeElementModal = ({
             )}
           </div>
 
+          {/* Text with typing effect */}
           <div
-            className={`w-full max-w-xl text-center transition-opacity duration-500 mb-2 min-h-[50px] ${
-              narrativeState.showText ? "opacity-100" : "opacity-0"
+            className={`w-full max-w-xl text-center mb-2 min-h-[50px] ${
+              narrativeState.showText
+                ? "text-animation-enter"
+                : "text-animation-exit"
             }`}
           >
             <p className="text-base text-gray-800 dark:text-gray-200">
               {narrativeState.typingText}
-              <span className="typing-cursor">|</span>
+              <span className="typing-cursor"></span>
             </p>
           </div>
 
+          {/* Visual demonstration */}
           <div
             ref={visualRef}
-            className={`w-full max-w-md transition-all duration-700 ${
+            className={`w-full max-w-md ${
               narrativeState.showVisual
-                ? "opacity-100 transform-none"
-                : "opacity-0 translate-y-2"
+                ? "visual-animation-enter"
+                : "visual-animation-exit"
             }`}
           >
             {currentStep?.visualDemo && (
@@ -730,15 +825,30 @@ const NarrativeElementModal = ({
             )}
           </div>
 
+          {/* Code with typing effect */}
           <div
             ref={codeRef}
-            className={`w-full max-w-md transition-all duration-700 ${
+            className={`w-full max-w-md ${
               narrativeState.showCode
-                ? "opacity-100 transform-none"
-                : "opacity-0 translate-y-2"
+                ? "code-animation-enter"
+                : "code-animation-exit"
             }`}
           >
-            {currentStep?.code && (
+            {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
+              <div className="code-typing rounded-md shadow-lg overflow-hidden">
+                <SyntaxHighlighter
+                  language="html"
+                  style={atomOneDark}
+                  className="text-sm"
+                  showLineNumbers={false}
+                  wrapLongLines={true}
+                >
+                  {narrativeState.typingCode}
+                </SyntaxHighlighter>
+              </div>
+            )}
+
+            {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
               <SyntaxHighlighter
                 language="html"
                 style={atomOneDark}
@@ -755,79 +865,98 @@ const NarrativeElementModal = ({
     }
 
     // Scroll mode (fallback)
-    else {
-      return (
+    return (
+      <div
+        className="flex flex-col items-center justify-start gap-3 overflow-y-auto max-h-[90vh]"
+        ref={contentRef}
+      >
+        {/* Title */}
         <div
-          className="flex flex-col items-center justify-start gap-3 overflow-y-auto max-h-[90vh]"
-          ref={contentRef}
+          className={`text-center mb-1 ${
+            narrativeState.showTitle
+              ? "title-animation-enter"
+              : "title-animation-exit"
+          }`}
         >
-          {/* Similar to vertical mode but with scroll enabled */}
-          <div
-            className={`text-center transition-opacity duration-500 mb-1 ${
-              narrativeState.showTitle ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            {currentStep?.title && (
-              <h3 className="text-xl font-bold text-black dark:text-white">
-                {currentStep.title}
-              </h3>
-            )}
-          </div>
+          {currentStep?.title && (
+            <h3 className="text-xl font-bold text-black dark:text-white">
+              {currentStep.title}
+            </h3>
+          )}
+        </div>
 
-          <div
-            className={`w-full max-w-xl text-center transition-opacity duration-500 mb-3 min-h-[60px] ${
-              narrativeState.showText ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <p className="text-base text-gray-800 dark:text-gray-200">
-              {narrativeState.typingText}
-              <span className="typing-cursor">|</span>
-            </p>
-          </div>
+        {/* Text with typing effect */}
+        <div
+          className={`w-full max-w-xl text-center mb-3 min-h-[60px] ${
+            narrativeState.showText
+              ? "text-animation-enter"
+              : "text-animation-exit"
+          }`}
+        >
+          <p className="text-base text-gray-800 dark:text-gray-200">
+            {narrativeState.typingText}
+            <span className="typing-cursor"></span>
+          </p>
+        </div>
 
-          <div
-            ref={visualRef}
-            className={`w-full max-w-md transition-all duration-700 ${
-              narrativeState.showVisual
-                ? "opacity-100 transform-none"
-                : "opacity-0"
-            }`}
-          >
-            {currentStep?.visualDemo && (
-              <div className="bg-white dark:bg-black p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 transition-colors duration-300">
-                <div
-                  className="demo-container"
-                  dangerouslySetInnerHTML={{
-                    __html: currentStep.visualDemo.content,
-                  }}
-                />
-              </div>
-            )}
-          </div>
+        {/* Visual demonstration */}
+        <div
+          ref={visualRef}
+          className={`w-full max-w-md ${
+            narrativeState.showVisual
+              ? "visual-animation-enter"
+              : "visual-animation-exit"
+          }`}
+        >
+          {currentStep?.visualDemo && (
+            <div className="bg-white dark:bg-black p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 transition-colors duration-300">
+              <div
+                className="demo-container"
+                dangerouslySetInnerHTML={{
+                  __html: currentStep.visualDemo.content,
+                }}
+              />
+            </div>
+          )}
+        </div>
 
-          <div
-            ref={codeRef}
-            className={`w-full max-w-md transition-all duration-700 ${
-              narrativeState.showCode
-                ? "opacity-100 transform-none"
-                : "opacity-0"
-            }`}
-          >
-            {currentStep?.code && (
+        {/* Code with typing effect */}
+        <div
+          ref={codeRef}
+          className={`w-full max-w-md ${
+            narrativeState.showCode
+              ? "code-animation-enter"
+              : "code-animation-exit"
+          }`}
+        >
+          {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
+            <div className="code-typing rounded-md shadow-lg overflow-hidden">
               <SyntaxHighlighter
                 language="html"
                 style={atomOneDark}
-                className="rounded-md shadow-lg text-sm"
+                className="text-sm"
                 showLineNumbers={false}
                 wrapLongLines={true}
               >
-                {currentStep.code}
+                {narrativeState.typingCode}
               </SyntaxHighlighter>
-            )}
-          </div>
+            </div>
+          )}
+
+          {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
+            <SyntaxHighlighter
+              language="html"
+              style={atomOneDark}
+              className="rounded-md shadow-lg text-sm"
+              showLineNumbers={false}
+              wrapLongLines={true}
+            >
+              {currentStep.code}
+            </SyntaxHighlighter>
+          )}
         </div>
-      );
-    }
+      </div>
+    );
   };
 
   return (
@@ -920,7 +1049,7 @@ const NarrativeElementModal = ({
           <div className="flex items-center gap-2">
             <button
               onClick={restartAnimation}
-              className="p-1.5 rounded-md bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700"
+              className="p-1.5 rounded-md bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 control-button"
               title="Redémarrer"
             >
               <svg
@@ -941,7 +1070,7 @@ const NarrativeElementModal = ({
 
             <button
               onClick={togglePause}
-              className="p-1.5 rounded-md bg-black dark:bg-white text-white dark:text-black transition-colors duration-300 hover:bg-gray-800 dark:hover:bg-gray-200"
+              className="p-1.5 rounded-md bg-black dark:bg-white text-white dark:text-black transition-colors duration-300 hover:bg-gray-800 dark:hover:bg-gray-200 control-button"
               title={isPaused ? "Reprendre" : "Pause"}
             >
               {isPaused ? (

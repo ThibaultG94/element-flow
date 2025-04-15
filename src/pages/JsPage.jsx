@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ElementCard from "../components/ElementCard";
-import ElementModal from "../components/ElementModal";
+import NarrativeElementModal from "../components/NarrativeElementModal";
+import "../styles/animations.css";
 
-// Temporary data - to be replaced by API calls to Strapi
 const jsCategories = [
   { id: "basics", name: "Fondamentaux" },
   { id: "dom", name: "Manipulation du DOM" },
@@ -13,120 +13,69 @@ const jsCategories = [
   { id: "api", name: "API Web" },
 ];
 
-const jsElements = [
-  {
-    id: "variables",
-    name: "Variables (let, const, var)",
-    category: "basics",
-    description: "Stockage de valeurs",
-    attributes: [
-      { name: "let", description: "Variable modifiable avec portée de bloc" },
-      { name: "const", description: "Constante avec portée de bloc" },
-      { name: "var", description: "Variable avec portée de fonction" },
-    ],
-    syntax: "let maVariable = 'valeur';",
-    examples: [
-      {
-        title: "Déclaration de variables",
-        code: "let compteur = 0;\nconst PI = 3.14159;\nvar ancienneVariable = 'texte';",
-      },
-    ],
-    related: ["functions", "scope"],
-  },
-  {
-    id: "functions",
-    name: "Fonctions",
-    category: "basics",
-    description: "Blocs de code réutilisables",
-  },
-  {
-    id: "conditionals",
-    name: "Conditions (if, else)",
-    category: "basics",
-    description: "Exécution conditionnelle",
-  },
-  {
-    id: "loops",
-    name: "Boucles (for, while)",
-    category: "basics",
-    description: "Répétition d'instructions",
-  },
-  {
-    id: "querySelector",
-    name: "querySelector()",
-    category: "dom",
-    description: "Sélectionne un élément du DOM",
-  },
-  {
-    id: "createElement",
-    name: "createElement()",
-    category: "dom",
-    description: "Crée un nouvel élément HTML",
-  },
-  {
-    id: "addEventListener",
-    name: "addEventListener()",
-    category: "events",
-    description: "Ajoute un gestionnaire d'événement",
-  },
-  {
-    id: "array-map",
-    name: "map()",
-    category: "arrays",
-    description: "Transforme les éléments d'un tableau",
-  },
-  {
-    id: "array-filter",
-    name: "filter()",
-    category: "arrays",
-    description: "Filtre les éléments d'un tableau",
-  },
-  {
-    id: "promises",
-    name: "Promises",
-    category: "async",
-    description: "Gestion d'opérations asynchrones",
-  },
-  {
-    id: "async-await",
-    name: "async/await",
-    category: "async",
-    description: "Syntaxe pour le code asynchrone",
-  },
-  {
-    id: "fetch",
-    name: "fetch()",
-    category: "api",
-    description: "Requêtes HTTP",
-  },
-];
-
-const CategoryButton = ({ category, isActive, onClick }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  return (
-    <button
-      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-        isActive
-          ? "bg-black text-white dark:bg-white dark:text-black"
-          : isHovered
-          ? "bg-gray-800 text-white dark:bg-gray-200 dark:text-black"
-          : "bg-white text-black dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-800"
-      }`}
-      onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {category}
-    </button>
-  );
-};
-
 const JsPage = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentElement, setCurrentElement] = useState(null);
+  const [currentElementId, setCurrentElementId] = useState(null);
+  const [jsElements, setJsElements] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const isDarkMode = document.documentElement.classList.contains("dark");
+
+  // Load JS elements on page load
+  useEffect(() => {
+    const fetchElements = async () => {
+      try {
+        setLoading(true);
+        // Fetch data from JSON file
+        const response = await fetch("/data/js-elements.json");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Convert object to array with ID included
+        const elementsArray = Object.entries(data).map(([id, element]) => ({
+          ...element,
+          id,
+        }));
+
+        setJsElements(elementsArray);
+      } catch (error) {
+        console.error(
+          "Erreur lors du chargement des éléments JavaScript:",
+          error
+        );
+        // Fallback: use minimal data for demo
+        setJsElements([
+          {
+            id: "variables",
+            name: "Variables (let, const, var)",
+            category: "basics",
+            description: "Stockage de valeurs",
+          },
+          {
+            id: "functions",
+            name: "Fonctions",
+            category: "basics",
+            description: "Blocs de code réutilisables",
+          },
+          {
+            id: "querySelector",
+            name: "querySelector()",
+            category: "dom",
+            description: "Sélectionne un élément du DOM",
+          },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchElements();
+  }, []);
 
   // Filter items by selected category
   const filteredElements =
@@ -135,12 +84,35 @@ const JsPage = () => {
       : jsElements.filter((element) => element.category === activeCategory);
 
   const openElementModal = (element) => {
-    setCurrentElement(element);
+    setCurrentElementId(element.id);
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
+    setTimeout(() => {
+      setCurrentElementId(null);
+    }, 300);
+  };
+
+  const CategoryButton = ({ category, isActive, onClick }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    return (
+      <button
+        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+          isActive
+            ? "bg-black text-white dark:bg-white dark:text-black"
+            : isHovered
+            ? "bg-gray-800 text-white dark:bg-gray-200 dark:text-black"
+            : "bg-white text-black dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-800"
+        }`}
+        onClick={onClick}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {category}
+      </button>
+    );
   };
 
   return (
@@ -176,26 +148,52 @@ const JsPage = () => {
         </div>
       </div>
 
-      {/* Element grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredElements.map((element) => (
-          <ElementCard
-            key={element.id}
-            element={element}
-            openModal={openElementModal}
-            categoryLabel={
-              jsCategories.find((cat) => cat.id === element.category)?.name ||
-              element.category
-            }
-          />
-        ))}
-      </div>
+      {/* Loading status */}
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black dark:border-white"></div>
+        </div>
+      ) : jsElements.length === 0 ? (
+        <div className="text-center py-10">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            Aucune donnée d'élément JavaScript disponible. Veuillez créer le
+            fichier JSON ou connecter l'API.
+          </p>
 
-      {/* Modal for the selected property */}
-      <ElementModal
+          {/* Demo button for JS element */}
+          <button
+            onClick={() => {
+              // Simulate an element for the demo
+              setCurrentElementId("variables");
+              setModalIsOpen(true);
+            }}
+            className="mt-4 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300"
+          >
+            Voir démonstration narrative de Variables
+          </button>
+        </div>
+      ) : (
+        // Element grid
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredElements.map((element) => (
+            <ElementCard
+              key={element.id}
+              element={element}
+              openModal={openElementModal}
+              categoryLabel={
+                jsCategories.find((cat) => cat.id === element.category)?.name ||
+                element.category
+              }
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Narrative modal for selected element */}
+      <NarrativeElementModal
         isOpen={modalIsOpen}
         closeModal={closeModal}
-        element={currentElement}
+        elementId={currentElementId}
         theme={isDarkMode ? "dark" : "light"}
       />
     </div>
