@@ -8,6 +8,7 @@
     background-color: currentColor;
     margin-left: 2px;
     animation: blink 1s infinite;
+    transform: translateY(0.1em);
 }
 
 @keyframes blink {

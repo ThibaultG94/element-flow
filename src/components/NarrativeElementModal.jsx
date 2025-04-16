@@ -4,7 +4,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import "../styles/animations.css";
 
-// Modal stylization
+// Styles de base du modal
 const customStyles = {
   content: {
     top: "50%",
@@ -20,7 +20,6 @@ const customStyles = {
     border: "none",
     borderRadius: "0.75rem",
     overflow: "hidden",
-    backgroundColor: "var(--bg-color, white)",
   },
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.85)",
@@ -28,7 +27,23 @@ const customStyles = {
   },
 };
 
-// Setting the modal root node
+// Style spécifique pour le loader
+const loaderStyles = {
+  content: {
+    ...customStyles.content,
+    width: "auto",
+    height: "auto",
+    minWidth: "120px",
+    minHeight: "120px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+  },
+  overlay: customStyles.overlay,
+};
+
+// Config du point d'attache du modal
 Modal.setAppElement("#root");
 
 const NarrativeElementModal = ({
@@ -53,77 +68,31 @@ const NarrativeElementModal = ({
   const [isPaused, setIsPaused] = useState(false);
   const [animationStarted, setAnimationStarted] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  const [layoutMode, setLayoutMode] = useState("vertical"); // vertical, mixed, horizontal ou scroll
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Refs pour les animations et timers
   const timeoutRef = useRef(null);
   const typingRef = useRef(null);
   const codeTypingRef = useRef(null);
   const sequenceIndexRef = useRef(0);
   const contentRef = useRef(null);
-  const visualRef = useRef(null);
-  const codeRef = useRef(null);
 
-  // Defining CSS variables for the theme
+  // Définition des variables CSS pour le thème
   const bgColor = theme === "dark" ? "#121212" : "white";
   const textColor = theme === "dark" ? "white" : "black";
 
-  // Window size detection and layout mode adjustment
+  // Détection du mode mobile
   useEffect(() => {
-    const handleResize = () => {
-      setWindowHeight(window.innerHeight);
-      detectLayoutMode();
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  const detectLayoutMode = () => {
-    // This function will be called upon at strategic moments to determine
-    // how to display content according to available space
-
-    // For the moment, we're using a logic based on window height
-    if (window.innerHeight < 500) {
-      // Very small screens - all horizontal
-      setLayoutMode("horizontal");
-    } else if (window.innerHeight < 650) {
-      // Medium screens - mixed mode
-      setLayoutMode("mixed");
-    } else if (window.innerHeight < 750) {
-      // Standard but not very large screens - vertical with scale
-      setLayoutMode("scaled");
-    } else {
-      // Large screens - standard vertical
-      setLayoutMode("vertical");
-    }
-  };
-
-  // Observe containers after each important rendering
-  useEffect(() => {
-    if (isOpen && !loading && element) {
-      // After the first rendering, check that everything is correctly visible
-      setTimeout(() => {
-        detectLayoutMode();
-      }, 100);
-    }
-  }, [
-    isOpen,
-    loading,
-    element,
-    narrativeState.showVisual,
-    narrativeState.showCode,
-  ]);
-
-  const getScaleFactor = () => {
-    if (windowHeight < 600) return 0.8;
-    if (windowHeight < 700) return 0.9;
-    return 1;
-  };
-
-  // Helper functions to clean up code
+  // Fonctions utilitaires pour nettoyer le code
   const resetNarrativeState = () => {
     setNarrativeState({
       currentStep: 0,
@@ -144,20 +113,20 @@ const NarrativeElementModal = ({
     if (codeTypingRef.current) clearInterval(codeTypingRef.current);
   };
 
-  // Load element data from JSON
+  // Chargement des données de l'élément depuis le JSON
   useEffect(() => {
     if (isOpen && elementId) {
       setLoading(true);
       setAnimationStarted(false);
       setDataLoaded(false);
 
-      // Reset narrative state for new element
+      // Réinitialisation de l'état pour un nouvel élément
       resetNarrativeState();
 
-      // Clean existing timers
+      // Nettoyage des timers existants
       clearAllTimers();
 
-      // Fetch data from the JSON file
+      // Chargement des données
       const fetchElement = async () => {
         try {
           console.log("Chargement des données pour l'élément:", elementId);
@@ -181,7 +150,7 @@ const NarrativeElementModal = ({
         } catch (error) {
           console.error("Erreur lors du chargement des données:", error);
 
-          // Fallback data for demo purposes if the element is "html"
+          // Données de secours pour la démo si l'élément est "html"
           if (elementId === "html") {
             setElement({
               id: "html",
@@ -215,33 +184,43 @@ const NarrativeElementModal = ({
     }
   }, [isOpen, elementId]);
 
-  // Specific effect to launch animation once data has been loaded
+  // Effet spécifique pour lancer l'animation une fois les données chargées
   useEffect(() => {
-    // Checks if data is loaded, if the animation has not yet started and if the element exists.
     if (dataLoaded && !animationStarted && element && !loading && isOpen) {
       console.log("Lancement de l'animation après chargement des données");
+
+      // On cache d'abord tous les éléments pour éviter l'effet de préchargement
+      setNarrativeState((prev) => ({
+        ...prev,
+        showTitle: false,
+        showText: false,
+        showCode: false,
+        showVisual: false,
+      }));
+
+      // Puis on démarre l'animation après un court délai
       timeoutRef.current = setTimeout(() => {
         startNarration();
         setAnimationStarted(true);
-      }, 500);
+      }, 100);
     }
   }, [dataLoaded, animationStarted, element, loading, isOpen]);
 
-  // Cleaning timeouts at closing
+  // Nettoyage des timeouts à la fermeture
   useEffect(() => {
     return () => {
       clearAllTimers();
     };
   }, []);
 
-  // Function to start narrative animation
+  // Fonction pour démarrer l'animation narrative
   const startNarration = () => {
     console.log("Démarrage de la narration...");
     setIsPaused(false);
     animateStep(narrativeState.currentStep);
   };
 
-  // Stage animation function
+  // Fonction d'animation des étapes
   const animateStep = (stepIndex) => {
     console.log("Animation de l'étape:", stepIndex);
     if (!element || !element.animation || !element.animation.steps[stepIndex]) {
@@ -256,16 +235,16 @@ const NarrativeElementModal = ({
     const step = element.animation.steps[stepIndex];
     console.log("Étape en cours:", step.title || "Sans titre");
 
-    // Animation sequence for this stage
+    // Séquence d'animation pour cette étape
     const sequence = [
-      // Show title with enhanced fade-in animation
+      // Affichage du titre avec animation fade-in
       () => {
         console.log("Séquence 1: Affichage du titre");
         setNarrativeState((prev) => ({ ...prev, showTitle: true }));
         if (!isPaused) scheduleNext(800);
       },
 
-      // Start text typing animation
+      // Animation d'écriture du texte
       () => {
         console.log("Séquence 2: Animation de texte");
         const text = step.text;
@@ -277,7 +256,7 @@ const NarrativeElementModal = ({
           typingProgress: 0,
         }));
 
-        // Character-by-character text-typing animation - faster speed
+        // Animation d'écriture caractère par caractère - vitesse accélérée
         typingRef.current = setInterval(() => {
           if (progress < text.length) {
             progress++;
@@ -290,15 +269,15 @@ const NarrativeElementModal = ({
             clearInterval(typingRef.current);
             if (!isPaused) scheduleNext(800);
           }
-        }, 12); // Faster typing speed: 12ms
+        }, 12); // Vitesse de frappe plus rapide: 12ms
       },
 
-      // Show code with typing animation
+      // Affichage du code avec animation d'écriture
       () => {
         console.log("Séquence 3: Affichage du code");
         setNarrativeState((prev) => ({ ...prev, showCode: true }));
 
-        // Start typing code animation
+        // Démarrage de l'animation d'écriture du code
         const code = step.code || "";
         let codeProgress = 0;
 
@@ -308,7 +287,7 @@ const NarrativeElementModal = ({
           typingCodeProgress: 0,
         }));
 
-        // Code typing animation - even faster than text
+        // Animation d'écriture du code - encore plus rapide que le texte
         codeTypingRef.current = setInterval(() => {
           if (codeProgress < code.length) {
             codeProgress++;
@@ -321,22 +300,22 @@ const NarrativeElementModal = ({
             clearInterval(codeTypingRef.current);
             if (!isPaused) scheduleNext(800);
           }
-        }, 8); // Super fast typing for code: 8ms
+        }, 8); // Frappe super rapide pour le code: 8ms
       },
 
-      // View visual demo
+      // Affichage de la démo visuelle
       () => {
         console.log("Séquence 4: Démonstration visuelle");
         setNarrativeState((prev) => ({ ...prev, showVisual: true }));
 
-        // Wait longer for visualization
+        // Attente plus longue pour la visualisation
         if (!isPaused) scheduleNext(3000);
       },
 
-      // Transition to next stage or end
+      // Transition vers l'étape suivante ou fin
       () => {
         console.log("Séquence 5: Transition");
-        // Gradually remove all
+        // Suppression progressive de tous les éléments
         setNarrativeState((prev) => ({
           ...prev,
           showTitle: false,
@@ -345,7 +324,7 @@ const NarrativeElementModal = ({
           showVisual: false,
         }));
 
-        // Moving on after a transition
+        // Passage à la suite après une transition
         if (!isPaused) {
           timeoutRef.current = setTimeout(() => {
             if (stepIndex < element.animation.steps.length - 1) {
@@ -357,7 +336,7 @@ const NarrativeElementModal = ({
               animateStep(stepIndex + 1);
             } else {
               console.log("Animation terminée");
-              // End of animation - show a summary or start again
+              // Fin de l'animation - affichage d'un résumé ou redémarrage
               setNarrativeState((prev) => ({
                 ...prev,
                 currentStep: 0,
@@ -372,20 +351,20 @@ const NarrativeElementModal = ({
       },
     ];
 
-    // Reset sequence index
+    // Réinitialisation de l'index de séquence
     sequenceIndexRef.current = 0;
 
-    // Execute the first step of the sequence
+    // Exécution de la première étape de la séquence
     runSequence();
 
-    // Executes animation sequence step by step
+    // Fonction pour exécuter la séquence d'animation étape par étape
     function runSequence() {
       if (sequenceIndexRef.current < sequence.length) {
         sequence[sequenceIndexRef.current]();
       }
     }
 
-    // Plan the next sequence step
+    // Planification de la prochaine étape de séquence
     function scheduleNext(delay) {
       timeoutRef.current = setTimeout(() => {
         sequenceIndexRef.current++;
@@ -394,32 +373,32 @@ const NarrativeElementModal = ({
     }
   };
 
-  // Pause or resume animation
+  // Pause ou reprise de l'animation
   const togglePause = () => {
     setIsPaused(!isPaused);
 
     if (isPaused) {
-      // Picking up where the animation left off
+      // Reprise là où l'animation s'est arrêtée
       startNarration();
     } else {
-      // Pause by cleaning up timeouts
+      // Pause en nettoyant les timeouts
       clearAllTimers();
     }
   };
 
-  // Go to specific step (new function)
+  // Aller à une étape spécifique
   const goToStep = (stepIndex) => {
     if (stepIndex === narrativeState.currentStep) {
-      return; // Already on this step
+      return; // Déjà sur cette étape
     }
 
-    clearAllTimers(); // Stop current animation
-    setIsPaused(true); // Pause animation
+    clearAllTimers(); // Arrêt de l'animation en cours
+    setIsPaused(true); // Mise en pause de l'animation
 
-    // Reset state first
+    // Réinitialisation de l'état d'abord
     resetNarrativeState();
 
-    // Set to the new step and show it immediately
+    // Passage à la nouvelle étape et affichage immédiat
     setTimeout(() => {
       const stepText = element.animation.steps[stepIndex].text;
       const stepCode = element.animation.steps[stepIndex].code || "";
@@ -438,7 +417,7 @@ const NarrativeElementModal = ({
     }, 100);
   };
 
-  // Restart animation
+  // Redémarrer l'animation
   const restartAnimation = () => {
     console.log("Redémarrage de l'animation");
     clearAllTimers();
@@ -449,15 +428,22 @@ const NarrativeElementModal = ({
     }, 300);
   };
 
+  // Si en chargement, affichage du loader
   if (loading) {
     return (
       <Modal
         isOpen={isOpen}
         onRequestClose={closeModal}
-        style={customStyles}
+        style={{
+          content: {
+            ...loaderStyles.content,
+            backgroundColor: theme === "dark" ? "#121212" : "white",
+          },
+          overlay: loaderStyles.overlay,
+        }}
         contentLabel="Chargement..."
       >
-        <div className="p-8 flex items-center justify-center h-full">
+        <div className="flex items-center justify-center p-8">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black dark:border-white"></div>
         </div>
       </Modal>
@@ -469,527 +455,32 @@ const NarrativeElementModal = ({
   }
 
   const currentStep = element.animation?.steps[narrativeState.currentStep];
-  const scaleFactor = getScaleFactor();
-
-  // Decide on content according to layout mode
-  const renderContent = () => {
-    // Standard vertical layout - all stacked
-    if (layoutMode === "vertical") {
-      return (
-        <div
-          className="flex flex-col items-center justify-center gap-2"
-          ref={contentRef}
-        >
-          {/* Title */}
-          <div
-            className={`text-center mb-1 ${
-              narrativeState.showTitle
-                ? "title-animation-enter"
-                : "title-animation-exit"
-            }`}
-          >
-            {currentStep?.title && (
-              <h3 className="text-xl font-bold text-black dark:text-white">
-                {currentStep.title}
-              </h3>
-            )}
-          </div>
-
-          {/* Text with typing effect */}
-          <div
-            className={`w-full max-w-xl text-center mb-3 min-h-[60px] ${
-              narrativeState.showText
-                ? "text-animation-enter"
-                : "text-animation-exit"
-            }`}
-          >
-            <p className="text-base text-gray-800 dark:text-gray-200">
-              {narrativeState.typingText}
-              <span className="typing-cursor"></span>
-            </p>
-          </div>
-
-          {/* Visual demonstration */}
-          <div
-            ref={visualRef}
-            className={`w-full max-w-md ${
-              narrativeState.showVisual
-                ? "visual-animation-enter"
-                : "visual-animation-exit"
-            }`}
-          >
-            {currentStep?.visualDemo && (
-              <div className="bg-white dark:bg-black p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 transition-colors duration-300">
-                <div
-                  className="demo-container"
-                  dangerouslySetInnerHTML={{
-                    __html: currentStep.visualDemo.content,
-                  }}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Code with typing effect */}
-          <div
-            ref={codeRef}
-            className={`w-full max-w-md ${
-              narrativeState.showCode
-                ? "code-animation-enter"
-                : "code-animation-exit"
-            }`}
-          >
-            {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
-              <div className="code-typing rounded-md shadow-lg overflow-hidden">
-                <SyntaxHighlighter
-                  language="html"
-                  style={atomOneDark}
-                  className="text-sm"
-                  showLineNumbers={false}
-                  wrapLongLines={true}
-                >
-                  {narrativeState.typingCode}
-                </SyntaxHighlighter>
-              </div>
-            )}
-
-            {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
-              <SyntaxHighlighter
-                language="html"
-                style={atomOneDark}
-                className="rounded-md shadow-lg text-sm"
-                showLineNumbers={false}
-                wrapLongLines={true}
-              >
-                {currentStep.code}
-              </SyntaxHighlighter>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    // Mixed layout mode - title and text on top, visual and code side by side
-    else if (layoutMode === "mixed") {
-      return (
-        <div
-          className="flex flex-col items-center justify-center gap-2"
-          ref={contentRef}
-        >
-          {/* Title and text */}
-          <div className="w-full mb-1">
-            <div
-              className={`text-center ${
-                narrativeState.showTitle
-                  ? "title-animation-enter"
-                  : "title-animation-exit"
-              }`}
-            >
-              {currentStep?.title && (
-                <h3 className="text-xl font-bold text-black dark:text-white">
-                  {currentStep.title}
-                </h3>
-              )}
-            </div>
-
-            <div
-              className={`w-full max-w-xl mx-auto text-center mb-2 min-h-[50px] ${
-                narrativeState.showText
-                  ? "text-animation-enter"
-                  : "text-animation-exit"
-              }`}
-            >
-              <p className="text-base text-gray-800 dark:text-gray-200">
-                {narrativeState.typingText}
-                <span className="typing-cursor"></span>
-              </p>
-            </div>
-          </div>
-
-          {/* Visual and code side by side */}
-          <div className="w-full flex flex-row gap-3 justify-center">
-            <div
-              ref={visualRef}
-              className={`w-1/2 ${
-                narrativeState.showVisual
-                  ? "visual-animation-enter"
-                  : "visual-animation-exit"
-              }`}
-            >
-              {currentStep?.visualDemo && (
-                <div className="bg-white dark:bg-black p-2 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 transition-colors duration-300">
-                  <div
-                    className="demo-container"
-                    dangerouslySetInnerHTML={{
-                      __html: currentStep.visualDemo.content,
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-
-            <div
-              ref={codeRef}
-              className={`w-1/2 ${
-                narrativeState.showCode
-                  ? "code-animation-enter"
-                  : "code-animation-exit"
-              }`}
-            >
-              {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
-                <div className="code-typing rounded-md shadow-lg overflow-hidden">
-                  <SyntaxHighlighter
-                    language="html"
-                    style={atomOneDark}
-                    className="text-sm"
-                    showLineNumbers={false}
-                    wrapLongLines={true}
-                  >
-                    {narrativeState.typingCode}
-                  </SyntaxHighlighter>
-                </div>
-              )}
-
-              {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
-                <SyntaxHighlighter
-                  language="html"
-                  style={atomOneDark}
-                  className="rounded-md shadow-lg text-sm"
-                  showLineNumbers={false}
-                  wrapLongLines={true}
-                >
-                  {currentStep.code}
-                </SyntaxHighlighter>
-              )}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    // Horizontal layout - everything side by side
-    else if (layoutMode === "horizontal") {
-      return (
-        <div
-          className="w-full flex flex-row items-center justify-center gap-2"
-          ref={contentRef}
-        >
-          {/* Title and text */}
-          <div className="w-1/3 pr-2">
-            <div
-              className={`${
-                narrativeState.showTitle
-                  ? "title-animation-enter"
-                  : "title-animation-exit"
-              }`}
-            >
-              {currentStep?.title && (
-                <h3 className="text-lg font-bold text-black dark:text-white">
-                  {currentStep.title}
-                </h3>
-              )}
-            </div>
-
-            <div
-              className={`min-h-[50px] ${
-                narrativeState.showText
-                  ? "text-animation-enter"
-                  : "text-animation-exit"
-              }`}
-            >
-              <p className="text-sm text-gray-800 dark:text-gray-200">
-                {narrativeState.typingText}
-                <span className="typing-cursor"></span>
-              </p>
-            </div>
-          </div>
-
-          {/* Visual */}
-          <div
-            ref={visualRef}
-            className={`w-1/3 ${
-              narrativeState.showVisual
-                ? "visual-animation-enter"
-                : "visual-animation-exit"
-            }`}
-          >
-            {currentStep?.visualDemo && (
-              <div className="bg-white dark:bg-black p-2 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 transition-colors duration-300">
-                <div
-                  className="demo-container"
-                  dangerouslySetInnerHTML={{
-                    __html: currentStep.visualDemo.content,
-                  }}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Code */}
-          <div
-            ref={codeRef}
-            className={`w-1/3 ${
-              narrativeState.showCode
-                ? "code-animation-enter"
-                : "code-animation-exit"
-            }`}
-          >
-            {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
-              <div className="code-typing rounded-md shadow-lg overflow-hidden">
-                <SyntaxHighlighter
-                  language="html"
-                  style={atomOneDark}
-                  className="text-xs"
-                  showLineNumbers={false}
-                  wrapLongLines={true}
-                >
-                  {narrativeState.typingCode}
-                </SyntaxHighlighter>
-              </div>
-            )}
-
-            {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
-              <SyntaxHighlighter
-                language="html"
-                style={atomOneDark}
-                className="rounded-md shadow-lg text-xs"
-                showLineNumbers={false}
-                wrapLongLines={true}
-              >
-                {currentStep.code}
-              </SyntaxHighlighter>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    // Scaled layout - vertically arranged with scaling
-    else if (layoutMode === "scaled") {
-      return (
-        <div
-          className="flex flex-col items-center justify-center gap-1"
-          ref={contentRef}
-          style={{
-            transform: `scale(${scaleFactor})`,
-            transformOrigin: "center center",
-          }}
-        >
-          {/* Title */}
-          <div
-            className={`text-center mb-1 ${
-              narrativeState.showTitle
-                ? "title-animation-enter"
-                : "title-animation-exit"
-            }`}
-          >
-            {currentStep?.title && (
-              <h3 className="text-xl font-bold text-black dark:text-white">
-                {currentStep.title}
-              </h3>
-            )}
-          </div>
-
-          {/* Text with typing effect */}
-          <div
-            className={`w-full max-w-xl text-center mb-2 min-h-[50px] ${
-              narrativeState.showText
-                ? "text-animation-enter"
-                : "text-animation-exit"
-            }`}
-          >
-            <p className="text-base text-gray-800 dark:text-gray-200">
-              {narrativeState.typingText}
-              <span className="typing-cursor"></span>
-            </p>
-          </div>
-
-          {/* Visual demonstration */}
-          <div
-            ref={visualRef}
-            className={`w-full max-w-md ${
-              narrativeState.showVisual
-                ? "visual-animation-enter"
-                : "visual-animation-exit"
-            }`}
-          >
-            {currentStep?.visualDemo && (
-              <div className="bg-white dark:bg-black p-2 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 transition-colors duration-300">
-                <div
-                  className="demo-container"
-                  dangerouslySetInnerHTML={{
-                    __html: currentStep.visualDemo.content,
-                  }}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Code with typing effect */}
-          <div
-            ref={codeRef}
-            className={`w-full max-w-md ${
-              narrativeState.showCode
-                ? "code-animation-enter"
-                : "code-animation-exit"
-            }`}
-          >
-            {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
-              <div className="code-typing rounded-md shadow-lg overflow-hidden">
-                <SyntaxHighlighter
-                  language="html"
-                  style={atomOneDark}
-                  className="text-sm"
-                  showLineNumbers={false}
-                  wrapLongLines={true}
-                >
-                  {narrativeState.typingCode}
-                </SyntaxHighlighter>
-              </div>
-            )}
-
-            {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
-              <SyntaxHighlighter
-                language="html"
-                style={atomOneDark}
-                className="rounded-md shadow-lg text-sm"
-                showLineNumbers={false}
-                wrapLongLines={true}
-              >
-                {currentStep.code}
-              </SyntaxHighlighter>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    // Scroll mode (fallback)
-    return (
-      <div
-        className="flex flex-col items-center justify-start gap-3 overflow-y-auto max-h-[90vh]"
-        ref={contentRef}
-      >
-        {/* Title */}
-        <div
-          className={`text-center mb-1 ${
-            narrativeState.showTitle
-              ? "title-animation-enter"
-              : "title-animation-exit"
-          }`}
-        >
-          {currentStep?.title && (
-            <h3 className="text-xl font-bold text-black dark:text-white">
-              {currentStep.title}
-            </h3>
-          )}
-        </div>
-
-        {/* Text with typing effect */}
-        <div
-          className={`w-full max-w-xl text-center mb-3 min-h-[60px] ${
-            narrativeState.showText
-              ? "text-animation-enter"
-              : "text-animation-exit"
-          }`}
-        >
-          <p className="text-base text-gray-800 dark:text-gray-200">
-            {narrativeState.typingText}
-            <span className="typing-cursor"></span>
-          </p>
-        </div>
-
-        {/* Visual demonstration */}
-        <div
-          ref={visualRef}
-          className={`w-full max-w-md ${
-            narrativeState.showVisual
-              ? "visual-animation-enter"
-              : "visual-animation-exit"
-          }`}
-        >
-          {currentStep?.visualDemo && (
-            <div className="bg-white dark:bg-black p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 transition-colors duration-300">
-              <div
-                className="demo-container"
-                dangerouslySetInnerHTML={{
-                  __html: currentStep.visualDemo.content,
-                }}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Code with typing effect */}
-        <div
-          ref={codeRef}
-          className={`w-full max-w-md ${
-            narrativeState.showCode
-              ? "code-animation-enter"
-              : "code-animation-exit"
-          }`}
-        >
-          {currentStep?.code && narrativeState.typingCodeProgress > 0 && (
-            <div className="code-typing rounded-md shadow-lg overflow-hidden">
-              <SyntaxHighlighter
-                language="html"
-                style={atomOneDark}
-                className="text-sm"
-                showLineNumbers={false}
-                wrapLongLines={true}
-              >
-                {narrativeState.typingCode}
-              </SyntaxHighlighter>
-            </div>
-          )}
-
-          {currentStep?.code && narrativeState.typingCodeProgress === 0 && (
-            <SyntaxHighlighter
-              language="html"
-              style={atomOneDark}
-              className="rounded-md shadow-lg text-sm"
-              showLineNumbers={false}
-              wrapLongLines={true}
-            >
-              {currentStep.code}
-            </SyntaxHighlighter>
-          )}
-        </div>
-      </div>
-    );
-  };
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
       style={{
-        ...customStyles,
         content: {
           ...customStyles.content,
-          "--bg-color": bgColor,
+          backgroundColor: bgColor,
           color: textColor,
         },
+        overlay: customStyles.overlay,
       }}
       contentLabel={`Démonstration de ${element.name}`}
-      onAfterOpen={() => {
-        console.log("Modal ouvert");
-        detectLayoutMode();
-      }}
     >
       <div className="flex flex-col h-full">
-        {/* Header compact */}
-        <div className="flex justify-between items-center py-2 px-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
+        {/* En-tête compact */}
+        <div className="flex justify-between items-center py-2 px-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-black sticky top-0 z-10">
           <h2 className="text-lg font-mono font-bold">{element.name}</h2>
           <div className="flex gap-2">
             <a
               href={`/element/${element.id}`}
               className="px-2 py-1 text-xs text-black dark:text-white bg-gray-100 dark:bg-gray-900 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
               onClick={(e) => {
-                // Prevent default behavior to handle the navigation properly
                 e.preventDefault();
                 closeModal();
-                // Use client-side navigation to prevent page reload
                 window.location.href = `/element/${element.id}`;
               }}
             >
@@ -1017,14 +508,125 @@ const NarrativeElementModal = ({
           </div>
         </div>
 
-        {/* Main content area */}
-        <div className="flex-grow flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-3">
-          {/* Adaptive layout here */}
-          {renderContent()}
+        {/* Zone de contenu principal avec scroll */}
+        <div className="flex-grow overflow-y-auto bg-gray-100 dark:bg-gray-900">
+          <div
+            className="flex items-center justify-center p-6"
+            ref={contentRef}
+          >
+            <div className="w-full max-w-3xl">
+              {/* Titre */}
+              <div
+                className={`text-center mb-4 ${
+                  narrativeState.showTitle
+                    ? "title-animation-enter"
+                    : "title-animation-exit"
+                }`}
+                style={{
+                  visibility: narrativeState.showTitle ? "visible" : "hidden",
+                }}
+              >
+                {currentStep?.title && (
+                  <h3 className="text-xl font-bold text-black dark:text-white">
+                    {currentStep.title}
+                  </h3>
+                )}
+              </div>
+
+              {/* Texte avec effet de frappe */}
+              <div
+                className={`w-full text-center mb-6 min-h-[60px] ${
+                  narrativeState.showText
+                    ? "text-animation-enter"
+                    : "text-animation-exit"
+                }`}
+                style={{
+                  visibility: narrativeState.showText ? "visible" : "hidden",
+                }}
+              >
+                <p className="text-base text-gray-800 dark:text-gray-200">
+                  {narrativeState.typingText}
+                  <span className="typing-cursor"></span>
+                </p>
+              </div>
+
+              {/* Zone de contenu adaptatif (code + démo visuelle) */}
+              <div
+                className={`w-full ${
+                  isMobile ? "flex flex-col gap-6" : "flex flex-row gap-6"
+                }`}
+              >
+                {/* Code avec effet de frappe (à gauche) */}
+                <div
+                  className={`${isMobile ? "w-full" : "w-1/2"} ${
+                    narrativeState.showCode
+                      ? "code-animation-enter"
+                      : "code-animation-exit"
+                  }`}
+                  style={{
+                    visibility: narrativeState.showCode ? "visible" : "hidden",
+                  }}
+                >
+                  {currentStep?.code &&
+                    narrativeState.typingCodeProgress > 0 && (
+                      <div className="code-typing rounded-md shadow-lg overflow-hidden">
+                        <SyntaxHighlighter
+                          language="html"
+                          style={atomOneDark}
+                          className="text-sm"
+                          showLineNumbers={false}
+                          wrapLongLines={true}
+                        >
+                          {narrativeState.typingCode}
+                        </SyntaxHighlighter>
+                      </div>
+                    )}
+
+                  {currentStep?.code &&
+                    narrativeState.typingCodeProgress === 0 && (
+                      <SyntaxHighlighter
+                        language="html"
+                        style={atomOneDark}
+                        className="rounded-md shadow-lg text-sm"
+                        showLineNumbers={false}
+                        wrapLongLines={true}
+                      >
+                        {currentStep.code}
+                      </SyntaxHighlighter>
+                    )}
+                </div>
+
+                {/* Démonstration visuelle (à droite) */}
+                <div
+                  className={`${isMobile ? "w-full" : "w-1/2"} ${
+                    narrativeState.showVisual
+                      ? "visual-animation-enter"
+                      : "visual-animation-exit"
+                  }`}
+                  style={{
+                    visibility: narrativeState.showVisual
+                      ? "visible"
+                      : "hidden",
+                  }}
+                >
+                  {currentStep?.visualDemo && (
+                    <div className="bg-white dark:bg-black p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 transition-colors duration-300">
+                      <div
+                        className="demo-container"
+                        dangerouslySetInnerHTML={{
+                          __html: currentStep.visualDemo.content,
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Controls - compact */}
-        <div className="py-2 px-3 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black flex items-center justify-between">
+        {/* Contrôles - compact et fixe en bas */}
+        <div className="py-2 px-3 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black flex items-center justify-between sticky bottom-0 z-10">
           <div className="flex items-center gap-1">
             <span className="text-xs text-gray-600 dark:text-gray-400">
               {narrativeState.currentStep + 1}/
