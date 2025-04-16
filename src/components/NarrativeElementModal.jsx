@@ -4,7 +4,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import "../styles/animations.css";
 
-// Styles de base du modal
+// Basic modal styles
 const customStyles = {
   content: {
     top: "50%",
@@ -27,7 +27,7 @@ const customStyles = {
   },
 };
 
-// Style spécifique pour le loader
+// Specific style for the loader
 const loaderStyles = {
   content: {
     ...customStyles.content,
@@ -43,7 +43,7 @@ const loaderStyles = {
   overlay: customStyles.overlay,
 };
 
-// Config du point d'attache du modal
+// Config of the modal attachment point
 Modal.setAppElement("#root");
 
 const NarrativeElementModal = ({
@@ -70,18 +70,18 @@ const NarrativeElementModal = ({
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Refs pour les animations et timers
+  // Refs for animations and timers
   const timeoutRef = useRef(null);
   const typingRef = useRef(null);
   const codeTypingRef = useRef(null);
   const sequenceIndexRef = useRef(0);
   const contentRef = useRef(null);
 
-  // Définition des variables CSS pour le thème
+  // Setting CSS variables for the theme
   const bgColor = theme === "dark" ? "#121212" : "white";
   const textColor = theme === "dark" ? "white" : "black";
 
-  // Détection du mode mobile
+  // Mobile mode detection
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -92,7 +92,7 @@ const NarrativeElementModal = ({
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  // Fonctions utilitaires pour nettoyer le code
+  // Utility functions to clean up code
   const resetNarrativeState = () => {
     setNarrativeState({
       currentStep: 0,
@@ -113,20 +113,20 @@ const NarrativeElementModal = ({
     if (codeTypingRef.current) clearInterval(codeTypingRef.current);
   };
 
-  // Chargement des données de l'élément depuis le JSON
+  // Loading element data from JSON
   useEffect(() => {
     if (isOpen && elementId) {
       setLoading(true);
       setAnimationStarted(false);
       setDataLoaded(false);
 
-      // Réinitialisation de l'état pour un nouvel élément
+      // Reset status for a new element
       resetNarrativeState();
 
-      // Nettoyage des timers existants
+      // Cleaning existing timers
       clearAllTimers();
 
-      // Chargement des données
+      // Loading data
       const fetchElement = async () => {
         try {
           console.log("Chargement des données pour l'élément:", elementId);
@@ -150,7 +150,7 @@ const NarrativeElementModal = ({
         } catch (error) {
           console.error("Erreur lors du chargement des données:", error);
 
-          // Données de secours pour la démo si l'élément est "html"
+          // Backup data for demo if element is “html”.
           if (elementId === "html") {
             setElement({
               id: "html",
@@ -184,12 +184,12 @@ const NarrativeElementModal = ({
     }
   }, [isOpen, elementId]);
 
-  // Effet spécifique pour lancer l'animation une fois les données chargées
+  // Specific effect to launch animation once data has been loaded
   useEffect(() => {
     if (dataLoaded && !animationStarted && element && !loading && isOpen) {
       console.log("Lancement de l'animation après chargement des données");
 
-      // On cache d'abord tous les éléments pour éviter l'effet de préchargement
+      // First, we hide all the elements to avoid the preloading effect.
       setNarrativeState((prev) => ({
         ...prev,
         showTitle: false,
@@ -198,7 +198,7 @@ const NarrativeElementModal = ({
         showVisual: false,
       }));
 
-      // Puis on démarre l'animation après un court délai
+      // After a short delay, the animation is started.
       timeoutRef.current = setTimeout(() => {
         startNarration();
         setAnimationStarted(true);
@@ -206,21 +206,21 @@ const NarrativeElementModal = ({
     }
   }, [dataLoaded, animationStarted, element, loading, isOpen]);
 
-  // Nettoyage des timeouts à la fermeture
+  // Closing timeout cleaning
   useEffect(() => {
     return () => {
       clearAllTimers();
     };
   }, []);
 
-  // Fonction pour démarrer l'animation narrative
+  // Function to start narrative animation
   const startNarration = () => {
     console.log("Démarrage de la narration...");
     setIsPaused(false);
     animateStep(narrativeState.currentStep);
   };
 
-  // Fonction d'animation des étapes
+  // Stage animation function
   const animateStep = (stepIndex) => {
     console.log("Animation de l'étape:", stepIndex);
     if (!element || !element.animation || !element.animation.steps[stepIndex]) {
@@ -235,16 +235,16 @@ const NarrativeElementModal = ({
     const step = element.animation.steps[stepIndex];
     console.log("Étape en cours:", step.title || "Sans titre");
 
-    // Séquence d'animation pour cette étape
+    // Animation sequence for this stage
     const sequence = [
-      // Affichage du titre avec animation fade-in
+      // Title display with fade-in animation
       () => {
         console.log("Séquence 1: Affichage du titre");
         setNarrativeState((prev) => ({ ...prev, showTitle: true }));
         if (!isPaused) scheduleNext(800);
       },
 
-      // Animation d'écriture du texte
+      // Text writing animation
       () => {
         console.log("Séquence 2: Animation de texte");
         const text = step.text;
@@ -256,7 +256,7 @@ const NarrativeElementModal = ({
           typingProgress: 0,
         }));
 
-        // Animation d'écriture caractère par caractère - vitesse accélérée
+        // Character-by-character writing animation - accelerated speed
         typingRef.current = setInterval(() => {
           if (progress < text.length) {
             progress++;
@@ -269,15 +269,15 @@ const NarrativeElementModal = ({
             clearInterval(typingRef.current);
             if (!isPaused) scheduleNext(800);
           }
-        }, 12); // Vitesse de frappe plus rapide: 12ms
+        }, 12);
       },
 
-      // Affichage du code avec animation d'écriture
+      // Code display with writing animation
       () => {
         console.log("Séquence 3: Affichage du code");
         setNarrativeState((prev) => ({ ...prev, showCode: true }));
 
-        // Démarrage de l'animation d'écriture du code
+        // Start the code writing animation
         const code = step.code || "";
         let codeProgress = 0;
 
@@ -287,7 +287,7 @@ const NarrativeElementModal = ({
           typingCodeProgress: 0,
         }));
 
-        // Animation d'écriture du code - encore plus rapide que le texte
+        // Code writing animation - even faster than text
         codeTypingRef.current = setInterval(() => {
           if (codeProgress < code.length) {
             codeProgress++;
@@ -300,22 +300,22 @@ const NarrativeElementModal = ({
             clearInterval(codeTypingRef.current);
             if (!isPaused) scheduleNext(800);
           }
-        }, 8); // Frappe super rapide pour le code: 8ms
+        }, 1);
       },
 
-      // Affichage de la démo visuelle
+      // Display visual demo
       () => {
         console.log("Séquence 4: Démonstration visuelle");
         setNarrativeState((prev) => ({ ...prev, showVisual: true }));
 
-        // Attente plus longue pour la visualisation
+        // Longer wait for visualization
         if (!isPaused) scheduleNext(3000);
       },
 
-      // Transition vers l'étape suivante ou fin
+      // Transition to next stage or end
       () => {
         console.log("Séquence 5: Transition");
-        // Suppression progressive de tous les éléments
+        // Progressive removal of all elements
         setNarrativeState((prev) => ({
           ...prev,
           showTitle: false,
@@ -324,7 +324,7 @@ const NarrativeElementModal = ({
           showVisual: false,
         }));
 
-        // Passage à la suite après une transition
+        // Moving on after a transition
         if (!isPaused) {
           timeoutRef.current = setTimeout(() => {
             if (stepIndex < element.animation.steps.length - 1) {
@@ -336,7 +336,7 @@ const NarrativeElementModal = ({
               animateStep(stepIndex + 1);
             } else {
               console.log("Animation terminée");
-              // Fin de l'animation - affichage d'un résumé ou redémarrage
+              // End animation - display summary or restart
               setNarrativeState((prev) => ({
                 ...prev,
                 currentStep: 0,
@@ -351,20 +351,20 @@ const NarrativeElementModal = ({
       },
     ];
 
-    // Réinitialisation de l'index de séquence
+    // Reset sequence index
     sequenceIndexRef.current = 0;
 
-    // Exécution de la première étape de la séquence
+    // Executing the first step of the sequence
     runSequence();
 
-    // Fonction pour exécuter la séquence d'animation étape par étape
+    // Function for running the animation sequence step by step
     function runSequence() {
       if (sequenceIndexRef.current < sequence.length) {
         sequence[sequenceIndexRef.current]();
       }
     }
 
-    // Planification de la prochaine étape de séquence
+    // Planning the next sequence step
     function scheduleNext(delay) {
       timeoutRef.current = setTimeout(() => {
         sequenceIndexRef.current++;
@@ -373,32 +373,30 @@ const NarrativeElementModal = ({
     }
   };
 
-  // Pause ou reprise de l'animation
+  // Pause or resume animation
   const togglePause = () => {
     setIsPaused(!isPaused);
 
     if (isPaused) {
-      // Reprise là où l'animation s'est arrêtée
       startNarration();
     } else {
-      // Pause en nettoyant les timeouts
       clearAllTimers();
     }
   };
 
-  // Aller à une étape spécifique
+  // Go to a specific step
   const goToStep = (stepIndex) => {
     if (stepIndex === narrativeState.currentStep) {
-      return; // Déjà sur cette étape
+      return; // Already on this stage
     }
 
-    clearAllTimers(); // Arrêt de l'animation en cours
-    setIsPaused(true); // Mise en pause de l'animation
+    clearAllTimers(); // Stop animation in progress
+    setIsPaused(true); // Pause animation
 
-    // Réinitialisation de l'état d'abord
+    // Reset status first
     resetNarrativeState();
 
-    // Passage à la nouvelle étape et affichage immédiat
+    // Switch to the new stage and display immediately
     setTimeout(() => {
       const stepText = element.animation.steps[stepIndex].text;
       const stepCode = element.animation.steps[stepIndex].code || "";
@@ -417,7 +415,6 @@ const NarrativeElementModal = ({
     }, 100);
   };
 
-  // Redémarrer l'animation
   const restartAnimation = () => {
     console.log("Redémarrage de l'animation");
     clearAllTimers();
@@ -428,7 +425,7 @@ const NarrativeElementModal = ({
     }, 300);
   };
 
-  // Si en chargement, affichage du loader
+  // If loading, loader display
   if (loading) {
     return (
       <Modal
@@ -471,7 +468,7 @@ const NarrativeElementModal = ({
       contentLabel={`Démonstration de ${element.name}`}
     >
       <div className="flex flex-col h-full">
-        {/* En-tête compact */}
+        {/* Compact header */}
         <div className="flex justify-between items-center py-2 px-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-black sticky top-0 z-10">
           <h2 className="text-lg font-mono font-bold">{element.name}</h2>
           <div className="flex gap-2">
@@ -508,14 +505,14 @@ const NarrativeElementModal = ({
           </div>
         </div>
 
-        {/* Zone de contenu principal avec scroll */}
+        {/* Main content area with scroll */}
         <div className="flex-grow overflow-y-auto bg-gray-100 dark:bg-gray-900">
           <div
             className="flex items-center justify-center p-6"
             ref={contentRef}
           >
             <div className="w-full max-w-3xl">
-              {/* Titre */}
+              {/* Title */}
               <div
                 className={`text-center mb-4 ${
                   narrativeState.showTitle
@@ -533,7 +530,7 @@ const NarrativeElementModal = ({
                 )}
               </div>
 
-              {/* Texte avec effet de frappe */}
+              {/* Text with typing effect */}
               <div
                 className={`w-full text-center mb-6 min-h-[60px] ${
                   narrativeState.showText
@@ -550,13 +547,13 @@ const NarrativeElementModal = ({
                 </p>
               </div>
 
-              {/* Zone de contenu adaptatif (code + démo visuelle) */}
+              {/* Adaptive content zone (code + visual demo) */}
               <div
                 className={`w-full ${
                   isMobile ? "flex flex-col gap-6" : "flex flex-row gap-6"
                 }`}
               >
-                {/* Code avec effet de frappe (à gauche) */}
+                {/* Code with keystroke effect (left) */}
                 <div
                   className={`${isMobile ? "w-full" : "w-1/2"} ${
                     narrativeState.showCode
@@ -596,7 +593,7 @@ const NarrativeElementModal = ({
                     )}
                 </div>
 
-                {/* Démonstration visuelle (à droite) */}
+                {/* Visual demonstration (right) */}
                 <div
                   className={`${isMobile ? "w-full" : "w-1/2"} ${
                     narrativeState.showVisual
@@ -625,7 +622,7 @@ const NarrativeElementModal = ({
           </div>
         </div>
 
-        {/* Contrôles - compact et fixe en bas */}
+        {/* Controls - compact and fixed at the bottom */}
         <div className="py-2 px-3 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black flex items-center justify-between sticky bottom-0 z-10">
           <div className="flex items-center gap-1">
             <span className="text-xs text-gray-600 dark:text-gray-400">
