@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import Modal from "react-modal";
-import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import Modal from "react-modal";
+import AutoScrollContainer from "./AutoScrollContainer";
 import "../styles/animations.css";
+import "../styles/mobile.css";
 
 // Basic modal styles
 const customStyles = {
@@ -14,12 +16,18 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     width: "90%",
-    maxWidth: "800px",
+    maxWidth: "900px",
     maxHeight: "95vh",
+    "@media (minWidth: 768px)": {
+      width: "90%",
+      maxWidth: "900px",
+    },
+    height: "auto",
     padding: "0",
     border: "none",
     borderRadius: "0.75rem",
     overflow: "hidden",
+    overflowY: "auto",
   },
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.85)",
@@ -150,7 +158,7 @@ const NarrativeElementModal = ({
         } catch (error) {
           console.error("Erreur lors du chargement des données:", error);
 
-          // Backup data for demo if element is “html”.
+          // Backup data for demo if element is "html".
           if (elementId === "html") {
             setElement({
               id: "html",
@@ -269,7 +277,7 @@ const NarrativeElementModal = ({
             clearInterval(typingRef.current);
             if (!isPaused) scheduleNext(800);
           }
-        }, 12);
+        }, 20 * Math.random());
       },
 
       // Code display with writing animation
@@ -300,7 +308,7 @@ const NarrativeElementModal = ({
             clearInterval(codeTypingRef.current);
             if (!isPaused) scheduleNext(800);
           }
-        }, 1);
+        }, 10 * Math.random());
       },
 
       // Display visual demo
@@ -505,8 +513,11 @@ const NarrativeElementModal = ({
           </div>
         </div>
 
-        {/* Main content area with scroll */}
-        <div className="flex-grow overflow-y-auto bg-gray-100 dark:bg-gray-900">
+        {/* Main content area with auto-scroll */}
+        <AutoScrollContainer
+          className="flex-grow bg-gray-100 dark:bg-gray-900 -webkit-overflow-scrolling-touch"
+          scrollThreshold={150}
+        >
           <div
             className="flex items-center justify-center p-6"
             ref={contentRef}
@@ -532,7 +543,7 @@ const NarrativeElementModal = ({
 
               {/* Text with typing effect */}
               <div
-                className={`w-full text-center mb-6 min-h-[60px] ${
+                className={`w-full px-8 text-center mb-6 min-h-[60px] ${
                   narrativeState.showText
                     ? "text-animation-enter"
                     : "text-animation-exit"
@@ -618,9 +629,12 @@ const NarrativeElementModal = ({
                   )}
                 </div>
               </div>
+
+              {/* Espace de marge en bas pour le mobile */}
+              {isMobile && <div className="h-6 w-full"></div>}
             </div>
           </div>
-        </div>
+        </AutoScrollContainer>
 
         {/* Controls - compact and fixed at the bottom */}
         <div className="py-2 px-3 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black flex items-center justify-between sticky bottom-0 z-10">
