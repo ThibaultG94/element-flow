@@ -193,6 +193,7 @@ const HtmlPage = () => {
         closeModal={closeModal}
         elementId={currentElementId}
         theme={isDarkMode ? "dark" : "light"}
+        dataType={"html"}
       />
     </div>
   );

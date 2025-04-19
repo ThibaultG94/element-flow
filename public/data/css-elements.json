@@ -1,95 +1,31 @@
 {
-    "display": {
-      "id": "display",
-      "name": "display",
-      "description": "Définit le mode d'affichage d'un élément",
-      "category": "layout",
-      "attributes": [
-        { "name": "block", "description": "Affiche l'élément comme un bloc" },
-        { "name": "inline", "description": "Affiche l'élément en ligne" },
-        { "name": "flex", "description": "Définit un conteneur flexible" },
-        { "name": "grid", "description": "Définit un conteneur en grille" },
-        { "name": "none", "description": "Masque l'élément" }
-      ],
-      "syntax": "display: flex;",
-      "examples": [
-        { "title": "Affichage en bloc", "code": ".element { display: block; }" },
-        { "title": "Affichage flexible", "code": ".container { display: flex; }" }
-      ],
-      "related": ["flex", "grid", "position"],
-      "dateAdded": "2023-11-15T10:30:00Z"
+  "display": {
+    "id": "display",
+    "name": "display",
+    "description": "Définit le type d'affichage d'un élément",
+    "category": "layout",
+    "attributes": [
+      { "name": "block", "description": "Élément affiché comme un bloc" },
+      { "name": "inline", "description": "Élément affiché en ligne" }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "La propriété display",
+          "text": "La propriété display définit comment un élément est affiché",
+          "code": ".element { display: block; }",
+          "visualDemo": {
+            "content": "<div style='padding:8px; background:#eee;'><div style='background:blue; color:white; padding:10px;'>display: block</div></div>"
+          }
+        }
+      ]
     },
-    "flex": {
-      "id": "flex",
-      "name": "flex",
-      "description": "Raccourci pour flex-grow, flex-shrink et flex-basis",
-      "category": "layout",
-      "attributes": [
-        { "name": "flex-grow", "description": "Facteur de croissance" },
-        { "name": "flex-shrink", "description": "Facteur de rétrécissement" },
-        { "name": "flex-basis", "description": "Taille de base" }
-      ],
-      "syntax": "flex: 1 0 auto;",
-      "examples": [
-        { "title": "Flexibilité égale", "code": ".item { flex: 1; }" },
-        { "title": "Flexibilité personnalisée", "code": ".item { flex: 2 0 300px; }" }
-      ],
-      "related": ["display", "flex-direction", "flex-wrap"],
-      "dateAdded": "2023-12-10T14:45:00Z"
-    },
-    "grid": {
-      "id": "grid",
-      "name": "grid",
-      "description": "Définit un conteneur de grille",
-      "category": "layout",
-      "attributes": [
-        { "name": "grid-template-columns", "description": "Définit les colonnes de la grille" },
-        { "name": "grid-template-rows", "description": "Définit les lignes de la grille" },
-        { "name": "grid-gap", "description": "Espace entre les éléments de la grille" }
-      ],
-      "syntax": "grid: 100px 1fr / 50px 1fr;",
-      "examples": [
-        { "title": "Grille simple", "code": ".container { display: grid; grid-template-columns: 1fr 1fr; }" },
-        { "title": "Grille avec espacement", "code": ".container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }" }
-      ],
-      "related": ["display", "flex"],
-      "dateAdded": "2024-01-05T09:15:00Z"
-    },
-    "color": {
-      "id": "color",
-      "name": "color",
-      "description": "Définit la couleur du texte",
-      "category": "colors",
-      "syntax": "color: #ff0000;",
-      "examples": [
-        { "title": "Couleur nommée", "code": "p { color: red; }" },
-        { "title": "Couleur hexadécimale", "code": "h1 { color: #00ff00; }" },
-        { "title": "Couleur RGB", "code": "span { color: rgb(0, 0, 255); }" }
-      ],
-      "dateAdded": "2024-02-20T16:30:00Z"
-    },
-    "background-color": {
-      "id": "background-color",
-      "name": "background-color",
-      "description": "Définit la couleur d'arrière-plan",
-      "category": "backgrounds",
-      "syntax": "background-color: rgba(255, 0, 0, 0.5);",
-      "examples": [
-        { "title": "Couleur d'arrière-plan simple", "code": "div { background-color: #f0f0f0; }" },
-        { "title": "Couleur semi-transparente", "code": "button { background-color: rgba(0, 0, 0, 0.2); }" }
-      ],
-      "dateAdded": "2024-03-08T11:20:00Z"
-    },
-    "margin": {
-      "id": "margin",
-      "name": "margin",
-      "description": "Définit la marge extérieure d'un élément",
-      "category": "layout",
-      "syntax": "margin: 10px 20px 30px 40px;",
-      "examples": [
-        { "title": "Marge uniforme", "code": ".box { margin: 20px; }" },
-        { "title": "Marges personnalisées", "code": ".box { margin: 10px 20px; }" }
-      ],
-      "dateAdded": "2024-04-01T08:40:00Z"
-    }
+    "examples": [
+      {
+        "title": "Exemple simple",
+        "code": ".block { display: block; }"
+      }
+    ],
+    "related": ["flex", "grid"]
   }
+}

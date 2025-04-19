@@ -22,21 +22,21 @@ const CssPage = () => {
 
   const isDarkMode = document.documentElement.classList.contains("dark");
 
-  // Load CSS properties on page load
+  // Loading CSS properties on page load
   useEffect(() => {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        // Fetch data from JSON file
+        // Retrieving data from the JSON file
         const response = await fetch("/data/css-elements.json");
 
         if (!response.ok) {
-          throw new Error(`HTTP error: ${response.status}`);
+          throw new Error(`Erreur HTTP: ${response.status}`);
         }
 
         const data = await response.json();
 
-        // Convert object to array with ID included
+        // Convert object to array with identifiers included
         const propertiesArray = Object.entries(data).map(([id, property]) => ({
           ...property,
           id,
@@ -45,7 +45,7 @@ const CssPage = () => {
         setCssProperties(propertiesArray);
       } catch (error) {
         console.error("Erreur lors du chargement des propriétés CSS:", error);
-        // Fallback: use minimal data for demo
+        // Backup data in case of error
         setCssProperties([
           {
             id: "display",
@@ -64,6 +64,24 @@ const CssPage = () => {
             name: "color",
             category: "colors",
             description: "Définit la couleur du texte",
+          },
+          {
+            id: "border",
+            name: "border",
+            category: "borders",
+            description: "Définit la bordure d'un élément",
+          },
+          {
+            id: "font-size",
+            name: "font-size",
+            category: "typography",
+            description: "Définit la taille du texte",
+          },
+          {
+            id: "background-color",
+            name: "background-color",
+            category: "backgrounds",
+            description: "Définit la couleur d'arrière-plan",
           },
         ]);
       } finally {
@@ -157,7 +175,7 @@ const CssPage = () => {
             JSON ou connecter l'API.
           </p>
 
-          {/* Demo button for CSS property */}
+          {/* Demo button for a CSS property */}
           <button
             onClick={() => {
               // Simulate a property for the demo
@@ -186,12 +204,13 @@ const CssPage = () => {
         </div>
       )}
 
-      {/* Narrative modal for selected property */}
+      {/* Modal narrative for the selected property */}
       <NarrativeElementModal
         isOpen={modalIsOpen}
         closeModal={closeModal}
         elementId={currentElementId}
         theme={isDarkMode ? "dark" : "light"}
+        dataType={"css"}
       />
     </div>
   );

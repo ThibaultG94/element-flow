@@ -58,6 +58,7 @@ const NarrativeElementModal = ({
   closeModal,
   elementId,
   theme = "light",
+  dataType,
 }) => {
   // States
   const [element, setElement] = useState(null);
@@ -121,7 +122,7 @@ const NarrativeElementModal = ({
 
       const fetchElement = async () => {
         try {
-          const response = await fetch("/data/html-elements.json");
+          const response = await fetch(`/data/${dataType}-elements.json`);
           if (!response.ok) {
             throw new Error(`Erreur HTTP: ${response.status}`);
           }
