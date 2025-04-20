@@ -151,7 +151,7 @@ const NarrativeElementModal = ({
       clearAllTimers();
       resetNarrativeState();
     }
-  }, [isOpen, elementId]);
+  }, [isOpen, elementId, dataType]);
 
   // Starting the animation
   useEffect(() => {

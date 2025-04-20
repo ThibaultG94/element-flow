@@ -1,0 +1,211 @@
+{
+    "jsx": {
+      "id": "jsx",
+      "name": "JSX",
+      "description": "Syntaxe d'extension JavaScript pour écrire du HTML dans React",
+      "category": "basics",
+      "attributes": [
+        { "name": "expressions", "description": "Code JavaScript entre accolades {}" },
+        { "name": "fragments", "description": "Groupes d'éléments sans wrapper (<>...</>)" }
+      ],
+      "animation": {
+        "steps": [
+          {
+            "title": "Introduction au JSX",
+            "text": "JSX est une extension syntaxique de JavaScript qui ressemble à du HTML mais avec toute la puissance de JavaScript",
+            "code": "const element = <h1>Bonjour, monde!</h1>;",
+            "visualDemo": {
+              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-size:1.2em; font-weight:bold; margin-bottom:10px;'>Bonjour, monde!</div><div style='font-family:monospace; margin-top:10px; font-size:0.9em;'>const element = &lt;h1&gt;Bonjour, monde!&lt;/h1&gt;;</div></div></div>"
+            }
+          },
+          {
+            "title": "Expressions JavaScript dans JSX",
+            "text": "Vous pouvez inclure des expressions JavaScript entre accolades {} dans JSX",
+            "code": "const name = 'Marie';\nconst element = <h1>Bonjour, {name}!</h1>;",
+            "visualDemo": {
+              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-size:1.2em; font-weight:bold; margin-bottom:10px;'>Bonjour, Marie!</div><div style='font-family:monospace; margin-top:10px; font-size:0.9em;'>const name = 'Marie';<br>const element = &lt;h1&gt;Bonjour, {name}!&lt;/h1&gt;;</div></div></div>"
+            }
+          },
+          {
+            "title": "Attributs en JSX",
+            "text": "JSX utilise camelCase pour les attributs au lieu de la notation HTML standard",
+            "code": "const element = <div className='container'>\n  <img src={userAvatar} alt='Avatar' />\n</div>;",
+            "visualDemo": {
+              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em;'>const element = (<br>&nbsp;&nbsp;&lt;div <span style='color:#e91e63;'>className</span>='container'&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;img <span style='color:#e91e63;'>src</span>={userAvatar} <span style='color:#e91e63;'>alt</span>='Avatar' /&gt;<br>&nbsp;&nbsp;&lt;/div&gt;<br>);</div></div></div>"
+            }
+          },
+          {
+            "title": "Les éléments JSX sont des objets",
+            "text": "Une fois compilés, les éléments JSX deviennent des objets JavaScript réguliers appelés 'React Elements'",
+            "code": "// Ce code JSX\nconst element = <h1 className='greeting'>Bonjour!</h1>;\n\n// Est transformé en cet objet JavaScript\nconst element = React.createElement(\n  'h1',\n  {className: 'greeting'},\n  'Bonjour!'\n);",
+            "visualDemo": {
+              "content": "<div style='padding:20px; background:#eee;'><div style='display:flex; flex-direction:column; gap:20px;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:15px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em;'>const element = &lt;h1 className='greeting'&gt;Bonjour!&lt;/h1&gt;;</div></div><div style='font-size:1.5em; text-align:center;'>⬇️</div><div style='background:#61dafb33; border:1px solid #61dafb; padding:15px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em;'>const element = React.createElement(<br>&nbsp;&nbsp;'h1',<br>&nbsp;&nbsp;{className: 'greeting'},<br>&nbsp;&nbsp;'Bonjour!'<br>);</div></div></div></div>"
+            }
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Exemples d'utilisation de JSX",
+          "code": "// Élément simple\nconst element = <h1>Bonjour</h1>;\n\n// Avec expressions JavaScript\nconst name = 'Marie';\nconst element = <h1>Bonjour, {name}</h1>;\n\n// Avec attributs\nconst element = <img src={user.avatarUrl} alt='Avatar de l\\'utilisateur' />;\n\n// Élément multilignes (doivent être entourés de parenthèses)\nconst element = (\n  <div>\n    <h1>Titre</h1>\n    <p>Paragraphe</p>\n  </div>\n);\n\n// Fragment pour éviter les divs inutiles\nconst element = (\n  <>\n    <h1>Titre</h1>\n    <p>Paragraphe</p>\n  </>\n);"
+        }
+      ],
+      "related": ["components", "props", "conditional-rendering"]
+    },
+    "useState": {
+      "id": "useState",
+      "name": "useState()",
+      "description": "Hook permettant d'ajouter un état local à un composant fonctionnel",
+      "category": "hooks",
+      "attributes": [
+        { "name": "initialState", "description": "Valeur initiale de l'état" },
+        { "name": "stateSetter", "description": "Fonction pour mettre à jour l'état" }
+      ],
+      "animation": {
+        "steps": [
+          {
+            "title": "Le Hook useState",
+            "text": "useState est un hook qui permet aux composants fonctionnels d'avoir un état local",
+            "code": "import React, { useState } from 'react';\n\nfunction Compteur() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    <div>\n      <p>Vous avez cliqué {count} fois</p>\n      <button onClick={() => setCount(count + 1)}>\n        Cliquez ici\n      </button>\n    </div>\n  );\n}",
+            "visualDemo": {
+              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-size:1em; margin-bottom:10px;'>Vous avez cliqué <span style='font-weight:bold;'>0</span> fois</div><button style='background:#61dafb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;'>Cliquez ici</button></div></div>"
+            }
+          },
+          {
+            "title": "Déstructuration du tableau useState",
+            "text": "useState retourne un tableau de deux éléments: la valeur actuelle de l'état et une fonction pour le mettre à jour",
+            "code": "const [count, setCount] = useState(0);\n// count: valeur actuelle (0)\n// setCount: fonction pour mettre à jour count",
+            "visualDemo": {
+              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em; display:flex; flex-direction:column; gap:10px;'><div>const [count, setCount] = useState(0);</div><div style='display:flex; justify-content:space-between;'><div style='border:1px dashed #61dafb; padding:5px 10px; border-radius:3px;'>count = 0</div><div style='border:1px dashed #61dafb; padding:5px 10px; border-radius:3px;'>setCount(newValue)</div></div></div></div></div>"
+            }
+          },
+          {
+            "title": "Mise à jour de l'état",
+            "text": "La fonction de mise à jour d'état (setCount) peut prendre une nouvelle valeur directement ou une fonction qui utilise la valeur précédente",
+            "code": "// Mise à jour directe\nsetCount(count + 1);\n\n// Mise à jour fonctionnelle (plus sûre)\nsetCount(prevCount => prevCount + 1);",
+            "visualDemo": {
+              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em; margin-bottom:15px;'>// Version directe<br>setCount(count + 1);</div><div style='font-family:monospace; font-size:0.9em;'>// Version fonctionnelle<br>setCount(prevCount => prevCount + 1);</div><div style='display:flex; justify-content:center; margin-top:20px; gap:10px;'><div style='border:1px solid #61dafb; padding:8px 16px; border-radius:4px; background:white;'>count = 0</div><span style='font-size:1.5em;'>→</span><div style='border:1px solid #61dafb; padding:8px 16px; border-radius:4px; background:white;'>count = 1</div></div></div></div>"
+            }
+          },
+          {
+            "title": "Utilisations multiples",
+            "text": "Un composant peut utiliser plusieurs états indépendants avec useState",
+            "code": "function Formulaire() {\n  const [nom, setNom] = useState('');\n  const [age, setAge] = useState(0);\n  const [ville, setVille] = useState('');\n  \n  // ...\n}",
+            "visualDemo": {
+              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='margin-bottom:15px;'><label style='display:block; margin-bottom:5px;'>Nom:</label><input type='text' style='width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;' placeholder='Entrez votre nom' /></div><div style='margin-bottom:15px;'><label style='display:block; margin-bottom:5px;'>Âge:</label><input type='number' style='width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;' placeholder='Entrez votre âge' /></div><div><label style='display:block; margin-bottom:5px;'>Ville:</label><input type='text' style='width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;' placeholder='Entrez votre ville' /></div></div></div>"
+            }
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Exemples d'utilisation de useState",
+          "code": "// État avec valeur simple\nconst [count, setCount] = useState(0);\n\n// État avec valeur booléenne\nconst [isVisible, setIsVisible] = useState(false);\n\n// État avec objet\nconst [user, setUser] = useState({ name: '', email: '' });\n\n// Mise à jour d'un objet (toujours créer un nouvel objet)\nsetUser({ ...user, name: 'Nouveau nom' });\n\n// État avec tableau\nconst [items, setItems] = useState([]);\n\n// Ajouter un élément au tableau\nsetItems([...items, newItem]);\n\n// Supprimer un élément du tableau\nsetItems(items.filter(item => item.id !== itemToRemove.id));"
+        }
+      ],
+      "related": ["useEffect", "useContext", "useReducer"]
+    },
+    "useEffect": {
+    "id": "useEffect",
+    "name": "useEffect()",
+    "description": "Hook pour gérer les effets secondaires dans les composants fonctionnels",
+    "category": "hooks",
+    "attributes": [
+      { "name": "setup", "description": "Fonction d'effet" },
+      { "name": "dependencies", "description": "Tableau des dépendances" }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "Le Hook useEffect",
+          "text": "useEffect permet de gérer les effets secondaires comme les appels API",
+          "code": "useEffect(() => {\n  document.title = `Vous avez cliqué ${count} fois`;\n});",
+          "visualDemo": {
+            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace;'>useEffect(() => { ... });</div></div></div>"
+          }
+        },
+        {
+          "title": "Dépendances",
+          "text": "Le tableau de dépendances contrôle quand l'effet se déclenche",
+          "code": "useEffect(() => {\n  // S'exécute quand count change\n}, [count]);",
+          "visualDemo": {
+            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace;'>useEffect(() => { ... }, [count]);</div></div></div>"
+          }
+        }
+      ]
+    },
+    "examples": [
+      {
+        "title": "Exemple basique",
+        "code": "useEffect(() => {\n  document.title = `${count} clics`;\n}, [count]);"
+      }
+    ],
+    "related": ["useState", "useContext"]
+  },
+  "component": {
+    "id": "component",
+    "name": "Component",
+    "description": "Élément de base pour créer des interfaces utilisateur dans React",
+    "category": "components",
+    "attributes": [
+      { "name": "props", "description": "Propriétés passées au composant" },
+      { "name": "state", "description": "État local du composant" }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "Composants fonctionnels",
+          "text": "Les composants fonctionnels sont des fonctions JavaScript qui retournent du JSX",
+          "code": "function Welcome(props) {\n  return <h1>Bonjour, {props.name}</h1>;\n}",
+          "visualDemo": {
+            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><h1 style='margin:0;'>Bonjour, Marie</h1></div></div>"
+          }
+        },
+        {
+          "title": "Composants classe",
+          "text": "Les composants classe étendent React.Component",
+          "code": "class Welcome extends React.Component {\n  render() {\n    return <h1>Bonjour, {this.props.name}</h1>;\n  }\n}",
+          "visualDemo": {
+            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><h1 style='margin:0;'>Bonjour, Marie</h1></div></div>"
+          }
+        }
+      ]
+    },
+    "examples": [
+      {
+        "title": "Composant simple",
+        "code": "function Button(props) {\n  return (\n    <button className={props.className}>\n      {props.label}\n    </button>\n  );\n}"
+      }
+    ],
+    "related": ["props", "jsx", "useState"]
+  },
+  "props": {
+    "id": "props",
+    "name": "Props",
+    "description": "Mécanisme pour passer des données aux composants enfants",
+    "category": "props",
+    "attributes": [
+      { "name": "lecture seule", "description": "Les props sont en lecture seule" },
+      { "name": "propTypes", "description": "Validation des types de props" }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "Utilisation des props",
+          "text": "Les props sont passées depuis le composant parent vers l'enfant",
+          "code": "// Parent\n<Welcome name=\"Sara\" />\n\n// Enfant\nfunction Welcome(props) {\n  return <h1>Bonjour, {props.name}</h1>;\n}",
+          "visualDemo": {
+            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='background:white; border:1px dashed #61dafb; padding:10px; margin-bottom:10px;'><div style='font-family:monospace;'>&lt;Welcome name=\"Sara\" /&gt;</div></div><div style='background:#f5f5f5; border-radius:4px; padding:10px;'><h1 style='margin:0; font-size:1.2em;'>Bonjour, Sara</h1></div></div></div>"
+          }
+        }
+      ]
+    },
+    "examples": [
+      {
+        "title": "Passage et utilisation des props",
+        "code": "// Passage de props\n<UserProfile \n  name=\"Marie\" \n  age={28} \n  isAdmin={true} \n  hobbies={['lecture', 'vélo']} \n/>"
+      }
+    ],
+    "related": ["component", "state", "propTypes"]
+  }
+}

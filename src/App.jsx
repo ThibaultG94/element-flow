@@ -11,6 +11,7 @@ import HomePage from "./pages/HomePage";
 import HtmlPage from "./pages/HtmlPage";
 import CssPage from "./pages/CssPage";
 import JsPage from "./pages/JsPage";
+import ReactPage from "./pages/ReactPage";
 import ElementDetailPage from "./pages/ElementDetailPage";
 import SearchBar from "./components/SearchBar";
 
@@ -90,6 +91,7 @@ const MainLayout = ({ children }) => {
               <NavLink to="/html">HTML</NavLink>
               <NavLink to="/css">CSS</NavLink>
               <NavLink to="/javascript">JavaScript</NavLink>
+              <NavLink to="/react">React</NavLink>{" "}
             </nav>
 
             <div className="flex items-center gap-4">
@@ -158,6 +160,7 @@ function App() {
                 <Route path="/html" element={<HtmlPage />} />
                 <Route path="/css" element={<CssPage />} />
                 <Route path="/javascript" element={<JsPage />} />
+                <Route path="/react" element={<ReactPage />} />{" "}
                 <Route path="/element/:id" element={<ElementDetailPage />} />
               </Routes>
             </MainLayout>
