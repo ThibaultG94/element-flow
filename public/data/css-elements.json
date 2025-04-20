@@ -1,31 +1,118 @@
 {
   "display": {
-    "id": "display",
     "name": "display",
-    "description": "Définit le type d'affichage d'un élément",
+    "description": "Définit le type d'affichage utilisé pour le rendu d'un élément et la disposition utilisée pour ses éléments fils.",
     "category": "layout",
-    "attributes": [
-      { "name": "block", "description": "Élément affiché comme un bloc" },
-      { "name": "inline", "description": "Élément affiché en ligne" }
+    "syntax": "display: block;\ndisplay: inline;\ndisplay: flex;\ndisplay: grid;\ndisplay: none;\n/* Et bien d'autres... */",
+    "values": [
+      {
+        "name": "block",
+        "description": "L'élément génère une boîte de bloc, qui occupe toute la largeur disponible et crée un saut de ligne avant et après."
+      },
+      {
+        "name": "inline",
+        "description": "L'élément génère une ou plusieurs boîtes en ligne, qui n'interrompent pas le flux du texte."
+      },
+      {
+        "name": "flex",
+        "description": "L'élément se comporte comme un bloc et utilise le modèle de disposition flexbox pour ses enfants."
+      },
+      {
+        "name": "grid",
+        "description": "L'élément se comporte comme un bloc et utilise le modèle de disposition en grille pour ses enfants."
+      },
+      {
+        "name": "none",
+        "description": "L'élément n'est pas affiché et ne prend pas de place dans la mise en page."
+      },
+      {
+        "name": "inline-block",
+        "description": "L'élément génère une boîte de bloc qui s'écoule avec le texte environnant comme s'il s'agissait d'une boîte en ligne."
+      },
+      {
+        "name": "inline-flex",
+        "description": "L'élément se comporte comme un élément en ligne et utilise le modèle flexbox pour ses enfants."
+      },
+      {
+        "name": "inline-grid",
+        "description": "L'élément se comporte comme un élément en ligne et utilise le modèle de grille pour ses enfants."
+      },
+      {
+        "name": "table",
+        "description": "L'élément se comporte comme un élément <table>."
+      },
+      {
+        "name": "contents",
+        "description": "La boîte de l'élément n'est pas générée, mais ses enfants sont affichés normalement."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Masquer un élément",
+        "code": "/* HTML */\n<p>Texte visible</p>\n<p class=\"secret\">Texte invisible</p>\n\n/* CSS */\n.secret {\n  display: none;\n}",
+        "description": "Utiliser display: none pour masquer complètement un élément de la page."
+      },
+      {
+        "title": "Créer un conteneur flex",
+        "code": "/* HTML */\n<div class=\"flex-container\">\n  <div>Item 1</div>\n  <div>Item 2</div>\n  <div>Item 3</div>\n</div>\n\n/* CSS */\n.flex-container {\n  display: flex;\n  justify-content: space-between;\n}",
+        "description": "Utiliser display: flex pour créer une disposition flexible des éléments enfants."
+      },
+      {
+        "title": "Transformer des éléments de liste en ligne",
+        "code": "/* HTML */\n<ul class=\"menu\">\n  <li>Accueil</li>\n  <li>Services</li>\n  <li>Contact</li>\n</ul>\n\n/* CSS */\n.menu {\n  list-style: none;\n  padding: 0;\n}\n.menu li {\n  display: inline-block;\n  margin-right: 20px;\n}",
+        "description": "Utiliser display: inline-block pour afficher des éléments de liste horizontalement."
+      }
     ],
     "animation": {
       "steps": [
         {
-          "title": "La propriété display",
-          "text": "La propriété display définit comment un élément est affiché",
-          "code": ".element { display: block; }",
+          "title": "Le flux normal du document",
+          "text": "Par défaut, les éléments HTML s'affichent soit en bloc (block), soit en ligne (inline) selon leur type.",
+          "code": "/* Éléments de type bloc par défaut */\n<div>, <p>, <h1>-<h6>, <section>\n\n/* Éléments de type inline par défaut */\n<span>, <a>, <strong>, <em>",
           "visualDemo": {
-            "content": "<div style='padding:8px; background:#eee;'><div style='background:blue; color:white; padding:10px;'>display: block</div></div>"
+            "content": "<div style=\"padding: 10px; background-color: #f0f0f0; margin-bottom: 10px;\">Élément bloc (div)</div><span style=\"background-color: #e0e0e0; padding: 5px;\">Élément inline (span)</span> <span style=\"background-color: #e0e0e0; padding: 5px;\">Un autre élément inline</span>"
+          }
+        },
+        {
+          "title": "Modifier le comportement avec display",
+          "text": "La propriété display permet de changer comment un élément s'affiche, indépendamment de son type par défaut.",
+          "code": ".inline-to-block {\n  display: block;\n}\n\n.block-to-inline {\n  display: inline;\n}",
+          "visualDemo": {
+            "content": "<span style=\"display: block; background-color: #e0e0e0; padding: 5px; margin-bottom: 10px;\">Span transformé en bloc</span><div style=\"display: inline; background-color: #f0f0f0; padding: 5px;\">Div transformé en inline</div>"
+          }
+        },
+        {
+          "title": "Masquer des éléments",
+          "text": "La valeur none permet de retirer complètement un élément du flux du document.",
+          "code": ".invisible {\n  display: none;\n}\n\n/* Alternatif qui préserve l'espace */\n.hidden {\n  visibility: hidden;\n}",
+          "visualDemo": {
+            "content": "<div style=\"padding: 10px; background-color: #f0f0f0; margin-bottom: 10px;\">Élément visible</div><div style=\"padding: 10px; background-color: #f0f0f0; margin-bottom: 10px; visibility: hidden;\">Élément caché (avec espace préservé)</div>"
+          }
+        },
+        {
+          "title": "Disposition Flexbox",
+          "text": "La valeur flex transforme un conteneur en modèle flexbox, permettant une disposition avancée des éléments enfants.",
+          "code": ".flex-container {\n  display: flex;\n  justify-content: space-between;\n  background-color: #f0f0f0;\n  padding: 10px;\n}\n\n.flex-item {\n  padding: 10px;\n  background-color: #c0c0c0;\n}",
+          "visualDemo": {
+            "content": "<div style=\"display: flex; justify-content: space-between; background-color: #f0f0f0; padding: 10px;\"><div style=\"padding: 10px; background-color: #c0c0c0;\">Item 1</div><div style=\"padding: 10px; background-color: #c0c0c0;\">Item 2</div><div style=\"padding: 10px; background-color: #c0c0c0;\">Item 3</div></div>"
+          }
+        },
+        {
+          "title": "Disposition en grille",
+          "text": "La valeur grid transforme un conteneur en modèle de grille, idéal pour les mises en page bidimensionnelles.",
+          "code": ".grid-container {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 10px;\n  background-color: #f0f0f0;\n  padding: 10px;\n}\n\n.grid-item {\n  padding: 10px;\n  background-color: #c0c0c0;\n  text-align: center;\n}",
+          "visualDemo": {
+            "content": "<div style=\"display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background-color: #f0f0f0; padding: 10px;\"><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">1</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">2</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">3</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">4</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">5</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">6</div></div>"
           }
         }
       ]
     },
-    "examples": [
-      {
-        "title": "Exemple simple",
-        "code": ".block { display: block; }"
-      }
+    "notes": [
+      "La propriété display possède deux composantes : le type d'affichage extérieur qui définit comment la boîte participe au flux, et le type d'affichage intérieur qui définit l'organisation des éléments enfants.",
+      "Certaines valeurs de display sont regroupées en six catégories : display-outside, display-inside, display-listitem, display-internal, display-box et display-legacy.",
+      "La valeur initiale de display est inline, mais cette valeur est souvent héritée du type d'élément HTML."
     ],
-    "related": ["flex", "grid"]
+    "related": ["flex", "grid", "position", "visibility"],
+    "accessibility": "L'utilisation de display: none ou display: contents sur un élément peut affecter son accessibilité en le retirant de l'arbre d'accessibilité. Pour masquer visuellement un élément tout en le conservant accessible aux technologies d'assistance, préférez d'autres méthodes comme la combinaison de position: absolute, width: 1px, height: 1px, et overflow: hidden."
   }
 }
