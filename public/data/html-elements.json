@@ -1,55 +1,76 @@
 {
   "html": {
-    "id": "html",
     "name": "<html>",
-    "description": "L'élément racine qui contient tout le document HTML",
+    "description": "L'élément racine qui contient tout le document HTML ou XHTML. Tout autre élément du document doit être un descendant de cet élément.",
     "category": "structure",
+    "syntax": "<!DOCTYPE html>\n<html lang=\"fr\">\n  ...\n</html>",
     "attributes": [
-      { "name": "lang", "description": "Définit la langue du document (ex: fr, en)" }
+      {
+        "name": "lang",
+        "description": "Définit la langue du document (ex: fr, en). Cet attribut est important pour l'accessibilité et permet aux lecteurs d'écran de déterminer la langue à utiliser pour l'énonciation."
+      },
+      {
+        "name": "xmlns",
+        "description": "Définit l'espace de noms XML du document. La valeur par défaut est \"http://www.w3.org/1999/xhtml\". Cet attribut est obligatoire dans un document XML et optionnel dans un document de type text/html."
+      },
+      {
+        "name": "version",
+        "description": "Définit la version du document HTML. Cet attribut est redondant avec l'information de version se trouvant dans la déclaration de type du document (<!DOCTYPE>)."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Document HTML5 basique",
+        "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Ma page</title>\n</head>\n<body>\n  <h1>Bonjour</h1>\n  <p>Bienvenue sur ma page.</p>\n</body>\n</html>"
+      },
+      {
+        "title": "Document HTML avec espace de noms XML",
+        "code": "<!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"fr\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document XHTML</title>\n</head>\n<body>\n  <h1>Document avec espace de noms XML</h1>\n</body>\n</html>"
+      }
     ],
     "animation": {
       "steps": [
         {
-          "title": "Structure de base",
-          "text": "Un document HTML contient deux éléments principaux : <head> pour les métadonnées et <body> pour le contenu visible",
-          "code": "<html>\n  <head>\n    <!-- Métadonnées, titre, etc. -->\n  </head>\n  <body>\n    <!-- Contenu visible -->\n  </body>\n</html>",
+          "title": "L'élément racine",
+          "text": "L'élément <html> est la racine de tout document HTML. C'est le premier élément qui englobe tous les autres.",
+          "code": "<html>\n  <!-- Tout le contenu de la page -->\n</html>",
           "visualDemo": {
-            "content": "<div class=\"html-element\">html<div class=\"head-element\">head</div><div class=\"body-element\">body</div></div>"
+            "content": "<div class=\"html-element\">Document HTML</div>"
+          }
+        },
+        {
+          "title": "Structure d'un document HTML",
+          "text": "Un document HTML est composé de deux sections principales : head et body, qui sont toutes deux contenues dans l'élément html.",
+          "code": "<html>\n  <head>\n    <!-- Métadonnées, titre, liens CSS, etc. -->\n  </head>\n  <body>\n    <!-- Contenu visible de la page -->\n  </body>\n</html>",
+          "visualDemo": {
+            "content": "<div class=\"html-element\">Document HTML<div class=\"head-element\">head</div><div class=\"body-element\">body</div></div>"
           }
         },
         {
           "title": "L'attribut lang",
-          "text": "L'attribut lang précise la langue du document, ce qui est essentiel pour l'accessibilité et le référencement",
-          "code": "<html lang=\"fr\">\n  <head>...</head>\n  <body>...</body>\n</html>",
+          "text": "L'attribut lang est crucial pour l'accessibilité. Il indique aux navigateurs et aux lecteurs d'écran dans quelle langue le contenu est écrit.",
+          "code": "<html lang=\"fr\">\n  <!-- Contenu en français -->\n</html>",
           "visualDemo": {
-            "content": "<div class=\"html-element\">html <span class=\"highlight\">lang=\"fr\"</span><div class=\"head-element\">head</div><div class=\"body-element\">body</div></div>"
+            "content": "<div class=\"html-element\">Document HTML en français</div>"
           }
         },
         {
-          "title": "Structure complète",
-          "text": "Un document HTML complet commence par le DOCTYPE, suivi de l'élément html contenant head et body",
-          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n  <head>\n    <title>Titre de la page</title>\n  </head>\n  <body>\n    <h1>Contenu principal</h1>\n  </body>\n</html>",
+          "title": "DOCTYPE et html",
+          "text": "Un document HTML5 commence par la déclaration DOCTYPE suivie de l'élément html. Le DOCTYPE indique au navigateur quelle version de HTML est utilisée.",
+          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n  <!-- Contenu du document -->\n</html>",
           "visualDemo": {
-            "content": "<div class=\"sequence\"><div style=\"font-family: monospace; margin-bottom: 8px; opacity: 0.7;\">&lt;!DOCTYPE html&gt;</div><div class=\"html-element\">html lang=\"fr\"<div class=\"head-element\">head<div style=\"margin: 4px; font-family: monospace;\">&lt;title&gt;...&lt;/title&gt;</div></div><div class=\"body-element\">body<div style=\"margin: 4px; font-family: monospace;\">&lt;h1&gt;...&lt;/h1&gt;</div></div></div></div>"
-          }
-        },
-        {
-          "title": "Importance du HTML valide",
-          "text": "Un HTML bien structuré assure la compatibilité avec les navigateurs et améliore l'accessibilité de votre site",
-          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n  <head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Titre de la page</title>\n  </head>\n  <body>\n    <header>\n      <h1>Contenu principal</h1>\n    </header>\n    <main>\n      <!-- Contenu principal -->\n    </main>\n    <footer>\n      <!-- Pied de page -->\n    </footer>\n  </body>\n</html>",
-          "visualDemo": {
-            "content": "<div class=\"html-element\" style=\"transform: scale(0.9);\">html<div class=\"head-element\">head<div style=\"font-size: 0.8em; margin: 4px;\">meta, title, ...</div></div><div class=\"body-element\">body<div style=\"font-size: 0.8em; margin: 4px; border: 1px dashed rgba(0,0,0,0.2); padding: 2px; margin-bottom: 4px;\">header</div><div style=\"font-size: 0.8em; margin: 4px; border: 1px dashed rgba(0,0,0,0.2); padding: 2px; margin-bottom: 4px;\">main</div><div style=\"font-size: 0.8em; margin: 4px; border: 1px dashed rgba(0,0,0,0.2); padding: 2px;\">footer</div></div></div>"
+            "content": "<div style=\"padding: 10px; background-color: rgba(100,100,100,0.1); border-radius: 5px; margin-bottom: 10px; font-family: monospace;\"><!DOCTYPE html></div><div class=\"html-element\">Document HTML</div>"
           }
         }
       ]
     },
-    "examples": [
-      {
-        "title": "Document HTML basique",
-        "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Ma page</title>\n</head>\n<body>\n  <h1>Bonjour</h1>\n  <p>Bienvenue sur ma page.</p>\n</body>\n</html>"
-      }
+    "related": ["head", "body", "doctype"],
+    "notes": [
+      "Puisque l'élément <html> est le premier élément dans un document, autre que les commentaires, il est désigné comme l'élément racine du document.",
+      "Bien que cette balise soit implicite, ou non requise dans un document HTML, elle est requise dans un document XHTML (à la fois pour la balise ouvrante et pour la balise fermante).",
+      "Il est fortement recommandé d'utiliser l'attribut lang pour des raisons d'accessibilité."
     ],
-    "related": ["head", "body", "doctype"]
+    "accessibility": "L'utilisation d'un attribut lang valide pour l'élément HTML permettra aux lecteurs d'écran de déterminer la langue à utiliser pour l'énonciation. La balise de langage utilisée doit correspondre à celle utilisée pour la majorité du contenu de la page."
   },
   "head": {
     "id": "head",
