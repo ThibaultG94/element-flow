@@ -72,6 +72,22 @@ const SEARCH_MAPPINGS = {
   dom: ["document", "selector", "element", "node"],
   api: ["fetch", "http", "request", "ajax"],
 
+  // React
+  hook: ["useState", "useEffect", "useContext", "useRef"],
+  composant: ["component", "jsx", "props", "state"],
+  etat: ["state", "setState", "useState", "context"],
+  props: ["properties", "parameters", "attributes"],
+
+  // Vue
+  vue: ["vuejs", "vue.js", "vue3"],
+  component: ["composant", "vue component", "single file component", "sfc"],
+  template: ["template", "modèle", "html"],
+  directive: ["v-if", "v-for", "v-model", "v-on", "v-bind"],
+  reactivity: ["réactivité", "reactive", "ref", "reactive", "computed"],
+  composition: ["composition api", "setup", "ref", "reactive", "onMounted"],
+  options: ["options api", "data", "methods", "computed", "watch"],
+  lifecycle: ["lifecycle hooks", "created", "mounted", "updated", "unmounted"],
+
   // Python
   python: ["py", "python3", "script", "langage"],
   variables: ["var", "variable", "affectation", "assignation"],

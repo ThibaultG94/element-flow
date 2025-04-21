@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
-import { Link } from "react-router";
 import { searchElements } from "../utils/searchUtils";
 
 const SearchBar = () => {
@@ -27,6 +26,7 @@ const SearchBar = () => {
         const cssResponse = await fetch("/data/css-elements.json");
         const jsResponse = await fetch("/data/js-elements.json");
         const reactResponse = await fetch("/data/react-elements.json");
+        const vueResponse = await fetch("/data/vue-elements.json");
         const pythonResponse = await fetch("/data/python-elements.json");
 
         let elements = [];
@@ -77,6 +77,17 @@ const SearchBar = () => {
             })
           );
           elements = [...elements, ...reactElements];
+        }
+
+        if (vueResponse.ok) {
+          const vueData = await vueResponse.json();
+          const vueElements = Object.entries(vueData).map(([id, element]) => ({
+            ...element,
+            id,
+            type: "Vue",
+            route: `/vue/${id}`,
+          }));
+          elements = [...elements, ...vueElements];
         }
 
         if (pythonResponse.ok) {
@@ -155,6 +166,13 @@ const SearchBar = () => {
               route: "/react/useState",
             },
             {
+              id: "components",
+              name: "Components",
+              description: "Blocs de construction d'une application Vue",
+              type: "Vue",
+              route: "/vue/components",
+            },
+            {
               id: "variables",
               name: "Variables",
               description: "Stockage et manipulation de données en Python",
@@ -183,6 +201,13 @@ const SearchBar = () => {
             description: "Contenu visible",
             type: "HTML",
             route: "/element/body",
+          },
+          {
+            id: "components",
+            name: "Components",
+            description: "Composants Vue",
+            type: "Vue",
+            route: "/vue/components",
           },
           {
             id: "variables",
@@ -308,6 +333,8 @@ const SearchBar = () => {
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
       case "React":
         return "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200";
+      case "Vue":
+        return "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200";
       case "Python":
         return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
       default:
@@ -490,7 +517,7 @@ const SearchBar = () => {
             <div className="px-4 py-4 text-center text-gray-500 dark:text-gray-400">
               <p className="text-sm">
                 Commencez à taper pour rechercher des éléments HTML, CSS,
-                JavaScript, React ou Python
+                JavaScript, React, Vue ou Python
               </p>
               <div className="flex items-center justify-center mt-3 text-xs gap-2">
                 <span className="px-2 py-1 bg-gray-200 dark:bg-gray-800 rounded text-gray-700 dark:text-gray-300 font-mono">

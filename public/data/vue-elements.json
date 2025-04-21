@@ -1,0 +1,73 @@
+{
+    "components": {
+      "name": "Components",
+      "description": "Les composants Vue sont des éléments réutilisables qui encapsulent du HTML, CSS et JavaScript. Ils constituent les blocs de construction fondamentaux d'une application Vue.",
+      "category": "basics",
+      "syntax": "<!-- Composant SFC (Single File Component) -->\n<template>\n  <!-- Structure HTML du composant -->\n</template>\n\n<script>\nexport default {\n  // Options du composant\n}\n</script>\n\n<style>\n  /* Styles du composant */\n</style>",
+      "examples": [
+        {
+          "title": "Composant Simple",
+          "code": "<template>\n  <div class=\"greeting\">\n    <h1>{{ message }}</h1>\n    <button @click=\"changeMessage\">Changer le message</button>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      message: 'Bonjour Vue!'\n    }\n  },\n  methods: {\n    changeMessage() {\n      this.message = 'Message modifié!'\n    }\n  }\n}\n</script>\n\n<style>\n.greeting {\n  color: #42b983;\n  margin-top: 20px;\n}\n</style>"
+        },
+        {
+          "title": "Composant avec Props",
+          "code": "<template>\n  <div class=\"user-card\">\n    <h2>{{ userName }}</h2>\n    <p>{{ userRole }}</p>\n  </div>\n</template>\n\n<script>\nexport default {\n  props: {\n    userName: {\n      type: String,\n      required: true\n    },\n    userRole: {\n      type: String,\n      default: 'Utilisateur'\n    }\n  }\n}\n</script>"
+        },
+        {
+          "title": "Composant avec Composition API",
+          "code": "<template>\n  <div>\n    <p>Compteur: {{ count }}</p>\n    <button @click=\"increment\">Augmenter</button>\n  </div>\n</template>\n\n<script>\nimport { ref } from 'vue'\n\nexport default {\n  setup() {\n    const count = ref(0)\n    \n    function increment() {\n      count.value++\n    }\n    \n    return {\n      count,\n      increment\n    }\n  }\n}\n</script>"
+        }
+      ],
+      "animation": {
+        "steps": [
+          {
+            "title": "Anatomie d'un composant Vue",
+            "text": "Un composant Vue combine le HTML (template), la logique JavaScript (script) et les styles CSS dans un seul fichier.",
+            "code": "<template>\n  <!-- Structure HTML -->\n</template>\n\n<script>\nexport default {\n  // Logique JavaScript\n}\n</script>\n\n<style>\n  /* Styles CSS */\n</style>",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace;'><div style='border: 2px solid #42b983; border-radius: 5px; padding: 10px; margin-bottom: 5px;'><strong style='color: #42b983;'>&lt;template&gt;</strong><div style='padding: 10px; background-color: #fff; border-radius: 3px;'>Structure HTML du composant</div><strong style='color: #42b983;'>&lt;/template&gt;</strong></div><div style='border: 2px solid #3e7fc1; border-radius: 5px; padding: 10px; margin-bottom: 5px;'><strong style='color: #3e7fc1;'>&lt;script&gt;</strong><div style='padding: 10px; background-color: #fff; border-radius: 3px;'>Logique JavaScript du composant</div><strong style='color: #3e7fc1;'>&lt;/script&gt;</strong></div><div style='border: 2px solid #d63384; border-radius: 5px; padding: 10px;'><strong style='color: #d63384;'>&lt;style&gt;</strong><div style='padding: 10px; background-color: #fff; border-radius: 3px;'>Styles CSS du composant</div><strong style='color: #d63384;'>&lt;/style&gt;</strong></div></div>"
+            }
+          },
+          {
+            "title": "Données réactives",
+            "text": "La réactivité est au cœur de Vue. Lorsque les données changent, l'interface utilisateur est automatiquement mise à jour.",
+            "code": "<template>\n  <div>\n    <p>{{ message }}</p>\n    <button @click=\"changeMessage\">Changer</button>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      message: 'Bonjour Vue!'\n    }\n  },\n  methods: {\n    changeMessage() {\n      this.message = 'Message modifié!'\n    }\n  }\n}\n</script>",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px;'><div style='border: 1px solid #ddd; padding: 15px; border-radius: 4px; background-color: white;'><p style='margin: 0 0 15px 0; font-size: 18px;'>Bonjour Vue!</p><button style='background-color: #42b983; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;'>Changer</button></div><div style='margin-top: 15px; border: 1px dashed #42b983; padding: 10px; border-radius: 4px;'><p style='margin: 0; color: #333;'>↑ Lorsque le bouton est cliqué, <code>message</code> change et le DOM est automatiquement mis à jour ↑</p></div></div>"
+            }
+          },
+          {
+            "title": "Props et communication",
+            "text": "Les composants peuvent recevoir des données via des props. C'est ainsi que les composants parents communiquent avec leurs enfants.",
+            "code": "<!-- Composant parent -->\n<template>\n  <div>\n    <UserProfile \n      :user-name=\"'Alice'\" \n      :user-role=\"'Admin'\"\n    />\n  </div>\n</template>\n\n<!-- Composant enfant (UserProfile.vue) -->\n<template>\n  <div class=\"user\">\n    <h2>{{ userName }}</h2>\n    <p>{{ userRole }}</p>\n  </div>\n</template>\n\n<script>\nexport default {\n  props: {\n    userName: String,\n    userRole: String\n  }\n}\n</script>",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px;'><div style='border: 2px solid #42b983; border-radius: 5px; padding: 15px;'><p style='margin: 0; color: #333; font-size: 14px;'>Composant Parent</p><div style='margin-top: 10px; border: 2px solid #3e7fc1; border-radius: 5px; padding: 15px;'><p style='margin: 0; color: #333; font-size: 14px;'>Composant Enfant (UserProfile)</p><div style='margin-top: 10px; background-color: white; border-radius: 4px; padding: 15px;'><h2 style='margin: 0 0 10px 0; color: #333;'>Alice</h2><p style='margin: 0; color: #666;'>Admin</p></div><div style='margin-top: 10px;'><span style='display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 12px; background-color: #e9f5ef; color: #42b983;'>userName: 'Alice'</span> <span style='display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 12px; background-color: #e9f5ef; color: #42b983;'>userRole: 'Admin'</span></div></div></div></div>"
+            }
+          },
+          {
+            "title": "Cycle de vie des composants",
+            "text": "Les composants Vue ont des hooks de cycle de vie qui vous permettent d'exécuter du code à des moments spécifiques de leur existence.",
+            "code": "export default {\n  data() {\n    return {\n      message: 'Bonjour'\n    }\n  },\n  beforeCreate() {\n    console.log('beforeCreate - composant initialisé')\n  },\n  created() {\n    console.log('created - données réactives configurées')\n  },\n  beforeMount() {\n    console.log('beforeMount - juste avant le montage')\n  },\n  mounted() {\n    console.log('mounted - composant rendu dans le DOM')\n  },\n  beforeUpdate() {\n    console.log('beforeUpdate - avant mise à jour du DOM')\n  },\n  updated() {\n    console.log('updated - après mise à jour du DOM')\n  },\n  beforeUnmount() {\n    console.log('beforeUnmount - avant destruction')\n  },\n  unmounted() {\n    console.log('unmounted - composant détruit')\n  }\n}",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px; max-width: 600px;'><div style='display: flex; align-items: center; flex-direction: column;'><div style='width: 100%; max-width: 500px; height: 50px; position: relative;'><div style='position: absolute; width: 100%; height: 2px; background-color: #42b983; top: 50%;'></div><div style='display: flex; justify-content: space-between; width: 100%;'><div style='background-color: #42b983; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 10px;'>1</div><div style='background-color: #42b983; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 10px;'>2</div><div style='background-color: #42b983; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 10px;'>3</div><div style='background-color: #42b983; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 10px;'>4</div></div></div><div style='display: flex; justify-content: space-between; width: 100%; max-width: 500px; margin-top: 5px;'><div style='text-align: center; width: 60px;'><p style='margin: 0; font-size: 12px;'>Création</p></div><div style='text-align: center; width: 60px;'><p style='margin: 0; font-size: 12px;'>Montage</p></div><div style='text-align: center; width: 60px;'><p style='margin: 0; font-size: 12px;'>Mise à jour</p></div><div style='text-align: center; width: 60px;'><p style='margin: 0; font-size: 12px;'>Destruction</p></div></div><div style='display: flex; justify-content: space-between; width: 100%; max-width: 500px; margin-top: 10px;'><div style='text-align: center; width: 60px;'><p style='margin: 0; font-size: 10px; color: #666;'>beforeCreate created</p></div><div style='text-align: center; width: 60px;'><p style='margin: 0; font-size: 10px; color: #666;'>beforeMount mounted</p></div><div style='text-align: center; width: 60px;'><p style='margin: 0; font-size: 10px; color: #666;'>beforeUpdate updated</p></div><div style='text-align: center; width: 60px;'><p style='margin: 0; font-size: 10px; color: #666;'>beforeUnmount unmounted</p></div></div></div></div>"
+            }
+          },
+          {
+            "title": "Composition API vs Options API",
+            "text": "Vue 3 propose deux approches pour créer des composants : l'Options API (traditionnelle) et la Composition API (plus récente et plus flexible).",
+            "code": "// Options API\nexport default {\n  data() {\n    return {\n      count: 0\n    }\n  },\n  methods: {\n    increment() {\n      this.count++\n    }\n  }\n}\n\n// Composition API\nimport { ref } from 'vue'\n\nexport default {\n  setup() {\n    const count = ref(0)\n    \n    function increment() {\n      count.value++\n    }\n    \n    return {\n      count,\n      increment\n    }\n  }\n}",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px;'><div style='display: flex; flex-wrap: wrap; gap: 20px;'><div style='flex: 1; min-width: 250px; border: 2px solid #3e7fc1; border-radius: 5px; padding: 15px;'><div style='text-align: center; background-color: #3e7fc1; color: white; padding: 5px; border-radius: 3px; margin-bottom: 10px;'>Options API</div><div style='background-color: white; border-radius: 4px; padding: 15px; font-family: monospace; font-size: 12px;'><div>data() { ... }</div><div>methods: { ... }</div><div>computed: { ... }</div><div>watch: { ... }</div><div>created() { ... }</div><div>mounted() { ... }</div></div><div style='margin-top: 10px; font-size: 12px; color: #666;'>Organisé par type d'option</div></div><div style='flex: 1; min-width: 250px; border: 2px solid #42b983; border-radius: 5px; padding: 15px;'><div style='text-align: center; background-color: #42b983; color: white; padding: 5px; border-radius: 3px; margin-bottom: 10px;'>Composition API</div><div style='background-color: white; border-radius: 4px; padding: 15px; font-family: monospace; font-size: 12px;'><div>setup() {</div><div>&nbsp;&nbsp;// État</div><div>&nbsp;&nbsp;const count = ref(0)</div><div>&nbsp;&nbsp;</div><div>&nbsp;&nbsp;// Méthodes</div><div>&nbsp;&nbsp;function increment() {</div><div>&nbsp;&nbsp;&nbsp;&nbsp;count.value++</div><div>&nbsp;&nbsp;}</div><div>&nbsp;&nbsp;</div><div>&nbsp;&nbsp;// Retourner tout</div><div>&nbsp;&nbsp;return { count, increment }</div><div>}</div></div><div style='margin-top: 10px; font-size: 12px; color: #666;'>Organisé par fonctionnalité</div></div></div></div>"
+            }
+          }
+        ]
+      },
+      "related": ["directives", "reactivity", "lifecycle", "props"],
+      "notes": [
+        "Les composants Vue peuvent être définis de plusieurs façons : en tant que objet JavaScript, composant à fichier unique (SFC), ou via la fonction createComponent.",
+        "Vue 3 encourage l'utilisation de la Composition API pour une meilleure réutilisabilité du code et une organisation plus logique des fonctionnalités.",
+        "Contrairement à React, Vue utilise des templates HTML avec une syntaxe spéciale plutôt que du JSX (bien que le JSX soit également pris en charge).",
+        "Vue offre une réactivité par défaut, contrairement à React qui nécessite l'utilisation de useState ou useReducer."
+      ]
+    }
+  }

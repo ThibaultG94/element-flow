@@ -12,6 +12,7 @@ import HtmlPage from "./pages/HtmlPage";
 import CssPage from "./pages/CssPage";
 import JsPage from "./pages/JsPage";
 import ReactPage from "./pages/ReactPage";
+import VuePage from "./pages/VuePage";
 import PythonPage from "./pages/PythonPage";
 import ElementDetailPage from "./pages/ElementDetailPage";
 import SearchBar from "./components/SearchBar";
@@ -93,6 +94,7 @@ const MainLayout = ({ children }) => {
               <NavLink to="/css">CSS</NavLink>
               <NavLink to="/javascript">JavaScript</NavLink>
               <NavLink to="/react">React</NavLink>
+              <NavLink to="/vue">Vue</NavLink>
               <NavLink to="/python">Python</NavLink>
             </nav>
 
@@ -163,6 +165,7 @@ function App() {
                 <Route path="/css" element={<CssPage />} />
                 <Route path="/javascript" element={<JsPage />} />
                 <Route path="/react" element={<ReactPage />} />
+                <Route path="/vue" element={<VuePage />} />
                 <Route path="/python" element={<PythonPage />} />
                 <Route path="/element/:id" element={<ElementDetailPage />} />
               </Routes>

@@ -15,6 +15,7 @@ const HomePage = () => {
         const cssResponse = await fetch("/data/css-elements.json");
         const jsResponse = await fetch("/data/js-elements.json");
         const reactResponse = await fetch("/data/react-elements.json");
+        const vueResponse = await fetch("/data/vue-elements.json");
         const pythonResponse = await fetch("/data/python-elements.json");
 
         let allElements = [];
@@ -75,6 +76,19 @@ const HomePage = () => {
             })
           );
           allElements = [...allElements, ...reactElements];
+        }
+
+        if (vueResponse.ok) {
+          const vueData = await vueResponse.json();
+          const vueElements = Object.entries(vueData).map(([id, element]) => ({
+            ...element,
+            id,
+            type: "Vue",
+            dateAdded: new Date(
+              Date.now() - Math.random() * 15 * 24 * 60 * 60 * 1000
+            ),
+          }));
+          allElements = [...allElements, ...vueElements];
         }
 
         if (pythonResponse.ok) {
@@ -138,6 +152,12 @@ const HomePage = () => {
               dateAdded: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
             },
             {
+              id: "components",
+              name: "Components",
+              type: "Vue",
+              dateAdded: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
+            },
+            {
               id: "variables",
               name: "Variables",
               type: "Python",
@@ -158,6 +178,7 @@ const HomePage = () => {
           { id: "html", name: "<html>", type: "HTML" },
           { id: "body", name: "<body>", type: "HTML" },
           { id: "display", name: "display", type: "CSS" },
+          { id: "components", name: "Components", type: "Vue" },
           { id: "variables", name: "Variables", type: "Python" },
         ]);
       } finally {
@@ -244,6 +265,8 @@ const HomePage = () => {
           return `/javascript/${elementId}`;
         case "React":
           return `/react/${elementId}`;
+        case "Vue":
+          return `/vue/${elementId}`;
         case "Python":
           return `/python/${elementId}`;
         default:
@@ -270,6 +293,10 @@ const HomePage = () => {
           return isHovered
             ? "bg-white text-cyan-700 dark:bg-black dark:text-cyan-400"
             : "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200";
+        case "Vue":
+          return isHovered
+            ? "bg-white text-emerald-700 dark:bg-black dark:text-emerald-400"
+            : "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200";
         case "Python":
           return isHovered
             ? "bg-white text-green-700 dark:bg-black dark:text-green-400"
@@ -350,7 +377,7 @@ const HomePage = () => {
       to: "/css?category=layout",
     },
     {
-      title: "DOM Manipulation",
+      title: "Vue Components",
       icon: (
         <svg
           className="w-8 h-8"
@@ -363,12 +390,12 @@ const HomePage = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
-            d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
+            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
           ></path>
         </svg>
       ),
-      description: "Dynamic interactivity with JS",
-      to: "/javascript?category=dom",
+      description: "Build reactive interfaces with Vue.js",
+      to: "/vue?category=components",
     },
     {
       title: "Python Basics",
@@ -402,7 +429,7 @@ const HomePage = () => {
           <span className="text-gray-700 dark:text-gray-300">visuelle</span>
         </h1>
         <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-          Découvrez HTML, CSS, JavaScript, React et Python à travers des
+          Découvrez HTML, CSS, JavaScript, React, Vue et Python à travers des
           démonstrations interactives et des animations qui expliquent
           clairement chaque concept.
         </p>
@@ -412,6 +439,8 @@ const HomePage = () => {
           </ExploreButton>
           <ExploreButton to="/css">Explorer CSS</ExploreButton>
           <ExploreButton to="/javascript">Explorer JavaScript</ExploreButton>
+          <ExploreButton to="/react">Explorer React</ExploreButton>
+          <ExploreButton to="/vue">Explorer Vue</ExploreButton>
           <ExploreButton to="/python">Explorer Python</ExploreButton>
         </div>
       </section>
