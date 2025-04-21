@@ -1,0 +1,73 @@
+{
+    "variables": {
+      "name": "Variables",
+      "description": "Les variables en Python sont des références à des objets en mémoire. Elles permettent de stocker et manipuler des données.",
+      "category": "basics",
+      "syntax": "# Déclaration et assignation\nnom_variable = valeur\n\n# Plusieurs variables sur une ligne\nx, y, z = 1, 2, 3\n\n# Assignation multiple\na = b = c = 10",
+      "examples": [
+        {
+          "title": "Types de données de base",
+          "code": "# Entier\nage = 25\n\n# Nombre à virgule flottante\nprix = 19.99\n\n# Chaîne de caractères\nnom = \"Python\"\n\n# Booléen\nest_actif = True\n\n# Liste\ncouleurs = [\"rouge\", \"vert\", \"bleu\"]\n\n# Dictionnaire\npersonne = {\n    \"nom\": \"Dupont\",\n    \"age\": 30,\n    \"ville\": \"Paris\"\n}\n\n# Affichage du type\nprint(type(age))      # <class 'int'>\nprint(type(prix))     # <class 'float'>\nprint(type(nom))      # <class 'str'>\nprint(type(couleurs)) # <class 'list'>"
+        },
+        {
+          "title": "Opérations et conversions",
+          "code": "# Opérations arithmétiques\nx = 10\ny = 3\n\nsomme = x + y        # 13\ndifference = x - y   # 7\nproduit = x * y      # 30\ndivision = x / y     # 3.3333...\ndiv_entiere = x // y # 3\nmodulo = x % y       # 1\npuissance = x ** y   # 1000\n\n# Conversion entre types\nchaine = \"42\"\nnombre = int(chaine)  # Conversion en entier\nflottant = float(chaine)  # Conversion en flottant\ntexte = str(nombre)   # Conversion en chaîne"
+        },
+        {
+          "title": "Portée des variables",
+          "code": "# Variable globale\ncompteur = 0\n\ndef incrementer():\n    global compteur  # Utilisation du mot-clé global\n    compteur += 1\n    print(f\"Compteur: {compteur}\")\n    \n    # Variable locale\n    message = \"Incrémentation effectuée\"\n    print(message)\n\nincremeneter()  # Compteur: 1\nincremeneter()  # Compteur: 2\n\n# print(message)  # Erreur: 'message' n'est pas défini"
+        }
+      ],
+      "animation": {
+        "steps": [
+          {
+            "title": "Qu'est-ce qu'une variable?",
+            "text": "En Python, une variable est un nom qui fait référence à une valeur en mémoire. Contrairement à d'autres langages, Python n'a pas besoin de déclaration explicite du type.",
+            "code": "# Les variables sont créées lors de la première assignation\nage = 25\nnom = \"Alice\"\n\n# Python détermine automatiquement le type\nprint(type(age))   # <class 'int'>\nprint(type(nom))   # <class 'str'>",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 10px; border-radius: 5px; font-family: monospace;'><div style='display: flex;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px; margin-right: 20px;'><strong>age</strong><br><span style='color: #0066cc;'>25</span><br><span style='color: #888;'>&lt;class 'int'&gt;</span></div><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>nom</strong><br><span style='color: #cc6600;'>\"Alice\"</span><br><span style='color: #888;'>&lt;class 'str'&gt;</span></div></div></div>"
+            }
+          },
+          {
+            "title": "Mutabilité et références",
+            "text": "En Python, les variables sont des références à des objets. Quand on assigne une variable à une autre, les deux références pointent vers le même objet en mémoire.",
+            "code": "# Liste (type mutable)\ncouleurs = [\"rouge\", \"vert\"]\npalette = couleurs  # Les deux variables référencent la même liste\n\n# Modifier via une référence affecte l'autre\npalette.append(\"bleu\")\nprint(couleurs)  # ['rouge', 'vert', 'bleu']\n\n# Entier (type immutable)\nx = 10\ny = x  # y obtient une copie de la valeur\ny += 5  # Crée un nouvel objet pour y\nprint(x)  # 10 (inchangé)",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 10px; border-radius: 5px; font-family: monospace;'><div style='margin-bottom: 15px;'><strong>Types mutables (listes, dictionnaires, etc.)</strong><br><div style='display: flex; align-items: center;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>couleurs</strong></div><div style='margin: 0 10px;'>→</div><div style='padding: 10px; background-color: #d0e0ff; border-radius: 5px;'>[\"rouge\", \"vert\", \"bleu\"]</div><div style='margin: 0 10px;'>←</div><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>palette</strong></div></div></div><div><strong>Types immutables (int, str, tuple, etc.)</strong><br><div style='display: flex;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px; margin-right: 20px;'><strong>x</strong><br>→ <span style='color: #0066cc;'>10</span></div><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>y</strong><br>→ <span style='color: #0066cc;'>15</span></div></div></div></div>"
+            }
+          },
+          {
+            "title": "Nommage des variables",
+            "text": "Python a des conventions pour le nommage des variables. Les noms doivent commencer par une lettre ou un underscore, suivis de lettres, chiffres ou underscores.",
+            "code": "# Conventions de nommage PEP 8\nnombre_utilisateurs = 42  # snake_case pour variables\nNB_MAX_TENTATIVES = 3   # UPPER_CASE pour constantes\n\nclass PersonneUtilisateur:  # PascalCase pour classes\n    pass\n\n# Noms à éviter\n_variable_interne = 100  # Underscore = usage interne\n__variable_privee = 200  # Double underscore = attribut privé",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace;'><h3 style='margin-top: 0;'>Convention PEP 8</h3><ul style='list-style-type: none; padding-left: 10px;'><li style='padding: 5px; border-left: 3px solid #55aa55;'><strong>snake_case</strong> pour les variables et fonctions</li><li style='padding: 5px; border-left: 3px solid #5555aa;'><strong>UPPER_CASE_SNAKE</strong> pour les constantes</li><li style='padding: 5px; border-left: 3px solid #aa5555;'><strong>PascalCase</strong> pour les classes</li><li style='padding: 5px; border-left: 3px solid #aaaa55;'><strong>_leading_underscore</strong> pour les variables internes</li></ul></div>"
+            }
+          },
+          {
+            "title": "Portée des variables",
+            "text": "Python utilise la règle LEGB (Local, Enclosing, Global, Built-in) pour déterminer la portée des variables.",
+            "code": "x = 100  # Variable globale\n\ndef ma_fonction():\n    y = 200  # Variable locale à la fonction\n    print(x)  # Accès à la variable globale\n    \n    def fonction_interne():\n        z = 300  # Variable locale à fonction_interne\n        print(x)  # Accès à la variable globale\n        print(y)  # Accès à la variable englobante\n        \n    fonction_interne()\n    # print(z)  # Erreur: z n'est pas défini ici\n\nma_fonction()\n# print(y)  # Erreur: y n'est pas défini ici",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace;'><div style='border: 2px solid #888; border-radius: 5px; padding: 10px; margin-bottom: 10px;'><strong>Portée globale</strong><br><div style='padding: 5px; background-color: #e8e8e8; border-radius: 3px; display: inline-block;'><strong>x</strong> = 100</div><div style='border: 2px solid #55aa55; border-radius: 5px; padding: 10px; margin-top: 10px;'><strong>ma_fonction()</strong><br><div style='padding: 5px; background-color: #e8e8e8; border-radius: 3px; display: inline-block;'><strong>y</strong> = 200</div><div style='border: 2px solid #5555aa; border-radius: 5px; padding: 10px; margin-top: 10px;'><strong>fonction_interne()</strong><br><div style='padding: 5px; background-color: #e8e8e8; border-radius: 3px; display: inline-block;'><strong>z</strong> = 300</div><div style='padding: 5px; margin-top: 5px;'>Peut accéder à: x, y, z</div></div><div style='padding: 5px; margin-top: 5px;'>Peut accéder à: x, y</div></div></div><div style='padding: 5px;'>Peut accéder à: x</div></div>"
+            }
+          },
+          {
+            "title": "Variables dynamiques",
+            "text": "Python est un langage à typage dynamique. Une variable peut changer de type pendant l'exécution du programme.",
+            "code": "# Une variable peut changer de type\nvariable = 42\nprint(type(variable))  # <class 'int'>\n\nvariable = \"Bonjour\"\nprint(type(variable))  # <class 'str'>\n\nvariable = [1, 2, 3]\nprint(type(variable))  # <class 'list'>\n\n# Vérification dynamique de type\nif isinstance(variable, list):\n    print(\"C'est une liste!\")",
+            "visualDemo": {
+              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace;'><div style='text-align: center; margin-bottom: 15px;'><strong>Évolution de la variable</strong></div><div style='display: flex; justify-content: space-between; align-items: center;'><div style='text-align: center; padding: 10px;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>variable</strong><br><span style='color: #0066cc;'>42</span><br><span style='color: #888;'>&lt;class 'int'&gt;</span></div></div><div>→</div><div style='text-align: center; padding: 10px;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>variable</strong><br><span style='color: #cc6600;'>\"Bonjour\"</span><br><span style='color: #888;'>&lt;class 'str'&gt;</span></div></div><div>→</div><div style='text-align: center; padding: 10px;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>variable</strong><br><span style='color: #6600cc;'>[1, 2, 3]</span><br><span style='color: #888;'>&lt;class 'list'&gt;</span></div></div></div></div>"
+            }
+          }
+        ]
+      },
+      "related": ["types", "fonctions", "conditions", "boucles"],
+      "notes": [
+        "En Python, les variables n'ont pas besoin d'être déclarées avant utilisation ou avec un type spécifique.",
+        "Les variables sont des références à des objets, pas des conteneurs de valeurs comme dans certains autres langages.",
+        "Le type d'une variable peut changer pendant l'exécution du programme (typage dynamique).",
+        "Python est sensible à la casse : 'Variable' et 'variable' sont deux noms différents."
+      ]
+    }
+  }

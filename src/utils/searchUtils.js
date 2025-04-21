@@ -71,6 +71,16 @@ const SEARCH_MAPPINGS = {
   promesse: ["promise", "async", "then", "await"],
   dom: ["document", "selector", "element", "node"],
   api: ["fetch", "http", "request", "ajax"],
+
+  // Python
+  python: ["py", "python3", "script", "langage"],
+  variables: ["var", "variable", "affectation", "assignation"],
+  types: ["int", "str", "float", "list", "dict", "tuple", "set", "bool"],
+  fonction: ["def", "function", "lambda", "méthode"],
+  classe: ["class", "object", "instance", "poo", "oop"],
+  boucle: ["for", "while", "iteration", "loop"],
+  condition: ["if", "else", "elif", "conditionnelle"],
+  importation: ["import", "from", "module", "package", "bibliothèque"],
 };
 
 /**
@@ -145,9 +155,13 @@ export const calculateRelevance = (element, terms) => {
       });
     }
 
-    // Match in category
-    if (element.category && element.category.toLowerCase().includes(term)) {
-      score += 1;
+    // Match in values (for CSS)
+    if (element.values) {
+      element.values.forEach((value) => {
+        if (value.name.toLowerCase().includes(term)) {
+          score += 2;
+        }
+      });
     }
 
     // Match in examples
@@ -157,6 +171,11 @@ export const calculateRelevance = (element, terms) => {
           score += 1;
         }
       });
+    }
+
+    // Match in category
+    if (element.category && element.category.toLowerCase().includes(term)) {
+      score += 1;
     }
   });
 

@@ -26,6 +26,8 @@ const SearchBar = () => {
         const htmlResponse = await fetch("/data/html-elements.json");
         const cssResponse = await fetch("/data/css-elements.json");
         const jsResponse = await fetch("/data/js-elements.json");
+        const reactResponse = await fetch("/data/react-elements.json");
+        const pythonResponse = await fetch("/data/python-elements.json");
 
         let elements = [];
 
@@ -62,6 +64,32 @@ const SearchBar = () => {
             route: `/javascript/${id}`,
           }));
           elements = [...elements, ...jsElements];
+        }
+
+        if (reactResponse.ok) {
+          const reactData = await reactResponse.json();
+          const reactElements = Object.entries(reactData).map(
+            ([id, element]) => ({
+              ...element,
+              id,
+              type: "React",
+              route: `/react/${id}`,
+            })
+          );
+          elements = [...elements, ...reactElements];
+        }
+
+        if (pythonResponse.ok) {
+          const pythonData = await pythonResponse.json();
+          const pythonElements = Object.entries(pythonData).map(
+            ([id, element]) => ({
+              ...element,
+              id,
+              type: "Python",
+              route: `/python/${id}`,
+            })
+          );
+          elements = [...elements, ...pythonElements];
         }
 
         // Fallback if no JSON file found
@@ -119,6 +147,20 @@ const SearchBar = () => {
               type: "JavaScript",
               route: "/javascript/querySelector",
             },
+            {
+              id: "useState",
+              name: "useState()",
+              description: "Hook pour ajouter un état local à un composant",
+              type: "React",
+              route: "/react/useState",
+            },
+            {
+              id: "variables",
+              name: "Variables",
+              description: "Stockage et manipulation de données en Python",
+              type: "Python",
+              route: "/python/variables",
+            },
           ];
         }
 
@@ -141,6 +183,13 @@ const SearchBar = () => {
             description: "Contenu visible",
             type: "HTML",
             route: "/element/body",
+          },
+          {
+            id: "variables",
+            name: "Variables",
+            description: "Stockage de données",
+            type: "Python",
+            route: "/python/variables",
           },
         ]);
       } finally {
@@ -257,6 +306,10 @@ const SearchBar = () => {
         return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
       case "JavaScript":
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+      case "React":
+        return "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200";
+      case "Python":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }
@@ -436,8 +489,8 @@ const SearchBar = () => {
             // Search help message
             <div className="px-4 py-4 text-center text-gray-500 dark:text-gray-400">
               <p className="text-sm">
-                Commencez à taper pour rechercher des éléments HTML, CSS ou
-                JavaScript
+                Commencez à taper pour rechercher des éléments HTML, CSS,
+                JavaScript, React ou Python
               </p>
               <div className="flex items-center justify-center mt-3 text-xs gap-2">
                 <span className="px-2 py-1 bg-gray-200 dark:bg-gray-800 rounded text-gray-700 dark:text-gray-300 font-mono">

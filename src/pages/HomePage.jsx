@@ -14,6 +14,8 @@ const HomePage = () => {
         const htmlResponse = await fetch("/data/html-elements.json");
         const cssResponse = await fetch("/data/css-elements.json");
         const jsResponse = await fetch("/data/js-elements.json");
+        const reactResponse = await fetch("/data/react-elements.json");
+        const pythonResponse = await fetch("/data/python-elements.json");
 
         let allElements = [];
 
@@ -32,6 +34,62 @@ const HomePage = () => {
             })
           );
           allElements = [...allElements, ...htmlElements];
+        }
+
+        if (cssResponse.ok) {
+          const cssData = await cssResponse.json();
+          const cssElements = Object.entries(cssData).map(([id, element]) => ({
+            ...element,
+            id,
+            type: "CSS",
+            dateAdded: new Date(
+              Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
+            ),
+          }));
+          allElements = [...allElements, ...cssElements];
+        }
+
+        if (jsResponse.ok) {
+          const jsData = await jsResponse.json();
+          const jsElements = Object.entries(jsData).map(([id, element]) => ({
+            ...element,
+            id,
+            type: "JavaScript",
+            dateAdded: new Date(
+              Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
+            ),
+          }));
+          allElements = [...allElements, ...jsElements];
+        }
+
+        if (reactResponse.ok) {
+          const reactData = await reactResponse.json();
+          const reactElements = Object.entries(reactData).map(
+            ([id, element]) => ({
+              ...element,
+              id,
+              type: "React",
+              dateAdded: new Date(
+                Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
+              ),
+            })
+          );
+          allElements = [...allElements, ...reactElements];
+        }
+
+        if (pythonResponse.ok) {
+          const pythonData = await pythonResponse.json();
+          const pythonElements = Object.entries(pythonData).map(
+            ([id, element]) => ({
+              ...element,
+              id,
+              type: "Python",
+              dateAdded: new Date(
+                Date.now() - Math.random() * 20 * 24 * 60 * 60 * 1000
+              ),
+            })
+          );
+          allElements = [...allElements, ...pythonElements];
         }
 
         // Fallback if no data available
@@ -73,6 +131,18 @@ const HomePage = () => {
               type: "JavaScript",
               dateAdded: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
             },
+            {
+              id: "useState",
+              name: "useState",
+              type: "React",
+              dateAdded: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+            },
+            {
+              id: "variables",
+              name: "Variables",
+              type: "Python",
+              dateAdded: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+            },
           ];
         }
 
@@ -88,6 +158,7 @@ const HomePage = () => {
           { id: "html", name: "<html>", type: "HTML" },
           { id: "body", name: "<body>", type: "HTML" },
           { id: "display", name: "display", type: "CSS" },
+          { id: "variables", name: "Variables", type: "Python" },
         ]);
       } finally {
         setLoading(false);
@@ -171,8 +242,42 @@ const HomePage = () => {
           return `/css/${elementId}`;
         case "JavaScript":
           return `/javascript/${elementId}`;
+        case "React":
+          return `/react/${elementId}`;
+        case "Python":
+          return `/python/${elementId}`;
         default:
           return `/element/${elementId}`;
+      }
+    };
+
+    // Get color based on technology type
+    const getTypeColor = () => {
+      switch (type) {
+        case "HTML":
+          return isHovered
+            ? "bg-white text-blue-700 dark:bg-black dark:text-blue-400"
+            : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+        case "CSS":
+          return isHovered
+            ? "bg-white text-purple-700 dark:bg-black dark:text-purple-400"
+            : "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
+        case "JavaScript":
+          return isHovered
+            ? "bg-white text-yellow-700 dark:bg-black dark:text-yellow-400"
+            : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+        case "React":
+          return isHovered
+            ? "bg-white text-cyan-700 dark:bg-black dark:text-cyan-400"
+            : "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200";
+        case "Python":
+          return isHovered
+            ? "bg-white text-green-700 dark:bg-black dark:text-green-400"
+            : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+        default:
+          return isHovered
+            ? "bg-white text-black dark:bg-black dark:text-white"
+            : "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
       }
     };
 
@@ -190,11 +295,7 @@ const HomePage = () => {
         <h3 className="font-mono text-lg font-medium mb-2">{name}</h3>
         <div className="flex justify-between items-center mt-4">
           <span
-            className={`text-xs font-medium px-2.5 py-0.5 rounded-full transition-colors duration-300 ${
-              isHovered
-                ? "bg-white text-black dark:bg-black dark:text-white"
-                : "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
-            }`}
+            className={`text-xs font-medium px-2.5 py-0.5 rounded-full transition-colors duration-300 ${getTypeColor()}`}
           >
             {type}
           </span>
@@ -269,6 +370,27 @@ const HomePage = () => {
       description: "Dynamic interactivity with JS",
       to: "/javascript?category=dom",
     },
+    {
+      title: "Python Basics",
+      icon: (
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+          ></path>
+        </svg>
+      ),
+      description: "Python fundamentals for beginners",
+      to: "/python?category=basics",
+    },
   ];
 
   return (
@@ -276,13 +398,13 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="w-full max-w-4xl mx-auto text-center py-12">
         <h1 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-6">
-          Apprenez les technologies web de manière{" "}
+          Apprenez les technologies web et Python de manière{" "}
           <span className="text-gray-700 dark:text-gray-300">visuelle</span>
         </h1>
         <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-          Découvrez HTML, CSS et JavaScript à travers des démonstrations
-          interactives et des animations qui expliquent clairement chaque
-          concept.
+          Découvrez HTML, CSS, JavaScript, React et Python à travers des
+          démonstrations interactives et des animations qui expliquent
+          clairement chaque concept.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <ExploreButton to="/html" isPrimary={true}>
@@ -290,17 +412,18 @@ const HomePage = () => {
           </ExploreButton>
           <ExploreButton to="/css">Explorer CSS</ExploreButton>
           <ExploreButton to="/javascript">Explorer JavaScript</ExploreButton>
+          <ExploreButton to="/python">Explorer Python</ExploreButton>
         </div>
       </section>
 
       {/* Developer-focused sections */}
       <section className="w-full py-12 bg-gray-100 dark:bg-gray-800">
-        <div className="max-w-4xl mx-auto px-4">
+        <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-black dark:text-white mb-8">
             Domaines d'expertise
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {developerSections.map((section, index) => (
               <CategoryCard
                 key={index}
