@@ -1,121 +1,77 @@
 {
-    "variables": {
-      "id": "variables",
-      "name": "Variables (let, const, var)",
-      "category": "basics",
-      "description": "Stockage de valeurs",
-      "attributes": [
-        { "name": "let", "description": "Variable modifiable avec portée de bloc" },
-        { "name": "const", "description": "Constante avec portée de bloc" },
-        { "name": "var", "description": "Variable avec portée de fonction" }
-      ],
-      "syntax": "let maVariable = 'valeur';",
-      "examples": [
+  "AggregateError": {
+    "name": "AggregateError",
+    "category": "errors",
+    "description": "Un objet qui représente une erreur lorsque plusieurs erreurs doivent être agrégées en une seule.",
+    "syntax": "new AggregateError(errors, message, options)",
+    "attributes": [
+      {
+        "name": "errors",
+        "description": "Un itérable d'objets d'erreur à agréger ensemble."
+      },
+      {
+        "name": "message",
+        "description": "Un message d'erreur lisible par l'homme. Par défaut: \"\"."
+      },
+      {
+        "name": "options",
+        "description": "Un objet facultatif qui peut contenir des propriétés supplémentaires, comme 'cause'."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Intercepter une AggregateError avec Promise.any()",
+        "code": "Promise.any([Promise.reject(new Error(\"une erreur\"))])\n  .catch((e) => {\n    console.log(e instanceof AggregateError); // true\n    console.log(e.message); // \"All Promises rejected\"\n    console.log(e.name); // \"AggregateError\"\n    console.log(e.errors); // [ Error: \"une erreur\" ]\n  });"
+      },
+      {
+        "title": "Créer et lever un AggregateError",
+        "code": "try {\n  throw new AggregateError([new Error(\"une erreur\")], \"Plusieurs erreurs détectées\");\n} catch (e) {\n  console.log(e instanceof AggregateError); // true\n  console.log(e.message); // \"Plusieurs erreurs détectées\"\n  console.log(e.name); // \"AggregateError\"\n  console.log(e.errors); // [ Error: \"une erreur\" ]\n}"
+      }
+    ],
+    "animation": {
+      "steps": [
         {
-          "title": "Déclaration de variables",
-          "code": "let compteur = 0;\nconst PI = 3.14159;\nvar ancienneVariable = 'texte';"
+          "title": "Qu'est-ce que AggregateError?",
+          "text": "AggregateError est un type d'erreur spécial introduit en JavaScript qui permet de regrouper plusieurs erreurs en une seule.",
+          "code": "// AggregateError hérite de Error\nconst err = new AggregateError([], 'Erreurs multiples');",
+          "visualDemo": {
+            "content": "<div class='html-element'><code>AggregateError</code> → hérite de → <code>Error</code></div>"
+          }
+        },
+        {
+          "title": "Création d'un AggregateError",
+          "text": "Tu peux créer un AggregateError en lui passant un tableau d'erreurs et un message descriptif facultatif.",
+          "code": "const erreurs = [\n  new Error('Erreur de validation'),\n  new TypeError('Type incorrect')\n];\n\nconst aggregateErr = new AggregateError(erreurs, 'Multiple erreurs détectées');\nconsole.log(aggregateErr.message); // 'Multiple erreurs détectées'\nconsole.log(aggregateErr.errors.length); // 2",
+          "visualDemo": {
+            "content": "<div class='html-element'><strong>AggregateError</strong><div class='body-element'><strong>errors:</strong> [ Error, TypeError ]<br><strong>message:</strong> \"Multiple erreurs détectées\"<br><strong>name:</strong> \"AggregateError\"</div></div>"
+          }
+        },
+        {
+          "title": "Utilisation avec Promise.any()",
+          "text": "AggregateError est principalement utilisé par Promise.any() lorsque toutes les promesses sont rejetées, groupant ainsi tous les motifs de rejet.",
+          "code": "Promise.any([\n  Promise.reject(new Error('API erreur')),\n  Promise.reject(new Error('Timeout erreur'))\n])\n.catch(erreurs => {\n  console.log(erreurs instanceof AggregateError); // true\n  console.log(erreurs.errors); // [Error: 'API erreur', Error: 'Timeout erreur']\n});",
+          "visualDemo": {
+            "content": "<div class='html-element'><strong>Promise.any()</strong><div class='head-element'>Rejette avec AggregateError quand toutes les promesses échouent</div><div class='body-element'><ul style='list-style-type: none; padding-left: 0;'><li>✗ Promise 1 (rejetée)</li><li>✗ Promise 2 (rejetée)</li></ul>→ AggregateError contenant les deux raisons de rejet</div></div>"
+          }
+        },
+        {
+          "title": "Accès aux erreurs individuelles",
+          "text": "Tu peux accéder aux erreurs individuelles via la propriété 'errors' qui contient un tableau de toutes les erreurs agrégées.",
+          "code": "try {\n  throw new AggregateError([\n    new Error('Erreur 1'),\n    new Error('Erreur 2'),\n    new Error('Erreur 3')\n  ], 'Trois erreurs sont survenues');\n} catch (e) {\n  // Accès aux erreurs individuelles\n  e.errors.forEach((err, index) => {\n    console.log(`Erreur ${index + 1}: ${err.message}`);\n  });\n}",
+          "visualDemo": {
+            "content": "<div style='font-family: monospace; background-color: #f9f9f9; padding: 1rem; border-radius: 8px; border: 1px solid #ddd;'><span style='color: green;'>// Console output:</span><br>Erreur 1: Erreur 1<br>Erreur 2: Erreur 2<br>Erreur 3: Erreur 3</div>"
+          }
+        },
+        {
+          "title": "Compatibilité et support",
+          "text": "AggregateError est relativement récent en JavaScript, introduit avec ES2021. Pour les navigateurs plus anciens, un polyfill peut être nécessaire.",
+          "code": "// Polyfill simple pour AggregateError\nif (typeof AggregateError === 'undefined') {\n  globalThis.AggregateError = class AggregateError extends Error {\n    constructor(errors, message) {\n      super(message || '');\n      this.name = 'AggregateError';\n      this.errors = errors;\n    }\n  };\n}",
+          "visualDemo": {
+            "content": "<div style='font-family: monospace; padding: 1rem; background: #f5f5f5; border-radius: 8px;'><span style='color: #888;'>// Support du navigateur pour AggregateError:</span><br><br>✅ Chrome 85+<br>✅ Firefox 79+<br>✅ Safari 14+<br>✅ Edge 85+<br>❌ Internet Explorer</div>"
+          }
         }
-      ],
-      "related": ["functions", "scope"],
-      "dateAdded": "2024-02-10T15:30:00Z"
+      ]
     },
-    "functions": {
-      "id": "functions",
-      "name": "Fonctions",
-      "category": "basics",
-      "description": "Blocs de code réutilisables",
-      "syntax": "function nomFonction(parametre) {\n  // code à exécuter\n  return resultat;\n}",
-      "examples": [
-        {
-          "title": "Fonction déclaration",
-          "code": "function calculerSomme(a, b) {\n  return a + b;\n}"
-        },
-        {
-          "title": "Fonction d'expression",
-          "code": "const calculerProduit = function(a, b) {\n  return a * b;\n};"
-        },
-        {
-          "title": "Fonction fléchée",
-          "code": "const carre = (x) => x * x;"
-        }
-      ],
-      "related": ["variables", "scope", "callbacks"],
-      "dateAdded": "2024-01-15T10:20:00Z"
-    },
-    "querySelector": {
-      "id": "querySelector",
-      "name": "querySelector()",
-      "category": "dom",
-      "description": "Sélectionne un élément du DOM",
-      "syntax": "const element = document.querySelector(sélecteur);",
-      "examples": [
-        {
-          "title": "Sélection par classe",
-          "code": "const element = document.querySelector('.ma-classe');"
-        },
-        {
-          "title": "Sélection par ID",
-          "code": "const element = document.querySelector('#mon-id');"
-        },
-        {
-          "title": "Sélection complexe",
-          "code": "const element = document.querySelector('ul li:first-child');"
-        }
-      ],
-      "related": ["querySelectorAll", "getElementById", "createElement"],
-      "dateAdded": "2024-03-05T09:45:00Z"
-    },
-    "addEventListener": {
-      "id": "addEventListener",
-      "name": "addEventListener()",
-      "category": "events",
-      "description": "Ajoute un gestionnaire d'événement",
-      "syntax": "element.addEventListener(type, callback);",
-      "examples": [
-        {
-          "title": "Événement clic",
-          "code": "document.getElementById('bouton').addEventListener('click', function() {\n  console.log('Bouton cliqué !');\n});"
-        },
-        {
-          "title": "Avec fonction fléchée",
-          "code": "const input = document.querySelector('input');\ninput.addEventListener('input', (e) => {\n  console.log(e.target.value);\n});"
-        }
-      ],
-      "related": ["removeEventListener", "querySelector", "Event"],
-      "dateAdded": "2024-03-20T14:15:00Z"
-    },
-    "promises": {
-      "id": "promises",
-      "name": "Promises",
-      "category": "async",
-      "description": "Gestion d'opérations asynchrones",
-      "syntax": "new Promise((resolve, reject) => {\n  // code asynchrone\n});",
-      "examples": [
-        {
-          "title": "Création d'une promesse",
-          "code": "const maPromesse = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Opération réussie');\n  }, 1000);\n});\n\nmaPromesse.then(resultat => {\n  console.log(resultat);\n}).catch(erreur => {\n  console.error(erreur);\n});"
-        }
-      ],
-      "related": ["async-await", "fetch", "setTimeout"],
-      "dateAdded": "2024-02-28T11:30:00Z"
-    },
-    "fetch": {
-      "id": "fetch",
-      "name": "fetch()",
-      "category": "api",
-      "description": "Requêtes HTTP",
-      "syntax": "fetch(url).then(response => response.json());",
-      "examples": [
-        {
-          "title": "Récupérer des données JSON",
-          "code": "fetch('https://api.exemple.com/donnees')\n  .then(response => response.json())\n  .then(data => {\n    console.log(data);\n  })\n  .catch(error => {\n    console.error('Erreur:', error);\n  });"
-        },
-        {
-          "title": "Envoyer des données",
-          "code": "fetch('https://api.exemple.com/donnees', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    nom: 'Jean',\n    age: 30\n  })\n});"
-        }
-      ],
-      "related": ["promises", "async-await", "API"],
-      "dateAdded": "2024-04-05T16:45:00Z"
-    }
+    "related": ["Error", "TypeError", "Promise"]
   }
+}

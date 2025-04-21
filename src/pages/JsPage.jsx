@@ -195,6 +195,7 @@ const JsPage = () => {
         closeModal={closeModal}
         elementId={currentElementId}
         theme={isDarkMode ? "dark" : "light"}
+        dataType={"js"}
       />
     </div>
   );
