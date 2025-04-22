@@ -1,73 +1,69 @@
 {
-    "variables": {
-      "name": "Variables",
-      "description": "Les variables en Python sont des références à des objets en mémoire. Elles permettent de stocker et manipuler des données.",
-      "category": "basics",
-      "syntax": "# Déclaration et assignation\nnom_variable = valeur\n\n# Plusieurs variables sur une ligne\nx, y, z = 1, 2, 3\n\n# Assignation multiple\na = b = c = 10",
-      "examples": [
-        {
-          "title": "Types de données de base",
-          "code": "# Entier\nage = 25\n\n# Nombre à virgule flottante\nprix = 19.99\n\n# Chaîne de caractères\nnom = \"Python\"\n\n# Booléen\nest_actif = True\n\n# Liste\ncouleurs = [\"rouge\", \"vert\", \"bleu\"]\n\n# Dictionnaire\npersonne = {\n    \"nom\": \"Dupont\",\n    \"age\": 30,\n    \"ville\": \"Paris\"\n}\n\n# Affichage du type\nprint(type(age))      # <class 'int'>\nprint(type(prix))     # <class 'float'>\nprint(type(nom))      # <class 'str'>\nprint(type(couleurs)) # <class 'list'>"
-        },
-        {
-          "title": "Opérations et conversions",
-          "code": "# Opérations arithmétiques\nx = 10\ny = 3\n\nsomme = x + y        # 13\ndifference = x - y   # 7\nproduit = x * y      # 30\ndivision = x / y     # 3.3333...\ndiv_entiere = x // y # 3\nmodulo = x % y       # 1\npuissance = x ** y   # 1000\n\n# Conversion entre types\nchaine = \"42\"\nnombre = int(chaine)  # Conversion en entier\nflottant = float(chaine)  # Conversion en flottant\ntexte = str(nombre)   # Conversion en chaîne"
-        },
-        {
-          "title": "Portée des variables",
-          "code": "# Variable globale\ncompteur = 0\n\ndef incrementer():\n    global compteur  # Utilisation du mot-clé global\n    compteur += 1\n    print(f\"Compteur: {compteur}\")\n    \n    # Variable locale\n    message = \"Incrémentation effectuée\"\n    print(message)\n\nincremeneter()  # Compteur: 1\nincremeneter()  # Compteur: 2\n\n# print(message)  # Erreur: 'message' n'est pas défini"
-        }
-      ],
-      "animation": {
-        "steps": [
-          {
-            "title": "Qu'est-ce qu'une variable?",
-            "text": "En Python, une variable est un nom qui fait référence à une valeur en mémoire. Contrairement à d'autres langages, Python n'a pas besoin de déclaration explicite du type.",
-            "code": "# Les variables sont créées lors de la première assignation\nage = 25\nnom = \"Alice\"\n\n# Python détermine automatiquement le type\nprint(type(age))   # <class 'int'>\nprint(type(nom))   # <class 'str'>",
-            "visualDemo": {
-              "content": "<div style='background-color: #f8f8f8; padding: 10px; border-radius: 5px; font-family: monospace;'><div style='display: flex;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px; margin-right: 20px;'><strong>age</strong><br><span style='color: #0066cc;'>25</span><br><span style='color: #888;'>&lt;class 'int'&gt;</span></div><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>nom</strong><br><span style='color: #cc6600;'>\"Alice\"</span><br><span style='color: #888;'>&lt;class 'str'&gt;</span></div></div></div>"
-            }
-          },
-          {
-            "title": "Mutabilité et références",
-            "text": "En Python, les variables sont des références à des objets. Quand on assigne une variable à une autre, les deux références pointent vers le même objet en mémoire.",
-            "code": "# Liste (type mutable)\ncouleurs = [\"rouge\", \"vert\"]\npalette = couleurs  # Les deux variables référencent la même liste\n\n# Modifier via une référence affecte l'autre\npalette.append(\"bleu\")\nprint(couleurs)  # ['rouge', 'vert', 'bleu']\n\n# Entier (type immutable)\nx = 10\ny = x  # y obtient une copie de la valeur\ny += 5  # Crée un nouvel objet pour y\nprint(x)  # 10 (inchangé)",
-            "visualDemo": {
-              "content": "<div style='background-color: #f8f8f8; padding: 10px; border-radius: 5px; font-family: monospace;'><div style='margin-bottom: 15px;'><strong>Types mutables (listes, dictionnaires, etc.)</strong><br><div style='display: flex; align-items: center;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>couleurs</strong></div><div style='margin: 0 10px;'>→</div><div style='padding: 10px; background-color: #d0e0ff; border-radius: 5px;'>[\"rouge\", \"vert\", \"bleu\"]</div><div style='margin: 0 10px;'>←</div><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>palette</strong></div></div></div><div><strong>Types immutables (int, str, tuple, etc.)</strong><br><div style='display: flex;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px; margin-right: 20px;'><strong>x</strong><br>→ <span style='color: #0066cc;'>10</span></div><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>y</strong><br>→ <span style='color: #0066cc;'>15</span></div></div></div></div>"
-            }
-          },
-          {
-            "title": "Nommage des variables",
-            "text": "Python a des conventions pour le nommage des variables. Les noms doivent commencer par une lettre ou un underscore, suivis de lettres, chiffres ou underscores.",
-            "code": "# Conventions de nommage PEP 8\nnombre_utilisateurs = 42  # snake_case pour variables\nNB_MAX_TENTATIVES = 3   # UPPER_CASE pour constantes\n\nclass PersonneUtilisateur:  # PascalCase pour classes\n    pass\n\n# Noms à éviter\n_variable_interne = 100  # Underscore = usage interne\n__variable_privee = 200  # Double underscore = attribut privé",
-            "visualDemo": {
-              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace;'><h3 style='margin-top: 0;'>Convention PEP 8</h3><ul style='list-style-type: none; padding-left: 10px;'><li style='padding: 5px; border-left: 3px solid #55aa55;'><strong>snake_case</strong> pour les variables et fonctions</li><li style='padding: 5px; border-left: 3px solid #5555aa;'><strong>UPPER_CASE_SNAKE</strong> pour les constantes</li><li style='padding: 5px; border-left: 3px solid #aa5555;'><strong>PascalCase</strong> pour les classes</li><li style='padding: 5px; border-left: 3px solid #aaaa55;'><strong>_leading_underscore</strong> pour les variables internes</li></ul></div>"
-            }
-          },
-          {
-            "title": "Portée des variables",
-            "text": "Python utilise la règle LEGB (Local, Enclosing, Global, Built-in) pour déterminer la portée des variables.",
-            "code": "x = 100  # Variable globale\n\ndef ma_fonction():\n    y = 200  # Variable locale à la fonction\n    print(x)  # Accès à la variable globale\n    \n    def fonction_interne():\n        z = 300  # Variable locale à fonction_interne\n        print(x)  # Accès à la variable globale\n        print(y)  # Accès à la variable englobante\n        \n    fonction_interne()\n    # print(z)  # Erreur: z n'est pas défini ici\n\nma_fonction()\n# print(y)  # Erreur: y n'est pas défini ici",
-            "visualDemo": {
-              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace;'><div style='border: 2px solid #888; border-radius: 5px; padding: 10px; margin-bottom: 10px;'><strong>Portée globale</strong><br><div style='padding: 5px; background-color: #e8e8e8; border-radius: 3px; display: inline-block;'><strong>x</strong> = 100</div><div style='border: 2px solid #55aa55; border-radius: 5px; padding: 10px; margin-top: 10px;'><strong>ma_fonction()</strong><br><div style='padding: 5px; background-color: #e8e8e8; border-radius: 3px; display: inline-block;'><strong>y</strong> = 200</div><div style='border: 2px solid #5555aa; border-radius: 5px; padding: 10px; margin-top: 10px;'><strong>fonction_interne()</strong><br><div style='padding: 5px; background-color: #e8e8e8; border-radius: 3px; display: inline-block;'><strong>z</strong> = 300</div><div style='padding: 5px; margin-top: 5px;'>Peut accéder à: x, y, z</div></div><div style='padding: 5px; margin-top: 5px;'>Peut accéder à: x, y</div></div></div><div style='padding: 5px;'>Peut accéder à: x</div></div>"
-            }
-          },
-          {
-            "title": "Variables dynamiques",
-            "text": "Python est un langage à typage dynamique. Une variable peut changer de type pendant l'exécution du programme.",
-            "code": "# Une variable peut changer de type\nvariable = 42\nprint(type(variable))  # <class 'int'>\n\nvariable = \"Bonjour\"\nprint(type(variable))  # <class 'str'>\n\nvariable = [1, 2, 3]\nprint(type(variable))  # <class 'list'>\n\n# Vérification dynamique de type\nif isinstance(variable, list):\n    print(\"C'est une liste!\")",
-            "visualDemo": {
-              "content": "<div style='background-color: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace;'><div style='text-align: center; margin-bottom: 15px;'><strong>Évolution de la variable</strong></div><div style='display: flex; justify-content: space-between; align-items: center;'><div style='text-align: center; padding: 10px;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>variable</strong><br><span style='color: #0066cc;'>42</span><br><span style='color: #888;'>&lt;class 'int'&gt;</span></div></div><div>→</div><div style='text-align: center; padding: 10px;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>variable</strong><br><span style='color: #cc6600;'>\"Bonjour\"</span><br><span style='color: #888;'>&lt;class 'str'&gt;</span></div></div><div>→</div><div style='text-align: center; padding: 10px;'><div style='padding: 10px; background-color: #e8e8e8; border-radius: 5px;'><strong>variable</strong><br><span style='color: #6600cc;'>[1, 2, 3]</span><br><span style='color: #888;'>&lt;class 'list'&gt;</span></div></div></div></div>"
-            }
-          }
-        ]
+  "abs": {
+    "name": "abs()",
+    "category": "basics",
+    "description": "Retourne la valeur absolue d'un nombre, c'est-à-dire sa distance par rapport à zéro sans considérer son signe.",
+    "syntax": "abs(x)",
+    "attributes": [
+      {
+        "name": "x",
+        "description": "Le nombre dont on veut obtenir la valeur absolue. Peut être un entier, un flottant, un nombre complexe ou un objet implémentant la méthode __abs__()."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Utilisation basique avec différents types",
+        "code": "# Avec un entier négatif\nprint(abs(-10))  # 10\n\n# Avec un flottant négatif\nprint(abs(-3.14))  # 3.14\n\n# Avec un entier positif (reste inchangé)\nprint(abs(42))  # 42\n\n# Avec un nombre complexe (retourne sa magnitude)\nprint(abs(3 + 4j))  # 5.0"
       },
-      "related": ["types", "fonctions", "conditions", "boucles"],
-      "notes": [
-        "En Python, les variables n'ont pas besoin d'être déclarées avant utilisation ou avec un type spécifique.",
-        "Les variables sont des références à des objets, pas des conteneurs de valeurs comme dans certains autres langages.",
-        "Le type d'une variable peut changer pendant l'exécution du programme (typage dynamique).",
-        "Python est sensible à la casse : 'Variable' et 'variable' sont deux noms différents."
+      {
+        "title": "Utilisation personnalisée avec une classe",
+        "code": "class Vecteur:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    \n    def __abs__(self):\n        # Distance à l'origine (norme euclidienne)\n        return (self.x**2 + self.y**2) ** 0.5\n\n# Création d'un vecteur (3, 4)\nv = Vecteur(3, 4)\n\n# Obtention de sa norme\nprint(abs(v))  # 5.0"
+      }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "Qu'est-ce que abs() ?",
+          "text": "La fonction abs() est une fonction intégrée en Python qui retourne la valeur absolue d'un nombre, c'est-à-dire sa distance par rapport à zéro sans tenir compte de son signe.",
+          "code": "# Exemples simples de abs()\nprint(abs(-5))  # 5\nprint(abs(5))   # 5\nprint(abs(0))   # 0",
+          "visualDemo": {
+            "content": "<div style='display: flex; justify-content: center; padding: 20px;'><div style='background-color: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;'><div style='margin-bottom: 15px; font-weight: bold;'>Valeur absolue</div><div style='display: flex; align-items: center; justify-content: center;'><div style='width: 300px; height: 60px; position: relative; margin: 0 auto;'><div style='position: absolute; top: 30px; left: 0; right: 0; height: 2px; background-color: black;'></div><div style='position: absolute; top: 25px; left: 150px; width: 2px; height: 10px; background-color: black;'></div><div style='position: absolute; top: 40px; left: 150px; text-align: center;'>0</div><div style='position: absolute; top: 25px; left: 75px; width: 2px; height: 10px; background-color: black;'></div><div style='position: absolute; top: 40px; left: 75px; text-align: center;'>-5</div><div style='position: absolute; top: 25px; left: 225px; width: 2px; height: 10px; background-color: black;'></div><div style='position: absolute; top: 40px; left: 225px; text-align: center;'>5</div><div style='position: absolute; top: 10px; left: 75px; text-align: center; font-family: monospace; color: #6c757d;'>abs(-5) = 5</div><div style='position: absolute; top: 10px; left: 225px; text-align: center; font-family: monospace; color: #6c757d;'>abs(5) = 5</div><div style='position: absolute; top: 0px; left: 75px; width: 150px; height: 2px; border-top: 2px solid #dc3545; border-left: 2px solid #dc3545; border-right: 2px solid #dc3545;'></div></div></div></div></div>"
+          }
+        },
+        {
+          "title": "Utilisation avec différents types de nombres",
+          "text": "La fonction abs() fonctionne avec plusieurs types de nombres: entiers, flottants et même les nombres complexes.",
+          "code": "# Avec un entier\nprint(abs(-10))  # 10\n\n# Avec un flottant\nprint(abs(-3.14))  # 3.14\n\n# Avec un nombre complexe (magnitude)\nprint(abs(3 + 4j))  # 5.0",
+          "visualDemo": {
+            "content": "<div style='display: flex; flex-direction: column; gap: 15px; background-color: #f8f9fa; padding: 15px; border-radius: 8px;'><div style='display: flex; align-items: center; background-color: #e9ecef; padding: 10px; border-radius: 5px;'><div style='font-family: monospace; width: 150px;'>abs(-10)</div><div style='font-weight: bold; margin: 0 10px;'>→</div><div>10</div><div style='margin-left: auto; color: #6c757d;'>entier</div></div><div style='display: flex; align-items: center; background-color: #e9ecef; padding: 10px; border-radius: 5px;'><div style='font-family: monospace; width: 150px;'>abs(-3.14)</div><div style='font-weight: bold; margin: 0 10px;'>→</div><div>3.14</div><div style='margin-left: auto; color: #6c757d;'>flottant</div></div><div style='display: flex; align-items: center; background-color: #e9ecef; padding: 10px; border-radius: 5px;'><div style='font-family: monospace; width: 150px;'>abs(3+4j)</div><div style='font-weight: bold; margin: 0 10px;'>→</div><div>5.0</div><div style='margin-left: auto; color: #6c757d;'>complexe</div></div></div>"
+          }
+        },
+        {
+          "title": "Nombres complexes et magnitude",
+          "text": "Pour les nombres complexes, abs() retourne la magnitude (ou module), qui est la distance du nombre à l'origine dans le plan complexe.",
+          "code": "# Un nombre complexe a + bj\nz = 3 + 4j\n\n# abs() retourne √(a² + b²)\nprint(abs(z))  # 5.0\n\n# Équivalent à:\nprint((z.real**2 + z.imag**2) ** 0.5)  # 5.0",
+          "visualDemo": {
+            "content": "<div style='text-align: center; padding: 15px; background-color: #f8f9fa; border-radius: 8px;'><div style='margin-bottom: 20px; font-weight: bold;'>Nombre complexe et sa magnitude</div><div style='position: relative; width: 200px; height: 200px; margin: 0 auto;'><div style='position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-left: 1px solid #6c757d; border-bottom: 1px solid #6c757d;'></div><div style='position: absolute; bottom: 0; left: 100px; height: 80px; width: 2px; background-color: #007bff;'></div><div style='position: absolute; bottom: 80px; left: 0; width: 60px; height: 2px; background-color: #007bff;'></div><div style='position: absolute; bottom: 0; left: 60px; width: 2px; height: 80px; background-color: #007bff;'></div><div style='position: absolute; bottom: 0; left: 0; width: 1px; height: 1px; border: 60px solid transparent; border-bottom-color: #f8f9fa; border-left-color: #f8f9fa; box-sizing: border-box;'></div><div style='position: absolute; bottom: 0; left: 0; width: 100px; height: 2px; background-color: #dc3545; transform: rotate(53.13deg); transform-origin: bottom left;'></div><div style='position: absolute; bottom: 85px; left: 60px; color: #007bff;'>Partie imaginaire (4)</div><div style='position: absolute; bottom: -20px; left: 25px; color: #007bff;'>Partie réelle (3)</div><div style='position: absolute; bottom: 25px; left: 105px; color: #dc3545;'>Magnitude (5)</div><div style='position: absolute; top: 10px; right: 10px; font-family: monospace;'>abs(3+4j) = 5.0</div></div></div>"
+          }
+        },
+        {
+          "title": "Personnalisation avec __abs__()",
+          "text": "Vous pouvez définir comment la fonction abs() se comportera avec vos propres classes en implémentant la méthode spéciale __abs__().",
+          "code": "class Vecteur2D:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    \n    def __abs__(self):\n        # Calcule la norme euclidienne\n        return (self.x**2 + self.y**2) ** 0.5\n    \n    def __repr__(self):\n        return f\"Vecteur2D({self.x}, {self.y})\"\n\n# Création d'un vecteur\nv = Vecteur2D(3, 4)\nprint(v)        # Vecteur2D(3, 4)\nprint(abs(v))   # 5.0",
+          "visualDemo": {
+            "content": "<div style='background-color: #f8f9fa; padding: 15px; border-radius: 8px;'><div style='margin-bottom: 15px; font-weight: bold; text-align: center;'>Personnalisation avec __abs__()</div><div style='background-color: #e9ecef; padding: 10px; border-radius: 5px; margin-bottom: 15px;'><pre style='margin: 0; font-family: monospace;'>class Vecteur2D:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    \n    def __abs__(self):\n        # Calcule la norme euclidienne\n        return (self.x**2 + self.y**2) ** 0.5</pre></div><div style='display: flex; align-items: center; justify-content: center; margin-top: 15px;'><div style='position: relative; width: 200px; height: 200px;'><div style='position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-left: 1px solid #6c757d; border-bottom: 1px solid #6c757d;'></div><div style='position: absolute; bottom: 0; left: 0; width: 120px; height: 2px; background-color: #007bff;'></div><div style='position: absolute; bottom: 0; left: 120px; width: 2px; height: 160px; background-color: #007bff;'></div><div style='position: absolute; bottom: 0; left: 0; width: 200px; height: 2px; background-color: #dc3545; transform: rotate(53.13deg); transform-origin: bottom left;'></div><div style='position: absolute; bottom: 165px; left: 120px; color: #007bff;'>v.y = 4</div><div style='position: absolute; bottom: -20px; left: 50px; color: #007bff;'>v.x = 3</div><div style='position: absolute; bottom: 80px; left: 150px; color: #dc3545;'>abs(v) = 5.0</div></div></div></div>"
+          }
+        },
+        {
+          "title": "Cas d'utilisation pratiques",
+          "text": "La fonction abs() est utile dans de nombreux contextes: calculs de distance, comparaisons de valeurs indépendamment du signe, ou pour implémenter des tests d'approximation.",
+          "code": "# Calcul d'erreur absolue\nvaleur_attendue = 10.0\nvaleur_mesurée = 9.7\nerreur_absolue = abs(valeur_attendue - valeur_mesurée)\nprint(f\"Erreur absolue: {erreur_absolue}\")  # 0.3\n\n# Test d'approximation\ndef presque_égal(a, b, tolérance=1e-9):\n    return abs(a - b) < tolérance\n\nprint(presque_égal(0.1 + 0.2, 0.3))  # True",
+          "visualDemo": {
+            "content": "<div style='background-color: #f8f9fa; padding: 15px; border-radius: 8px;'><div style='margin-bottom: 15px; font-weight: bold; text-align: center;'>Applications pratiques de abs()</div><div style='display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;'><div style='flex: 1; min-width: 250px; background-color: #e9ecef; padding: 15px; border-radius: 5px;'><div style='font-weight: bold; margin-bottom: 10px;'>Erreur absolue</div><div style='position: relative; height: 60px; margin-bottom: 10px;'><div style='position: absolute; top: 30px; left: 0; right: 0; height: 2px; background-color: black;'></div><div style='position: absolute; top: 25px; left: 40px; width: 2px; height: 10px; background-color: green;'></div><div style='position: absolute; top: 10px; left: 33px; color: green;'>9.7</div><div style='position: absolute; top: 25px; left: 120px; width: 2px; height: 10px; background-color: blue;'></div><div style='position: absolute; top: 10px; left: 115px; color: blue;'>10.0</div><div style='position: absolute; top: 40px; left: 70px; right: 70px; text-align: center; color: #dc3545;'>abs(10.0 - 9.7) = 0.3</div></div><div style='font-family: monospace; font-size: 14px;'>erreur_absolue = abs(valeur_attendue - valeur_mesurée)</div></div><div style='flex: 1; min-width: 250px; background-color: #e9ecef; padding: 15px; border-radius: 5px;'><div style='font-weight: bold; margin-bottom: 10px;'>Test d'approximation</div><div style='margin-bottom: 10px; font-family: monospace; font-size: 14px;'>def presque_égal(a, b, tolérance=1e-9):<br>&nbsp;&nbsp;return abs(a - b) < tolérance</div><div style='padding: 10px; background-color: #d1e7dd; border-radius: 5px;'><div style='margin-bottom: 5px;'>0.1 + 0.2 = 0.30000000000000004</div><div style='margin-bottom: 5px;'>0.3 = 0.3</div><div style='font-weight: bold;'>abs(diff) = 5.5511e-17 < tolérance</div><div style='text-align: right; margin-top: 5px;'>✅ presque_égal(0.1 + 0.2, 0.3) → True</div></div></div></div></div>"
+          }
+        }
       ]
-    }
+    },
+    "related": ["round", "min", "max", "pow", "math.sqrt"]
   }
+}

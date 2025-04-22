@@ -1,89 +1,77 @@
 {
-    "basic-types": {
-      "name": "Types de base",
-      "category": "basics",
-      "description": "Les types primitifs fondamentaux en TypeScript pour le typage des variables",
-      "syntax": "let variable: type = valeur;",
-      "attributes": [
-        {
-          "name": "boolean",
-          "description": "Valeurs true/false"
-        },
-        {
-          "name": "number",
-          "description": "Nombres entiers et flottants"
-        },
-        {
-          "name": "string",
-          "description": "Chaînes de caractères"
-        },
-        {
-          "name": "array",
-          "description": "Tableaux typés (deux syntaxes possibles)"
-        },
-        {
-          "name": "any",
-          "description": "N'importe quel type (désactive le contrôle pour cette variable)"
-        },
-        {
-          "name": "null et undefined",
-          "description": "Valeurs null et undefined"
-        }
-      ],
-      "examples": [
-        {
-          "title": "Types Primitifs",
-          "code": "// Types de base\nlet isDone: boolean = false;\nlet decimal: number = 6;\nlet color: string = \"blue\";\n\n// Tableaux\nlet list1: number[] = [1, 2, 3];\nlet list2: Array<number> = [1, 2, 3]; // Syntaxe générique\n\n// Tuple\nlet tuple: [string, number] = [\"hello\", 10];\n\n// Any\nlet notSure: any = 4;\nnotSure = \"peut être une chaîne\";\nnotSure = false; // peut aussi être un booléen"
-        },
-        {
-          "title": "Type Inference",
-          "code": "// Inférence de type\nlet x = 3; // TypeScript infère que x est un number\n// x = \"hello\"; // Erreur: Type 'string' n'est pas assignable au type 'number'\n\n// Union types\nlet id: number | string;\nid = 101; // OK\nid = \"202\"; // OK aussi\n// id = true; // Erreur: Type 'boolean' n'est pas assignable"
-        }
-      ],
-      "animation": {
-        "steps": [
-          {
-            "title": "Introduction aux Types",
-            "text": "TypeScript ajoute un système de types statiques à JavaScript, permettant de détecter les erreurs à la compilation plutôt qu'à l'exécution.",
-            "code": "// JavaScript (sans type)\nlet name = \"Alice\";\nname = 42; // Valide en JS, mais peut causer des bugs\n\n// TypeScript\nlet name: string = \"Alice\";\n// name = 42; // Erreur de compilation!",
-            "visualDemo": {
-              "content": "<div class='html-element'><div class='head-element'>TypeScript</div><div class='body-element'>JavaScript + Types Statiques</div></div>"
-            }
-          },
-          {
-            "title": "Types Primitifs",
-            "text": "TypeScript supporte tous les types primitifs de JavaScript avec une syntaxe claire pour les déclarer.",
-            "code": "// Types primitifs\nlet isActive: boolean = true;\nlet age: number = 25;\nlet userName: string = \"Alice\";\nlet notDefined: undefined = undefined;\nlet empty: null = null;",
-            "visualDemo": {
-              "content": "<div style='padding: 1rem; border: 1px solid #ddd; border-radius: 8px; font-family: monospace;'><div style='margin-bottom: 10px;'><span style='color: blue;'>boolean</span>: true | false</div><div style='margin-bottom: 10px;'><span style='color: blue;'>number</span>: 42, 3.14, -10, 0b1010, 0o744, 0xf00d</div><div style='margin-bottom: 10px;'><span style='color: blue;'>string</span>: \"Hello\", 'World', `Template ${var}`</div><div style='margin-bottom: 10px;'><span style='color: blue;'>undefined</span>: undefined</div><div><span style='color: blue;'>null</span>: null</div></div>"
-            }
-          },
-          {
-            "title": "Tableaux et Tuples",
-            "text": "TypeScript permet de typer les tableaux pour garantir que tous leurs éléments sont du même type. Les tuples permettent d'avoir un nombre fixe d'éléments de types différents.",
-            "code": "// Tableaux (deux syntaxes équivalentes)\nlet numbers: number[] = [1, 2, 3, 4];\nlet colors: Array<string> = [\"rouge\", \"vert\", \"bleu\"];\n\n// Tuple (ordre et types fixes)\nlet person: [string, number] = [\"Alice\", 30];",
-            "visualDemo": {
-              "content": "<div style='display: flex; flex-direction: column; gap: 15px;'><div style='padding: 10px; background-color: #f8f9fa; border-radius: 5px;'><strong>Array&lt;number&gt;:</strong> [1, 2, 3, 4]<br><span style='color: green;'>✓ [10, 20]</span><br><span style='color: red;'>✗ [\"a\", \"b\"]</span></div><div style='padding: 10px; background-color: #f8f9fa; border-radius: 5px;'><strong>Tuple [string, number]:</strong><br><span style='color: green;'>✓ [\"Alice\", 30]</span><br><span style='color: red;'>✗ [30, \"Alice\"]</span><br><span style='color: red;'>✗ [\"Alice\", 30, true]</span></div></div>"
-            }
-          },
-          {
-            "title": "Any et Unknown",
-            "text": "Le type 'any' désactive les vérifications de type, tandis que 'unknown' est plus sûr et nécessite une vérification avant utilisation.",
-            "code": "// Any (éviter si possible)\nlet anyValue: any = 4;\nanyValue = \"une chaîne\";\nanyValue = false;\nanyValue.nonExistantMethod(); // Pas d'erreur à la compilation\n\n// Unknown (plus sûr que any)\nlet unknownValue: unknown = 4;\n// unknownValue.toFixed(); // Erreur!\n\n// Vérification de type nécessaire\nif (typeof unknownValue === \"number\") {\n  unknownValue.toFixed(); // OK\n}",
-            "visualDemo": {
-              "content": "<div style='padding: 15px; border: 1px solid #ddd; border-radius: 8px;'><div style='display: flex; margin-bottom: 15px;'><div style='flex: 1; padding: 10px; background-color: #fff3cd; border-radius: 5px;'><strong>any</strong><br>• Contourne le système de types<br>• Déconseillé<br>• Peut causer des bugs</div><div style='flex: 1; padding: 10px; margin-left: 10px; background-color: #d1e7dd; border-radius: 5px;'><strong>unknown</strong><br>• Type sécurisé<br>• Nécessite vérification<br>• Meilleure pratique</div></div><div style='font-family: monospace; font-size: 14px; padding: 10px; background-color: #f8f9fa; border-radius: 5px;'>if (typeof value === \"string\") {<br>&nbsp;&nbsp;// value est traité comme string ici<br>}</div></div>"
-            }
-          },
-          {
-            "title": "Inférence de Type",
-            "text": "TypeScript peut souvent déterminer automatiquement le type d'une variable en fonction de sa valeur initiale, sans déclaration explicite.",
-            "code": "// Inférence automatique du type\nlet nom = \"Alice\";  // TypeScript infère: string\nlet age = 30;       // TypeScript infère: number\nlet active = true;  // TypeScript infère: boolean\n\n// nom = 42;        // Erreur! Type 'number' n'est pas assignable au type 'string'",
-            "visualDemo": {
-              "content": "<div style='font-family: monospace; background-color: #f5f5f5; padding: 15px; border-radius: 8px;'><div style='margin-bottom: 10px;'><span style='color: #0077aa;'>let</span> nom = <span style='color: #669900;'>\"Alice\"</span>;<br><span style='color: #888;'>// TypeScript : let nom: string</span></div><div style='margin-bottom: 10px;'><span style='color: #0077aa;'>let</span> age = <span style='color: #116644;'>30</span>;<br><span style='color: #888;'>// TypeScript : let age: number</span></div><div><span style='color: #0077aa;'>let</span> items = [<span style='color: #116644;'>1</span>, <span style='color: #116644;'>2</span>, <span style='color: #116644;'>3</span>];<br><span style='color: #888;'>// TypeScript : let items: number[]</span></div></div>"
-            }
-          }
-        ]
+  "awaited-type": {
+    "name": "Awaited<Type>",
+    "category": "utility-types",
+    "description": "Un type utilitaire qui modélise le comportement des opérations await en TypeScript, permettant d'extraire le type que retournerait une Promise une fois résolue.",
+    "syntax": "Awaited<Type>",
+    "attributes": [
+      {
+        "name": "Type",
+        "description": "Le type à 'désemballer', généralement un type Promise ou un type similaire imbriqué."
       },
-      "related": ["interfaces", "type-aliases", "union-types", "functions"]
-    }
+      {
+        "name": "Désemballage récursif",
+        "description": "Awaited<Type> va récursivement désemballer les Promises imbriquées jusqu'à atteindre un type non-Promise."
+      },
+      {
+        "name": "Union types",
+        "description": "Fonctionne également avec les unions de types, désemballant chaque membre de l'union."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Extraction du type d'une Promise simple",
+        "code": "// Désemballer une Promise simple\ntype A = Awaited<Promise<string>>;\n// type A = string\n\n// Désemballer des Promises imbriquées\ntype B = Awaited<Promise<Promise<number>>>;\n// type B = number\n\n// Fonctionne avec les unions de types\ntype C = Awaited<boolean | Promise<number>>;\n// type C = number | boolean"
+      },
+      {
+        "title": "Utilisation pratique avec des fonctions async",
+        "code": "async function fetchUserData(): Promise<{ id: number; name: string }> {\n  // Simulation d'un appel API\n  return { id: 1, name: 'Alice' };\n}\n\n// Extraire le type de retour effectif\ntype UserData = Awaited<ReturnType<typeof fetchUserData>>;\n// équivalent à: type UserData = { id: number; name: string };\n\n// Utile pour les fonctions qui manipulent le résultat\nfunction processUser(user: UserData) {\n  console.log(`Traitement de l'utilisateur ${user.name}`);\n}"
+      }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "Introduction à Awaited<Type>",
+          "text": "Awaited<Type> est un type utilitaire qui simule le comportement de l'opérateur await sur les Promises en TypeScript, en extrayant le type que contiendrait une Promise une fois résolue.",
+          "code": "// Comprendre la différence entre ces types:\n\ntype PromiseType = Promise<string>;\n// Le type est la Promise elle-même\n\ntype ResolvedType = Awaited<Promise<string>>;\n// Le type est string - ce que la Promise résout",
+          "visualDemo": {
+            "content": "<div style='font-family: monospace; background-color: #f5f5f5; padding: 16px; border-radius: 8px;'><div style='display: flex; margin-bottom: 15px;'><div style='width: 50%;'><strong>Sans Awaited:</strong><br><code>type T = Promise&lt;string&gt;</code></div><div style='width: 50%; background-color: #e9ecef; padding: 8px; border-radius: 4px;'><code>Promise&lt;string&gt;</code></div></div><div style='display: flex;'><div style='width: 50%;'><strong>Avec Awaited:</strong><br><code>type T = Awaited&lt;Promise&lt;string&gt;&gt;</code></div><div style='width: 50%; background-color: #e9ecef; padding: 8px; border-radius: 4px;'><code>string</code></div></div></div>"
+          }
+        },
+        {
+          "title": "Désemballage récursif des Promises",
+          "text": "Awaited<Type> peut récursivement désemballer des Promises imbriquées à n'importe quelle profondeur, jusqu'à ce qu'il atteigne un type non-Promise.",
+          "code": "// Promises imbriquées\ntype A = Promise<string>;\ntype B = Promise<Promise<string>>;\ntype C = Promise<Promise<Promise<string>>>;\n\n// Awaited désemballe récursivement\ntype ResolvedA = Awaited<A>;  // string\ntype ResolvedB = Awaited<B>;  // string\ntype ResolvedC = Awaited<C>;  // string",
+          "visualDemo": {
+            "content": "<div style='padding: 16px; background-color: #f8f9fa; border-radius: 8px;'><div style='display: flex; flex-direction: column; gap: 15px;'><div style='display: flex; align-items: center;'><div style='width: 300px;'><code>Awaited&lt;Promise&lt;string&gt;&gt;</code></div><div style='display: flex; align-items: center;'><div style='width: 30px; text-align: center;'>→</div><div style='background-color: #e9ecef; padding: 5px 10px; border-radius: 4px;'><code>string</code></div></div></div><div style='display: flex; align-items: center;'><div style='width: 300px;'><code>Awaited&lt;Promise&lt;Promise&lt;string&gt;&gt;&gt;</code></div><div style='display: flex; align-items: center;'><div style='width: 30px; text-align: center;'>→</div><div style='background-color: #e9ecef; padding: 5px 10px; border-radius: 4px;'><code>string</code></div></div></div><div style='display: flex; align-items: center;'><div style='width: 300px;'><code>Awaited&lt;Promise&lt;Promise&lt;Promise&lt;string&gt;&gt;&gt;&gt;</code></div><div style='display: flex; align-items: center;'><div style='width: 30px; text-align: center;'>→</div><div style='background-color: #e9ecef; padding: 5px 10px; border-radius: 4px;'><code>string</code></div></div></div></div></div>"
+          }
+        },
+        {
+          "title": "Gestion des unions de types",
+          "text": "Awaited<Type> peut également traiter les unions de types, désemballant chaque membre de l'union indépendamment.",
+          "code": "// Unions de types avec Awaited\ntype MixedType = boolean | Promise<number>;\ntype Resolved = Awaited<MixedType>;\n// type Resolved = boolean | number\n\n// Exemple plus complexe avec imbrication\ntype ComplexUnion = Promise<string> | Promise<Promise<number>> | boolean;\ntype ResolvedComplex = Awaited<ComplexUnion>;\n// type ResolvedComplex = string | number | boolean",
+          "visualDemo": {
+            "content": "<div style='padding: 16px; background-color: #f8f9fa; border-radius: 8px;'><div style='margin-bottom: 20px;'><div style='font-weight: bold; margin-bottom: 10px;'>Union simple:</div><div style='display: flex; align-items: center;'><div style='padding: 8px; background-color: #e2e3e5; border-radius: 4px; margin-right: 15px;'><code>boolean | Promise&lt;number&gt;</code></div><div style='font-size: 20px; margin-right: 15px;'>⟹</div><div style='padding: 8px; background-color: #d1e7dd; border-radius: 4px;'><code>Awaited&lt;boolean | Promise&lt;number&gt;&gt;</code></div><div style='font-size: 20px; margin: 0 15px;'>⟹</div><div style='padding: 8px; background-color: #cff4fc; border-radius: 4px;'><code>boolean | number</code></div></div></div><div><div style='font-weight: bold; margin-bottom: 10px;'>Union complexe:</div><div style='display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;'><div style='padding: 5px; background-color: #e2e3e5; border-radius: 4px;'><code>Promise&lt;string&gt;</code></div><div style='padding: 5px; background-color: #e2e3e5; border-radius: 4px;'><code>Promise&lt;Promise&lt;number&gt;&gt;</code></div><div style='padding: 5px; background-color: #e2e3e5; border-radius: 4px;'><code>boolean</code></div></div><div style='text-align: center; margin-bottom: 15px;'>⟇ <code>Awaited&lt;...&gt;</code></div><div style='display: flex; flex-wrap: wrap; gap: 10px;'><div style='padding: 5px; background-color: #d1e7dd; border-radius: 4px;'><code>string</code></div><div style='padding: 5px; background-color: #d1e7dd; border-radius: 4px;'><code>number</code></div><div style='padding: 5px; background-color: #d1e7dd; border-radius: 4px;'><code>boolean</code></div></div></div></div>"
+          }
+        },
+        {
+          "title": "Cas d'utilisation pratique avec ReturnType",
+          "text": "Une utilisation courante d'Awaited<Type> est de l'associer avec ReturnType pour extraire le type de retour effectif d'une fonction asynchrone.",
+          "code": "// Définition d'une fonction async\nasync function fetchData() {\n  const response = await fetch('https://api.example.com/data');\n  return await response.json() as { results: string[] };\n}\n\n// Sans Awaited\ntype Result1 = ReturnType<typeof fetchData>;\n// type Result1 = Promise<{ results: string[] }>\n\n// Avec Awaited\ntype Result2 = Awaited<ReturnType<typeof fetchData>>;\n// type Result2 = { results: string[] }",
+          "visualDemo": {
+            "content": "<div style='padding: 16px; background-color: #f8f9fa; border-radius: 8px;'><div style='background-color: #e2e3e5; padding: 10px; border-radius: 4px; margin-bottom: 15px;'><code>async function fetchData() { ... }</code></div><div style='display: flex; flex-direction: column; gap: 15px;'><div style='display: flex; align-items: center;'><div style='width: 220px;'><code>ReturnType&lt;typeof fetchData&gt;</code></div><div style='width: 30px; text-align: center;'>→</div><div style='background-color: #f8d7da; padding: 5px 10px; border-radius: 4px; flex-grow: 1;'><code>Promise&lt;{ results: string[] }&gt;</code></div></div><div style='display: flex; align-items: center;'><div style='width: 220px;'><code>Awaited&lt;ReturnType&lt;typeof fetchData&gt;&gt;</code></div><div style='width: 30px; text-align: center;'>→</div><div style='background-color: #d1e7dd; padding: 5px 10px; border-radius: 4px; flex-grow: 1;'><code>{ results: string[] }</code></div></div></div></div>"
+          }
+        },
+        {
+          "title": "Implémentation dans TypeScript",
+          "text": "Comprendre comment Awaited<Type> est implémenté dans TypeScript peut aider à mieux comprendre son fonctionnement.",
+          "code": "// Voici une version simplifiée de l'implémentation dans TypeScript:\n\ntype Awaited<T> =\n  T extends null | undefined ? T :\n  T extends object & { then(onfulfilled: infer F): any } ?\n    F extends ((value: infer V, ...args: any) => any) ?\n      Awaited<V> :\n      never :\n  T;",
+          "visualDemo": {
+            "content": "<div style='padding: 16px; background-color: #f5f5f5; border-radius: 8px;'><div style='margin-bottom: 16px;'><strong>Comment fonctionne Awaited&lt;Type&gt;:</strong></div><ol style='margin-left: 20px;'><li>Vérifie si le type est null/undefined et les retourne tels quels</li><li>Vérifie si le type est un objet avec une méthode .then (thenable)</li><li>Si c'est le cas, extrait le type V du callback onfulfilled</li><li>Appelle récursivement Awaited&lt;V&gt; pour désemballer les promesses imbriquées</li><li>Si ce n'est pas une Promise/thenable, retourne simplement T</li></ol><div style='margin-top: 16px; font-style: italic;'>Cette approche récursive permet de désemballer des Promises imbriquées à n'importe quelle profondeur.</div></div>"
+          }
+        }
+      ]
+    },
+    "related": ["Promise", "ReturnType", "Partial", "Required", "async-await", "generics"]
   }
+}

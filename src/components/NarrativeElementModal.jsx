@@ -77,7 +77,6 @@ const NarrativeElementModal = ({
   const [isPaused, setIsPaused] = useState(false);
   const [animationStarted, setAnimationStarted] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
 
   // Refs
@@ -93,16 +92,6 @@ const NarrativeElementModal = ({
   const headerFooterBg = theme === "dark" ? "black" : "white";
   const contentBg = theme === "dark" ? "#1a1a1a" : "#f3f4f6";
   const borderColor = theme === "dark" ? "#333" : "#e5e7eb";
-
-  // Mobile detection
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-    return () => window.removeEventListener("resize", checkIsMobile);
-  }, []);
 
   // Reset auto-scroll state when a new modal opens
   useEffect(() => {
@@ -186,8 +175,8 @@ const NarrativeElementModal = ({
 
     const container = modalContentRef.current;
     const isAtBottom =
-      container.scrollHeight - container.scrollTop - container.clientHeight <
-      20;
+      container.scrollHeight - container.scrollTop - container.clientHeight;
+    20;
 
     // If the user scrolls manually, adapt auto-scroll
     setShouldAutoScroll(isAtBottom);
@@ -632,18 +621,12 @@ const NarrativeElementModal = ({
                     </p>
                   </div>
 
-                  {/* Code and visual demo */}
-                  <div
-                    className={`w-full flex ${
-                      isMobile ? "flex-col gap-6" : "flex-row gap-6 items-start"
-                    }`}
-                  >
+                  {/* Code and visual demo - MODIFIED SECTION */}
+                  <div className={`w-full flex flex-wrap gap-6`}>
                     {/* Code */}
                     {currentStepData.code && (
                       <div
-                        className={`transition-all duration-700 ease-out ${
-                          isMobile ? "w-full" : "w-1/2"
-                        } ${
+                        className={`transition-all duration-700 ease-out min-w-[300px] max-w-[500px] flex-1 ${
                           narrativeState.showCode
                             ? "opacity-100 translate-x-0"
                             : "opacity-0 -translate-x-4"
@@ -652,13 +635,19 @@ const NarrativeElementModal = ({
                         {narrativeState.typingCodeProgress > 0 && (
                           <div className="code-typing rounded-md shadow-lg overflow-hidden bg-[#282c34]">
                             <SyntaxHighlighter
-                              language="html"
+                              language={
+                                dataType === "typescript"
+                                  ? "typescript"
+                                  : "html"
+                              }
                               style={atomOneDark}
                               customStyle={{
                                 margin: 0,
                                 padding: "1rem",
-                                fontSize: isMobile ? "0.8rem" : "0.9rem",
+                                fontSize: "0.9rem",
                                 backgroundColor: "#282c34",
+                                maxHeight: "400px",
+                                overflowY: "auto",
                               }}
                               showLineNumbers={false}
                               wrapLongLines={true}
@@ -673,16 +662,14 @@ const NarrativeElementModal = ({
                     {/* Visual demo */}
                     {currentStepData.visualDemo?.content && (
                       <div
-                        className={`transition-all duration-700 ease-out delay-200 ${
-                          isMobile ? "w-full" : "w-1/2"
-                        } ${
+                        className={`transition-all duration-700 ease-out delay-200 min-w-[250px] flex-1 ${
                           narrativeState.showVisual
                             ? "opacity-100 translate-x-0"
                             : "opacity-0 translate-x-4"
                         }`}
                       >
                         <div
-                          className={`p-4 rounded-lg shadow-lg border transition-colors duration-300 ${
+                          className={`p-4 rounded-lg shadow-lg border transition-colors duration-300 overflow-auto max-h-[400px] ${
                             theme === "dark"
                               ? "bg-gray-800 border-gray-700"
                               : "bg-white border-gray-200"
@@ -698,6 +685,7 @@ const NarrativeElementModal = ({
                       </div>
                     )}
                   </div>
+                  {/* END OF MODIFIED SECTION */}
                 </>
               )}
               <div className="h-16"></div>
