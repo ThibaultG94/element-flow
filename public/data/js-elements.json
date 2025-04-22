@@ -73,5 +73,104 @@
       ]
     },
     "related": ["Error", "TypeError", "Promise"]
+  },
+  "array": {
+    "name": "Array",
+    "category": "objects",
+    "description": "L'objet global Array est utilisé pour créer des tableaux. Les tableaux sont des objets de haut-niveau semblables à des listes dont la longueur et le type des éléments ne sont pas fixés.",
+    "syntax": "// Notations littérales\nlet arr1 = [];\nlet arr2 = [element1, element2, ...];\n\n// Constructeur\nlet arr3 = new Array();\nlet arr4 = new Array(element1, element2, ...);\nlet arr5 = new Array(arrayLength);",
+    "attributes": [
+      {
+        "name": "length",
+        "description": "Propriété qui indique le nombre d'éléments dans le tableau. Cette propriété est liée aux propriétés numériques du tableau et peut être modifiée directement."
+      },
+      {
+        "name": "prototype",
+        "description": "Permet d'ajouter des propriétés et méthodes à tous les objets Array."
+      },
+      {
+        "name": "[@@species]",
+        "description": "Fonction de construction utilisée pour créer les objets dérivés."
+      },
+      {
+        "name": "[@@unscopables]",
+        "description": "Symbole contenant les noms des propriétés à exclure d'une portée de liaison avec with."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Créer un tableau",
+        "code": "// Tableau littéral\nlet fruits = [\"Apple\", \"Banana\"];\nconsole.log(fruits.length); // 2\n\n// Avec le constructeur\nlet numbers = new Array(1, 2, 3, 4, 5);\nconsole.log(numbers.length); // 5\n\n// Tableau vide avec longueur spécifiée\nlet emptyArray = new Array(5);\nconsole.log(emptyArray.length); // 5"
+      },
+      {
+        "title": "Accéder aux éléments",
+        "code": "let fruits = [\"Apple\", \"Banana\", \"Orange\"];\n\n// Accès par index (commence à 0)\nlet first = fruits[0]; // \"Apple\"\nlet second = fruits[1]; // \"Banana\"\n\n// Dernier élément\nlet last = fruits[fruits.length - 1]; // \"Orange\"\n\n// Index hors limites\nlet nonExistent = fruits[10]; // undefined"
+      },
+      {
+        "title": "Modifier un tableau",
+        "code": "let fruits = [\"Apple\", \"Banana\"];\n\n// Ajouter à la fin\nfruits.push(\"Orange\"); // retourne 3 (nouvelle longueur)\nconsole.log(fruits); // [\"Apple\", \"Banana\", \"Orange\"]\n\n// Retirer de la fin\nlet lastFruit = fruits.pop(); // retourne \"Orange\"\nconsole.log(fruits); // [\"Apple\", \"Banana\"]\n\n// Ajouter au début\nfruits.unshift(\"Strawberry\"); // retourne 3 (nouvelle longueur)\nconsole.log(fruits); // [\"Strawberry\", \"Apple\", \"Banana\"]\n\n// Retirer du début\nlet firstFruit = fruits.shift(); // retourne \"Strawberry\"\nconsole.log(fruits); // [\"Apple\", \"Banana\"]"
+      },
+      {
+        "title": "Parcourir un tableau",
+        "code": "let fruits = [\"Apple\", \"Banana\", \"Orange\"];\n\n// Boucle for classique\nfor (let i = 0; i < fruits.length; i++) {\n  console.log(fruits[i]);\n}\n\n// forEach\nfruits.forEach(function(item, index) {\n  console.log(index, item);\n});\n\n// for...of (ES6)\nfor (let fruit of fruits) {\n  console.log(fruit);\n}\n\n// map (crée un nouveau tableau)\nlet upperFruits = fruits.map(fruit => fruit.toUpperCase());\nconsole.log(upperFruits); // [\"APPLE\", \"BANANA\", \"ORANGE\"]"
+      },
+      {
+        "title": "Manipulations avancées",
+        "code": "let fruits = [\"Apple\", \"Banana\", \"Orange\", \"Mango\"];\n\n// Trouver l'index d'un élément\nlet index = fruits.indexOf(\"Banana\"); // 1\n\n// Vérifier si un élément existe\nlet exists = fruits.includes(\"Mango\"); // true\n\n// Supprimer des éléments à un index spécifique\nlet removed = fruits.splice(1, 2); // supprime 2 éléments à partir de l'index 1\nconsole.log(fruits); // [\"Apple\", \"Mango\"]\nconsole.log(removed); // [\"Banana\", \"Orange\"]\n\n// Copier un tableau\nlet copy = fruits.slice();\n\n// Jointure d'éléments\nlet str = fruits.join(\", \"); // \"Apple, Mango\""
+      },
+      {
+        "title": "Filtrer et rechercher",
+        "code": "let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];\n\n// Filtrer les nombres pairs\nlet evens = numbers.filter(num => num % 2 === 0);\nconsole.log(evens); // [2, 4, 6, 8, 10]\n\n// Trouver le premier élément correspondant\nlet firstBigNumber = numbers.find(num => num > 5);\nconsole.log(firstBigNumber); // 6\n\n// Vérifier si tous les éléments satisfont une condition\nlet allPositive = numbers.every(num => num > 0); // true\n\n// Vérifier si au moins un élément satisfait une condition\nlet hasEven = numbers.some(num => num % 2 === 0); // true"
+      },
+      {
+        "title": "Réduire un tableau à une valeur",
+        "code": "let numbers = [1, 2, 3, 4, 5];\n\n// Réduire à une somme (de gauche à droite)\nlet sum = numbers.reduce((total, num) => total + num, 0);\nconsole.log(sum); // 15\n\n// Réduire à une somme (de droite à gauche)\nlet sumRight = numbers.reduceRight((total, num) => total + num, 0);\nconsole.log(sumRight); // 15 (même résultat pour l'addition)"
+      }
+    ],
+    "related": ["object", "map", "set", "typedarray"],
+    "animation": {
+      "steps": [
+        {
+          "title": "Introduction aux tableaux",
+          "text": "Un tableau en JavaScript est une structure de données qui permet de stocker plusieurs valeurs dans une seule variable. Les tableaux sont indexés à partir de 0.",
+          "code": "let fruits = [\"Apple\", \"Banana\", \"Orange\"];\n\nconsole.log(fruits.length); // 3\nconsole.log(fruits[0]); // \"Apple\"\nconsole.log(fruits[1]); // \"Banana\"\nconsole.log(fruits[2]); // \"Orange\"",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>fruits = [<span style='color: green'>\"Apple\"</span>, <span style='color: green'>\"Banana\"</span>, <span style='color: green'>\"Orange\"</span>]</pre><pre style='margin:0'>indices:    0         1          2</pre></div>"
+          }
+        },
+        {
+          "title": "Ajouter et supprimer des éléments",
+          "text": "Les tableaux JavaScript sont dynamiques et leurs méthodes permettent facilement d'ajouter ou supprimer des éléments au début ou à la fin.",
+          "code": "let fruits = [\"Apple\", \"Banana\"];\n\n// Ajouter à la fin\nfruits.push(\"Orange\");\n\n// Supprimer de la fin\nlet lastFruit = fruits.pop();\n\n// Ajouter au début\nfruits.unshift(\"Strawberry\");\n\n// Supprimer du début\nlet firstFruit = fruits.shift();",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>Initial: [<span style='color: green'>\"Apple\"</span>, <span style='color: green'>\"Banana\"</span>]</pre><pre style='margin:0'>Après push: [<span style='color: green'>\"Apple\"</span>, <span style='color: green'>\"Banana\"</span>, <span style='color: green'>\"Orange\"</span>]</pre><pre style='margin:0'>Après pop: [<span style='color: green'>\"Apple\"</span>, <span style='color: green'>\"Banana\"</span>]</pre><pre style='margin:0'>Après unshift: [<span style='color: green'>\"Strawberry\"</span>, <span style='color: green'>\"Apple\"</span>, <span style='color: green'>\"Banana\"</span>]</pre><pre style='margin:0'>Après shift: [<span style='color: green'>\"Apple\"</span>, <span style='color: green'>\"Banana\"</span>]</pre></div>"
+          }
+        },
+        {
+          "title": "Manipulations avec splice",
+          "text": "La méthode splice() est polyvalente et permet d'ajouter ou de supprimer des éléments à n'importe quelle position dans le tableau.",
+          "code": "let fruits = [\"Apple\", \"Banana\", \"Orange\", \"Mango\"];\n\n// Suppression: splice(position, nbÉléments)\nlet removed = fruits.splice(1, 2);\n// fruits: [\"Apple\", \"Mango\"]\n// removed: [\"Banana\", \"Orange\"]\n\n// Ajout: splice(position, 0, ...éléments)\nfruits.splice(1, 0, \"Pear\", \"Peach\");\n// fruits: [\"Apple\", \"Pear\", \"Peach\", \"Mango\"]",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>Initial: [<span style='color: green'>\"Apple\"</span>, <span style='color: green'>\"Banana\"</span>, <span style='color: green'>\"Orange\"</span>, <span style='color: green'>\"Mango\"</span>]</pre><pre style='margin:0'>Après splice(1, 2): [<span style='color: green'>\"Apple\"</span>, <span style='color: green'>\"Mango\"</span>]</pre><pre style='margin:0'>Éléments supprimés: [<span style='color: green'>\"Banana\"</span>, <span style='color: green'>\"Orange\"</span>]</pre><pre style='margin:0'>Après splice(1, 0, \"Pear\", \"Peach\"): [<span style='color: green'>\"Apple\"</span>, <span style='color: green'>\"Pear\"</span>, <span style='color: green'>\"Peach\"</span>, <span style='color: green'>\"Mango\"</span>]</pre></div>"
+          }
+        },
+        {
+          "title": "Méthodes de parcours et transformation",
+          "text": "JavaScript offre plusieurs méthodes pour parcourir, filtrer, transformer et réduire les tableaux, ce qui permet d'écrire un code plus déclaratif et expressif.",
+          "code": "let numbers = [1, 2, 3, 4, 5];\n\n// forEach - parcourir\nnumbers.forEach(n => console.log(n));\n\n// map - transformer\nlet squared = numbers.map(n => n * n);\n// [1, 4, 9, 16, 25]\n\n// filter - filtrer\nlet evens = numbers.filter(n => n % 2 === 0);\n// [2, 4]\n\n// reduce - réduire\nlet sum = numbers.reduce((total, n) => total + n, 0);\n// 15",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>numbers = [<span style='color: orange'>1</span>, <span style='color: orange'>2</span>, <span style='color: orange'>3</span>, <span style='color: orange'>4</span>, <span style='color: orange'>5</span>]</pre><pre style='margin:0'></pre><pre style='margin:0'>forEach: affiche chaque nombre</pre><pre style='margin:0'>map: [<span style='color: orange'>1</span>, <span style='color: orange'>4</span>, <span style='color: orange'>9</span>, <span style='color: orange'>16</span>, <span style='color: orange'>25</span>]</pre><pre style='margin:0'>filter: [<span style='color: orange'>2</span>, <span style='color: orange'>4</span>]</pre><pre style='margin:0'>reduce: <span style='color: orange'>15</span> (1+2+3+4+5)</pre></div>"
+          }
+        },
+        {
+          "title": "Particularités des tableaux JavaScript",
+          "text": "Les tableaux en JavaScript ont des particularités intéressantes : ce sont des objets, leur longueur est dynamique, et ils peuvent contenir des valeurs de types différents.",
+          "code": "// Tableaux hétérogènes\nlet mix = [1, \"texte\", true, {clé: \"valeur\"}, [5, 6]];\n\n// Longueur dynamique\nlet arr = [];\narr[0] = \"premier\";\narr[10] = \"dernier\";\nconsole.log(arr.length); // 11\nconsole.log(arr); // [\"premier\", empty × 9, \"dernier\"]\n\n// Modifier la propriété length\narr.length = 5; // Tronque le tableau\nconsole.log(arr); // [\"premier\", empty × 4]",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>mix = [<span style='color: orange'>1</span>, <span style='color: green'>\"texte\"</span>, <span style='color: blue'>true</span>, {<span style='color: green'>clé</span>: <span style='color: green'>\"valeur\"</span>}, [<span style='color: orange'>5</span>, <span style='color: orange'>6</span>]]</pre><pre style='margin:0'></pre><pre style='margin:0'>arr = [<span style='color: green'>\"premier\"</span>, <span style='color: gray'>empty × 9</span>, <span style='color: green'>\"dernier\"</span>]</pre><pre style='margin:0'>arr.length = <span style='color: orange'>11</span></pre><pre style='margin:0'></pre><pre style='margin:0'>Après arr.length = 5:</pre><pre style='margin:0'>arr = [<span style='color: green'>\"premier\"</span>, <span style='color: gray'>empty × 4</span>]</pre></div>"
+          }
+        }
+      ]
+    }
   }
 }
