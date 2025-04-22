@@ -72,6 +72,9 @@ const SEARCH_MAPPINGS = {
   dom: ["document", "selector", "element", "node"],
   api: ["fetch", "http", "request", "ajax"],
 
+  // TypeScript
+  typescript: ["ts", "type", "typage", "interface", "generics"],
+
   // React
   hook: ["useState", "useEffect", "useContext", "useRef"],
   composant: ["component", "jsx", "props", "state"],

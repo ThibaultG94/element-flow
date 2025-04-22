@@ -11,6 +11,7 @@ import HomePage from "./pages/HomePage";
 import HtmlPage from "./pages/HtmlPage";
 import CssPage from "./pages/CssPage";
 import JsPage from "./pages/JsPage";
+import TypeScriptPage from "./pages/TypeScriptPage";
 import ReactPage from "./pages/ReactPage";
 import VuePage from "./pages/VuePage";
 import PythonPage from "./pages/PythonPage";
@@ -93,6 +94,7 @@ const MainLayout = ({ children }) => {
               <NavLink to="/html">HTML</NavLink>
               <NavLink to="/css">CSS</NavLink>
               <NavLink to="/javascript">JavaScript</NavLink>
+              <NavLink to="/typescript">TypeScript</NavLink>
               <NavLink to="/react">React</NavLink>
               <NavLink to="/vue">Vue</NavLink>
               <NavLink to="/python">Python</NavLink>
@@ -164,6 +166,7 @@ function App() {
                 <Route path="/html" element={<HtmlPage />} />
                 <Route path="/css" element={<CssPage />} />
                 <Route path="/javascript" element={<JsPage />} />
+                <Route path="/typescript" element={<TypeScriptPage />} />
                 <Route path="/react" element={<ReactPage />} />
                 <Route path="/vue" element={<VuePage />} />
                 <Route path="/python" element={<PythonPage />} />

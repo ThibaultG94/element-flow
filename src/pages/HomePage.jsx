@@ -439,6 +439,7 @@ const HomePage = () => {
           </ExploreButton>
           <ExploreButton to="/css">Explorer CSS</ExploreButton>
           <ExploreButton to="/javascript">Explorer JavaScript</ExploreButton>
+          <ExploreButton to="/typescript">Explorer TypeScript</ExploreButton>
           <ExploreButton to="/react">Explorer React</ExploreButton>
           <ExploreButton to="/vue">Explorer Vue</ExploreButton>
           <ExploreButton to="/python">Explorer Python</ExploreButton>

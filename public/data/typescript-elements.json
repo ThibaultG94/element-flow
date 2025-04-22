@@ -1,0 +1,89 @@
+{
+    "basic-types": {
+      "name": "Types de base",
+      "category": "basics",
+      "description": "Les types primitifs fondamentaux en TypeScript pour le typage des variables",
+      "syntax": "let variable: type = valeur;",
+      "attributes": [
+        {
+          "name": "boolean",
+          "description": "Valeurs true/false"
+        },
+        {
+          "name": "number",
+          "description": "Nombres entiers et flottants"
+        },
+        {
+          "name": "string",
+          "description": "Chaînes de caractères"
+        },
+        {
+          "name": "array",
+          "description": "Tableaux typés (deux syntaxes possibles)"
+        },
+        {
+          "name": "any",
+          "description": "N'importe quel type (désactive le contrôle pour cette variable)"
+        },
+        {
+          "name": "null et undefined",
+          "description": "Valeurs null et undefined"
+        }
+      ],
+      "examples": [
+        {
+          "title": "Types Primitifs",
+          "code": "// Types de base\nlet isDone: boolean = false;\nlet decimal: number = 6;\nlet color: string = \"blue\";\n\n// Tableaux\nlet list1: number[] = [1, 2, 3];\nlet list2: Array<number> = [1, 2, 3]; // Syntaxe générique\n\n// Tuple\nlet tuple: [string, number] = [\"hello\", 10];\n\n// Any\nlet notSure: any = 4;\nnotSure = \"peut être une chaîne\";\nnotSure = false; // peut aussi être un booléen"
+        },
+        {
+          "title": "Type Inference",
+          "code": "// Inférence de type\nlet x = 3; // TypeScript infère que x est un number\n// x = \"hello\"; // Erreur: Type 'string' n'est pas assignable au type 'number'\n\n// Union types\nlet id: number | string;\nid = 101; // OK\nid = \"202\"; // OK aussi\n// id = true; // Erreur: Type 'boolean' n'est pas assignable"
+        }
+      ],
+      "animation": {
+        "steps": [
+          {
+            "title": "Introduction aux Types",
+            "text": "TypeScript ajoute un système de types statiques à JavaScript, permettant de détecter les erreurs à la compilation plutôt qu'à l'exécution.",
+            "code": "// JavaScript (sans type)\nlet name = \"Alice\";\nname = 42; // Valide en JS, mais peut causer des bugs\n\n// TypeScript\nlet name: string = \"Alice\";\n// name = 42; // Erreur de compilation!",
+            "visualDemo": {
+              "content": "<div class='html-element'><div class='head-element'>TypeScript</div><div class='body-element'>JavaScript + Types Statiques</div></div>"
+            }
+          },
+          {
+            "title": "Types Primitifs",
+            "text": "TypeScript supporte tous les types primitifs de JavaScript avec une syntaxe claire pour les déclarer.",
+            "code": "// Types primitifs\nlet isActive: boolean = true;\nlet age: number = 25;\nlet userName: string = \"Alice\";\nlet notDefined: undefined = undefined;\nlet empty: null = null;",
+            "visualDemo": {
+              "content": "<div style='padding: 1rem; border: 1px solid #ddd; border-radius: 8px; font-family: monospace;'><div style='margin-bottom: 10px;'><span style='color: blue;'>boolean</span>: true | false</div><div style='margin-bottom: 10px;'><span style='color: blue;'>number</span>: 42, 3.14, -10, 0b1010, 0o744, 0xf00d</div><div style='margin-bottom: 10px;'><span style='color: blue;'>string</span>: \"Hello\", 'World', `Template ${var}`</div><div style='margin-bottom: 10px;'><span style='color: blue;'>undefined</span>: undefined</div><div><span style='color: blue;'>null</span>: null</div></div>"
+            }
+          },
+          {
+            "title": "Tableaux et Tuples",
+            "text": "TypeScript permet de typer les tableaux pour garantir que tous leurs éléments sont du même type. Les tuples permettent d'avoir un nombre fixe d'éléments de types différents.",
+            "code": "// Tableaux (deux syntaxes équivalentes)\nlet numbers: number[] = [1, 2, 3, 4];\nlet colors: Array<string> = [\"rouge\", \"vert\", \"bleu\"];\n\n// Tuple (ordre et types fixes)\nlet person: [string, number] = [\"Alice\", 30];",
+            "visualDemo": {
+              "content": "<div style='display: flex; flex-direction: column; gap: 15px;'><div style='padding: 10px; background-color: #f8f9fa; border-radius: 5px;'><strong>Array&lt;number&gt;:</strong> [1, 2, 3, 4]<br><span style='color: green;'>✓ [10, 20]</span><br><span style='color: red;'>✗ [\"a\", \"b\"]</span></div><div style='padding: 10px; background-color: #f8f9fa; border-radius: 5px;'><strong>Tuple [string, number]:</strong><br><span style='color: green;'>✓ [\"Alice\", 30]</span><br><span style='color: red;'>✗ [30, \"Alice\"]</span><br><span style='color: red;'>✗ [\"Alice\", 30, true]</span></div></div>"
+            }
+          },
+          {
+            "title": "Any et Unknown",
+            "text": "Le type 'any' désactive les vérifications de type, tandis que 'unknown' est plus sûr et nécessite une vérification avant utilisation.",
+            "code": "// Any (éviter si possible)\nlet anyValue: any = 4;\nanyValue = \"une chaîne\";\nanyValue = false;\nanyValue.nonExistantMethod(); // Pas d'erreur à la compilation\n\n// Unknown (plus sûr que any)\nlet unknownValue: unknown = 4;\n// unknownValue.toFixed(); // Erreur!\n\n// Vérification de type nécessaire\nif (typeof unknownValue === \"number\") {\n  unknownValue.toFixed(); // OK\n}",
+            "visualDemo": {
+              "content": "<div style='padding: 15px; border: 1px solid #ddd; border-radius: 8px;'><div style='display: flex; margin-bottom: 15px;'><div style='flex: 1; padding: 10px; background-color: #fff3cd; border-radius: 5px;'><strong>any</strong><br>• Contourne le système de types<br>• Déconseillé<br>• Peut causer des bugs</div><div style='flex: 1; padding: 10px; margin-left: 10px; background-color: #d1e7dd; border-radius: 5px;'><strong>unknown</strong><br>• Type sécurisé<br>• Nécessite vérification<br>• Meilleure pratique</div></div><div style='font-family: monospace; font-size: 14px; padding: 10px; background-color: #f8f9fa; border-radius: 5px;'>if (typeof value === \"string\") {<br>&nbsp;&nbsp;// value est traité comme string ici<br>}</div></div>"
+            }
+          },
+          {
+            "title": "Inférence de Type",
+            "text": "TypeScript peut souvent déterminer automatiquement le type d'une variable en fonction de sa valeur initiale, sans déclaration explicite.",
+            "code": "// Inférence automatique du type\nlet nom = \"Alice\";  // TypeScript infère: string\nlet age = 30;       // TypeScript infère: number\nlet active = true;  // TypeScript infère: boolean\n\n// nom = 42;        // Erreur! Type 'number' n'est pas assignable au type 'string'",
+            "visualDemo": {
+              "content": "<div style='font-family: monospace; background-color: #f5f5f5; padding: 15px; border-radius: 8px;'><div style='margin-bottom: 10px;'><span style='color: #0077aa;'>let</span> nom = <span style='color: #669900;'>\"Alice\"</span>;<br><span style='color: #888;'>// TypeScript : let nom: string</span></div><div style='margin-bottom: 10px;'><span style='color: #0077aa;'>let</span> age = <span style='color: #116644;'>30</span>;<br><span style='color: #888;'>// TypeScript : let age: number</span></div><div><span style='color: #0077aa;'>let</span> items = [<span style='color: #116644;'>1</span>, <span style='color: #116644;'>2</span>, <span style='color: #116644;'>3</span>];<br><span style='color: #888;'>// TypeScript : let items: number[]</span></div></div>"
+            }
+          }
+        ]
+      },
+      "related": ["interfaces", "type-aliases", "union-types", "functions"]
+    }
+  }
