@@ -1,118 +1,77 @@
 {
-  "display": {
-    "name": "display",
-    "description": "Définit le type d'affichage utilisé pour le rendu d'un élément et la disposition utilisée pour ses éléments fils.",
-    "category": "layout",
-    "syntax": "display: block;\ndisplay: inline;\ndisplay: flex;\ndisplay: grid;\ndisplay: none;\n/* Et bien d'autres... */",
-    "values": [
+  "--*": {
+    "name": "Propriétés personnalisées (--*)",
+    "category": "variables",
+    "description": "Les propriétés personnalisées CSS (variables CSS) permettent de stocker des valeurs réutilisables dans un document et d'y accéder via la fonction var().",
+    "syntax": "--nom-variable: valeur;",
+    "attributes": [
       {
-        "name": "block",
-        "description": "L'élément génère une boîte de bloc, qui occupe toute la largeur disponible et crée un saut de ligne avant et après."
+        "name": "portée",
+        "description": "Les propriétés personnalisées sont limitées à la portée de l'élément sur lequel elles sont déclarées, et sont héritées par les éléments enfants."
       },
       {
-        "name": "inline",
-        "description": "L'élément génère une ou plusieurs boîtes en ligne, qui n'interrompent pas le flux du texte."
+        "name": "cascade",
+        "description": "La valeur utilisée d'une propriété personnalisée est déterminée par l'algorithme de la cascade, comme pour toute autre propriété CSS."
       },
       {
-        "name": "flex",
-        "description": "L'élément se comporte comme un bloc et utilise le modèle de disposition flexbox pour ses enfants."
-      },
-      {
-        "name": "grid",
-        "description": "L'élément se comporte comme un bloc et utilise le modèle de disposition en grille pour ses enfants."
-      },
-      {
-        "name": "none",
-        "description": "L'élément n'est pas affiché et ne prend pas de place dans la mise en page."
-      },
-      {
-        "name": "inline-block",
-        "description": "L'élément génère une boîte de bloc qui s'écoule avec le texte environnant comme s'il s'agissait d'une boîte en ligne."
-      },
-      {
-        "name": "inline-flex",
-        "description": "L'élément se comporte comme un élément en ligne et utilise le modèle flexbox pour ses enfants."
-      },
-      {
-        "name": "inline-grid",
-        "description": "L'élément se comporte comme un élément en ligne et utilise le modèle de grille pour ses enfants."
-      },
-      {
-        "name": "table",
-        "description": "L'élément se comporte comme un élément <table>."
-      },
-      {
-        "name": "contents",
-        "description": "La boîte de l'élément n'est pas générée, mais ses enfants sont affichés normalement."
+        "name": "nomenclature",
+        "description": "Les noms des propriétés personnalisées doivent commencer par deux tirets (--) et sont sensibles à la casse."
       }
     ],
     "examples": [
       {
-        "title": "Masquer un élément",
-        "code": "/* HTML */\n<p>Texte visible</p>\n<p class=\"secret\">Texte invisible</p>\n\n/* CSS */\n.secret {\n  display: none;\n}",
-        "description": "Utiliser display: none pour masquer complètement un élément de la page."
+        "title": "Définition et utilisation basique",
+        "code": ":root {\n  --couleur-primaire: #488cff;\n  --couleur-secondaire: #ffff8c;\n  --espacement: 1rem;\n}\n\n.element {\n  color: var(--couleur-primaire);\n  background-color: var(--couleur-secondaire);\n  padding: var(--espacement);\n}"
       },
       {
-        "title": "Créer un conteneur flex",
-        "code": "/* HTML */\n<div class=\"flex-container\">\n  <div>Item 1</div>\n  <div>Item 2</div>\n  <div>Item 3</div>\n</div>\n\n/* CSS */\n.flex-container {\n  display: flex;\n  justify-content: space-between;\n}",
-        "description": "Utiliser display: flex pour créer une disposition flexible des éléments enfants."
-      },
-      {
-        "title": "Transformer des éléments de liste en ligne",
-        "code": "/* HTML */\n<ul class=\"menu\">\n  <li>Accueil</li>\n  <li>Services</li>\n  <li>Contact</li>\n</ul>\n\n/* CSS */\n.menu {\n  list-style: none;\n  padding: 0;\n}\n.menu li {\n  display: inline-block;\n  margin-right: 20px;\n}",
-        "description": "Utiliser display: inline-block pour afficher des éléments de liste horizontalement."
+        "title": "Valeurs complexes et valeurs par défaut",
+        "code": ":root {\n  --bordure: 1px solid black;\n  --ombre: 2px 4px 8px rgba(0, 0, 0, 0.2);\n}\n\n.bouton {\n  /* Valeur par défaut comme second argument */\n  border: var(--bordure, 2px dotted gray);\n  /* Ombres multiples avec variables CSS */\n  box-shadow: var(--ombre), 0 0 5px var(--couleur-primaire, blue);\n}"
       }
     ],
     "animation": {
       "steps": [
         {
-          "title": "Le flux normal du document",
-          "text": "Par défaut, les éléments HTML s'affichent soit en bloc (block), soit en ligne (inline) selon leur type.",
-          "code": "/* Éléments de type bloc par défaut */\n<div>, <p>, <h1>-<h6>, <section>\n\n/* Éléments de type inline par défaut */\n<span>, <a>, <strong>, <em>",
+          "title": "Qu'est-ce que les propriétés personnalisées CSS ?",
+          "text": "Les propriétés personnalisées CSS (variables CSS) permettent de définir des valeurs réutilisables dans une feuille de style. Elles sont préfixées par deux tirets (--) pour les distinguer des propriétés CSS standard.",
+          "code": "/* Définition d'une propriété personnalisée */\n:root {\n  --couleur-primaire: #3498db;\n}\n\n/* Utilisation de la propriété */\n.element {\n  color: var(--couleur-primaire);\n}",
           "visualDemo": {
-            "content": "<div style=\"padding: 10px; background-color: #f0f0f0; margin-bottom: 10px;\">Élément bloc (div)</div><span style=\"background-color: #e0e0e0; padding: 5px;\">Élément inline (span)</span> <span style=\"background-color: #e0e0e0; padding: 5px;\">Un autre élément inline</span>"
+            "content": "<div style='background-color: #f8f9fa; padding: 15px; border-radius: 8px; font-family: monospace;'><div style='margin-bottom: 10px; display: flex; align-items: center;'><span style='background: #3498db; width: 20px; height: 20px; display: inline-block; margin-right: 10px; border-radius: 3px;'></span> <code>--couleur-primaire: #3498db;</code></div><div>Avec les variables CSS, définissez une fois, utilisez partout !</div></div>"
           }
         },
         {
-          "title": "Modifier le comportement avec display",
-          "text": "La propriété display permet de changer comment un élément s'affiche, indépendamment de son type par défaut.",
-          "code": ".inline-to-block {\n  display: block;\n}\n\n.block-to-inline {\n  display: inline;\n}",
+          "title": "Portée et héritage",
+          "text": "Les propriétés personnalisées suivent les règles de portée CSS. En les définissant sur l'élément :root, elles sont disponibles globalement, mais vous pouvez aussi les définir sur n'importe quel élément pour limiter leur portée.",
+          "code": "/* Variables globales */\n:root {\n  --couleur-texte: black;\n}\n\n/* Portée limitée */\n.theme-sombre {\n  --couleur-texte: white;\n  --couleur-fond: #333;\n}\n\n.element {\n  color: var(--couleur-texte);\n  background-color: var(--couleur-fond, transparent);\n}",
           "visualDemo": {
-            "content": "<span style=\"display: block; background-color: #e0e0e0; padding: 5px; margin-bottom: 10px;\">Span transformé en bloc</span><div style=\"display: inline; background-color: #f0f0f0; padding: 5px;\">Div transformé en inline</div>"
+            "content": "<div style='display: flex; gap: 15px;'><div style='flex: 1; padding: 15px; background-color: white; color: black; border-radius: 8px; border: 1px solid #ddd;'><strong>Page normale</strong><div><code>--couleur-texte: black;</code></div></div><div style='flex: 1; padding: 15px; background-color: #333; color: white; border-radius: 8px; border: 1px solid #555;'><strong>Theme sombre</strong><div><code>--couleur-texte: white;</code><br><code>--couleur-fond: #333;</code></div></div></div>"
           }
         },
         {
-          "title": "Masquer des éléments",
-          "text": "La valeur none permet de retirer complètement un élément du flux du document.",
-          "code": ".invisible {\n  display: none;\n}\n\n/* Alternatif qui préserve l'espace */\n.hidden {\n  visibility: hidden;\n}",
+          "title": "Fonction var() et valeurs par défaut",
+          "text": "La fonction var() permet d'insérer la valeur d'une propriété personnalisée. Elle accepte un second argument qui sera utilisé comme valeur par défaut si la propriété n'est pas définie ou n'est pas valide.",
+          "code": ":root {\n  --padding-bouton: 8px 16px;\n}\n\n.bouton {\n  /* Valeur par défaut si --couleur-bouton n'existe pas */\n  background-color: var(--couleur-bouton, #2ecc71);\n  padding: var(--padding-bouton);\n  border-radius: var(--radius-bouton, 4px);\n}",
           "visualDemo": {
-            "content": "<div style=\"padding: 10px; background-color: #f0f0f0; margin-bottom: 10px;\">Élément visible</div><div style=\"padding: 10px; background-color: #f0f0f0; margin-bottom: 10px; visibility: hidden;\">Élément caché (avec espace préservé)</div>"
+            "content": "<div style='padding: 20px; background-color: #f5f5f5; border-radius: 8px;'><button style='background-color: #2ecc71; padding: 8px 16px; border-radius: 4px; border: none; color: white; font-weight: bold;'>Bouton</button><div style='margin-top: 15px; font-family: monospace; font-size: 14px;'><div>background-color: var(--couleur-bouton, #2ecc71);</div><div>padding: var(--padding-bouton);</div><div>border-radius: var(--radius-bouton, 4px);</div></div></div>"
           }
         },
         {
-          "title": "Disposition Flexbox",
-          "text": "La valeur flex transforme un conteneur en modèle flexbox, permettant une disposition avancée des éléments enfants.",
-          "code": ".flex-container {\n  display: flex;\n  justify-content: space-between;\n  background-color: #f0f0f0;\n  padding: 10px;\n}\n\n.flex-item {\n  padding: 10px;\n  background-color: #c0c0c0;\n}",
+          "title": "Valeurs complexes et calculs",
+          "text": "Les propriétés personnalisées peuvent stocker des valeurs complexes et être utilisées dans des calculs avec la fonction calc().",
+          "code": ":root {\n  --espacement-base: 8px;\n  --couleur-base: rgb(65, 105, 225);\n  --ombre-standard: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n\n.carte {\n  padding: calc(var(--espacement-base) * 2);\n  box-shadow: var(--ombre-standard);\n  border: 1px solid var(--couleur-base);\n}",
           "visualDemo": {
-            "content": "<div style=\"display: flex; justify-content: space-between; background-color: #f0f0f0; padding: 10px;\"><div style=\"padding: 10px; background-color: #c0c0c0;\">Item 1</div><div style=\"padding: 10px; background-color: #c0c0c0;\">Item 2</div><div style=\"padding: 10px; background-color: #c0c0c0;\">Item 3</div></div>"
+            "content": "<div style='padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'><div style='padding: 16px; border: 1px solid rgb(65, 105, 225); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); border-radius: 4px; background-color: white;'><div style='font-weight: bold; margin-bottom: 8px;'>Exemple de carte</div><div style='color: #555;'>Les variables CSS permettent de standardiser les valeurs comme les espacements, couleurs et ombres.</div></div><div style='margin-top: 15px; font-family: monospace; font-size: 13px;'><div>--espacement-base: 8px;</div><div>padding: calc(var(--espacement-base) * 2); <span style='color: #666;'>/* = 16px */</span></div></div></div>"
           }
         },
         {
-          "title": "Disposition en grille",
-          "text": "La valeur grid transforme un conteneur en modèle de grille, idéal pour les mises en page bidimensionnelles.",
-          "code": ".grid-container {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 10px;\n  background-color: #f0f0f0;\n  padding: 10px;\n}\n\n.grid-item {\n  padding: 10px;\n  background-color: #c0c0c0;\n  text-align: center;\n}",
+          "title": "Media queries et adaptation au thème",
+          "text": "Les propriétés personnalisées peuvent être redéfinies dans les media queries pour créer des designs adaptatifs, ou pour implémenter des thèmes clairs/sombres facilement.",
+          "code": ":root {\n  --couleur-texte: #333;\n  --couleur-fond: #fff;\n}\n\n@media (prefers-color-scheme: dark) {\n  :root {\n    --couleur-texte: #eee;\n    --couleur-fond: #222;\n  }\n}\n\nbody {\n  color: var(--couleur-texte);\n  background-color: var(--couleur-fond);\n}",
           "visualDemo": {
-            "content": "<div style=\"display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background-color: #f0f0f0; padding: 10px;\"><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">1</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">2</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">3</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">4</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">5</div><div style=\"padding: 10px; background-color: #c0c0c0; text-align: center;\">6</div></div>"
+            "content": "<div style='display: flex; gap: 20px;'><div style='flex: 1; padding: 15px; background-color: #fff; color: #333; border-radius: 8px; border: 1px solid #ddd;'><strong>Thème clair</strong><div style='margin-top: 10px; font-family: monospace;'>--couleur-texte: #333;<br>--couleur-fond: #fff;</div></div><div style='flex: 1; padding: 15px; background-color: #222; color: #eee; border-radius: 8px; border: 1px solid #444;'><strong>Thème sombre</strong><div style='margin-top: 10px; font-family: monospace;'>--couleur-texte: #eee;<br>--couleur-fond: #222;</div></div></div>"
           }
         }
       ]
     },
-    "notes": [
-      "La propriété display possède deux composantes : le type d'affichage extérieur qui définit comment la boîte participe au flux, et le type d'affichage intérieur qui définit l'organisation des éléments enfants.",
-      "Certaines valeurs de display sont regroupées en six catégories : display-outside, display-inside, display-listitem, display-internal, display-box et display-legacy.",
-      "La valeur initiale de display est inline, mais cette valeur est souvent héritée du type d'élément HTML."
-    ],
-    "related": ["flex", "grid", "position", "visibility"],
-    "accessibility": "L'utilisation de display: none ou display: contents sur un élément peut affecter son accessibilité en le retirant de l'arbre d'accessibilité. Pour masquer visuellement un élément tout en le conservant accessible aux technologies d'assistance, préférez d'autres méthodes comme la combinaison de position: absolute, width: 1px, height: 1px, et overflow: hidden."
+    "related": ["var", "calc", "color", "background-color", "root"]
   }
 }
