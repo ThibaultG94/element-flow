@@ -87,5 +87,84 @@
     "category": "structure",
     "attributes": [],
     "related": ["html", "head", "div", "h1"]
+  },
+  "base": {
+    "name": "<base>",
+    "category": "metadata",
+    "description": "L'élément <base> définit l'URL de base à utiliser pour recomposer toutes les URL relatives contenues dans un document. Il ne peut y avoir qu'un seul élément <base> au sein d'un document.",
+    "syntax": "<base href=\"URL_de_base\" target=\"contexte_de_navigation\">",
+    "attributes": [
+      {
+        "name": "href",
+        "description": "L'URL de base à utiliser afin de recomposer les URL relatives contenues dans le document. Les URI absolues et relatives sont autorisées."
+      },
+      {
+        "name": "target",
+        "description": "Un mot-clé ou un nom défini par l'auteur du contexte de navigation par défaut pour afficher les résultats de la navigation à partir des éléments <a>, <area> ou <form> sans attributs target explicites."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Définir une URL de base pour un document",
+        "code": "<head>\n  <base href=\"https://www.example.com/\">\n  <!-- Toutes les URL relatives seront maintenant relatives à https://www.example.com/ -->\n</head>\n<body>\n  <!-- Ce lien pointera vers https://www.example.com/about -->\n  <a href=\"about\">À propos</a>\n</body>"
+      },
+      {
+        "title": "Définir une cible par défaut pour les liens",
+        "code": "<head>\n  <base target=\"_blank\">\n  <!-- Tous les liens s'ouvriront par défaut dans un nouvel onglet/fenêtre -->\n</head>\n<body>\n  <!-- Ce lien s'ouvrira dans un nouvel onglet -->\n  <a href=\"https://www.example.com/\">Exemple</a>\n</body>"
+      },
+      {
+        "title": "Utilisation combinée de href et target",
+        "code": "<head>\n  <base href=\"https://www.example.com/\" target=\"_blank\">\n</head>\n<body>\n  <!-- Ce lien pointera vers https://www.example.com/products et s'ouvrira dans un nouvel onglet -->\n  <a href=\"products\">Nos produits</a>\n</body>"
+      },
+      {
+        "title": "Résolution des ancres avec base",
+        "code": "<head>\n  <base href=\"https://www.example.com/\">\n</head>\n<body>\n  <!-- Ce lien pointera vers https://www.example.com/#section1 -->\n  <a href=\"#section1\">Aller à la section 1</a>\n  \n  <div id=\"section1\">Section 1</div>\n</body>"
+      }
+    ],
+    "related": ["head", "link", "a"],
+    "animation": {
+      "steps": [
+        {
+          "title": "L'élément <base>",
+          "text": "L'élément <base> est utilisé pour définir l'URL de base à partir de laquelle toutes les URL relatives dans le document seront résolues.",
+          "code": "<head>\n  <base href=\"https://www.example.com/\">\n</head>",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>Document HTML</pre><pre style='margin:0'>├── &lt;head&gt;</pre><pre style='margin:0'>│   ├── <span style='color: blue'>&lt;base href=\"https://www.example.com/\"&gt;</span></pre><pre style='margin:0'>│   └── autres éléments d'en-tête</pre><pre style='margin:0'>└── &lt;body&gt;</pre><pre style='margin:0'>    └── contenu du document</pre></div>"
+          }
+        },
+        {
+          "title": "Positionnement de l'élément <base>",
+          "text": "L'élément <base> doit apparaître dans la section <head> du document et avant tout élément qui utilise des URL relatives.",
+          "code": "<head>\n  <base href=\"https://www.example.com/\">\n  <link rel=\"stylesheet\" href=\"styles/main.css\">\n  <!-- styles/main.css sera résolu en https://www.example.com/styles/main.css -->\n</head>",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>&lt;head&gt;</pre><pre style='margin:0'>  <span style='color: blue'>&lt;base href=\"https://www.example.com/\"&gt;</span></pre><pre style='margin:0'>  &lt;link rel=\"stylesheet\" href=\"styles/main.css\"&gt;</pre><pre style='margin:0'>  &lt;script src=\"js/app.js\"&gt;&lt;/script&gt;</pre><pre style='margin:0'>&lt;/head&gt;</pre><pre style='margin:0'></pre><pre style='margin:0'>Les URL sont résolues en:</pre><pre style='margin:0'>- https://www.example.com/styles/main.css</pre><pre style='margin:0'>- https://www.example.com/js/app.js</pre></div>"
+          }
+        },
+        {
+          "title": "L'attribut href",
+          "text": "L'attribut href spécifie l'URL de base à utiliser pour toutes les URL relatives dans le document.",
+          "code": "<base href=\"https://www.example.com/blog/\">\n\n<!-- Ce lien pointe vers https://www.example.com/blog/archives/2023/ -->\n<a href=\"archives/2023/\">Archives 2023</a>\n\n<!-- Les URL absolues ne sont pas affectées -->\n<a href=\"https://other-site.com/\">Autre site</a>",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>URL de base: <span style='color: blue'>https://www.example.com/blog/</span></pre><pre style='margin:0'></pre><pre style='margin:0'>URLs relatives:</pre><pre style='margin:0'>href=\"images/logo.png\" → <span style='color: green'>https://www.example.com/blog/images/logo.png</span></pre><pre style='margin:0'>href=\"../about.html\" → <span style='color: green'>https://www.example.com/about.html</span></pre><pre style='margin:0'>href=\"/contact.html\" → <span style='color: green'>https://www.example.com/contact.html</span></pre><pre style='margin:0'></pre><pre style='margin:0'>URLs absolues (inchangées):</pre><pre style='margin:0'>href=\"https://other-site.com/\" → <span style='color: orange'>https://other-site.com/</span></pre></div>"
+          }
+        },
+        {
+          "title": "L'attribut target",
+          "text": "L'attribut target spécifie la cible par défaut pour tous les liens et formulaires qui n'ont pas d'attribut target explicite.",
+          "code": "<base target=\"_blank\">\n\n<!-- Ce lien s'ouvrira dans un nouvel onglet/fenêtre -->\n<a href=\"https://www.example.com/\">Exemple</a>\n\n<!-- Ce lien a son propre target qui remplace celui de base -->\n<a href=\"https://www.example.com/contact\" target=\"_self\">Contact</a>",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>Valeurs possibles pour target:</pre><pre style='margin:0'></pre><pre style='margin:0'><span style='color: blue'>_self</span>: Contexte de navigation courant (défaut)</pre><pre style='margin:0'><span style='color: blue'>_blank</span>: Nouvel onglet ou nouvelle fenêtre</pre><pre style='margin:0'><span style='color: blue'>_parent</span>: Contexte de navigation parent</pre><pre style='margin:0'><span style='color: blue'>_top</span>: Contexte de navigation de plus haut niveau</pre><pre style='margin:0'><span style='color: blue'>nom-personnalisé</span>: Contexte de navigation nommé</pre></div>"
+          }
+        },
+        {
+          "title": "Règles d'utilisation importantes",
+          "text": "Il ne peut y avoir qu'un seul élément <base> dans un document. Si plusieurs sont présents, seul le premier sera pris en compte.",
+          "code": "<head>\n  <base href=\"https://www.example.com/\" target=\"_blank\">\n  <base href=\"https://other.example.com/\"> <!-- Ignoré ! -->\n</head>",
+          "visualDemo": {
+            "content": "<div class='html-element'><pre style='margin:0'>Règles importantes:</pre><ul style='margin-top:5px'><li>Un seul élément <span style='color: blue'>&lt;base&gt;</span> par document</li><li>Doit être placé dans la section <span style='color: blue'>&lt;head&gt;</span></li><li>Doit être avant tout élément avec des URLs relatives</li><li>Les balises Open Graph doivent utiliser des URLs absolues</li><li>L'élément <span style='color: blue'>&lt;base&gt;</span> est auto-fermant (pas de balise fermante)</li></ul></div>"
+          }
+        }
+      ]
+    }
   }
 }
