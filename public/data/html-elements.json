@@ -70,7 +70,34 @@
       "Bien que cette balise soit implicite, ou non requise dans un document HTML, elle est requise dans un document XHTML (à la fois pour la balise ouvrante et pour la balise fermante).",
       "Il est fortement recommandé d'utiliser l'attribut lang pour des raisons d'accessibilité."
     ],
-    "accessibility": "L'utilisation d'un attribut lang valide pour l'élément HTML permettra aux lecteurs d'écran de déterminer la langue à utiliser pour l'énonciation. La balise de langage utilisée doit correspondre à celle utilisée pour la majorité du contenu de la page."
+    "accessibility": "L'utilisation d'un attribut lang valide pour l'élément HTML permettra aux lecteurs d'écran de déterminer la langue à utiliser pour l'énonciation. La balise de langage utilisée doit correspondre à celle utilisée pour la majorité du contenu de la page.",
+    "exercises": [
+      {
+        "type": "qcm",
+        "question": "Quelle est la fonction principale de l'élément <html> ?",
+        "options": [
+          "Définir le contenu visible de la page",
+          "Contenir les métadonnées du document",
+          "Servir de racine à l'ensemble du document HTML",
+          "Définir le style de la page"
+        ],
+        "correctAnswer": 2,
+        "explanation": "L'élément <html> est l'élément racine qui contient tous les autres éléments du document HTML, y compris <head> et <body>."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez ce code HTML pour définir le français comme langue du document :",
+        "codeTemplate": "<!DOCTYPE html>\n<html [?]>\n  <head>\n    <title>Ma page</title>\n  </head>\n  <body>\n    <h1>Bonjour</h1>\n  </body>\n</html>",
+        "correctAnswer": "lang=\"fr\"",
+        "explanation": "L'attribut lang avec la valeur \"fr\" indique que le contenu du document est en français, ce qui est important pour l'accessibilité et les lecteurs d'écran."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "Il peut y avoir plusieurs éléments <html> dans un même document HTML.",
+        "correctAnswer": false,
+        "explanation": "Un document HTML ne doit contenir qu'un seul élément <html>, qui est l'élément racine. Tous les autres éléments doivent être descendants de cet élément unique."
+      }
+    ]
   },
   "head": {
     "id": "head",
@@ -165,6 +192,40 @@
           }
         }
       ]
-    }
+    },
+    "exercises": [
+      {
+        "type": "qcm",
+        "question": "Si vous avez <base href=\"https://example.com/blog/\"> dans votre document, quelle sera l'URL complète pour <a href=\"articles/first.html\"> ?",
+        "options": [
+          "https://example.com/articles/first.html",
+          "https://example.com/blog/articles/first.html",
+          "https://articles/first.html",
+          "https://blog/articles/first.html"
+        ],
+        "correctAnswer": 1,
+        "explanation": "L'URL relative 'articles/first.html' est résolue par rapport à l'URL de base 'https://example.com/blog/', donnant 'https://example.com/blog/articles/first.html'."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez ce code pour faire en sorte que tous les liens du document s'ouvrent dans un nouvel onglet :",
+        "codeTemplate": "<head>\n  <base [?]>\n</head>",
+        "correctAnswer": "target=\"_blank\"",
+        "explanation": "L'attribut target=\"_blank\" sur l'élément <base> fera en sorte que tous les liens sans attribut target explicite s'ouvriront dans un nouvel onglet ou une nouvelle fenêtre."
+      },
+      {
+        "type": "debugging",
+        "question": "Ce code ne fonctionne pas correctement. Identifiez et corrigez l'erreur :",
+        "buggyCode": "<body>\n  <base href=\"https://example.fr/\">\n  <a href=\"about\">À propos</a>\n</body>",
+        "correctCode": "<head>\n  <base href=\"https://example.fr/\">\n</head>\n<body>\n  <a href=\"about\">À propos</a>\n</body>",
+        "explanation": "L'élément <base> doit être placé dans la section <head> du document, pas dans <body>."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "Si plusieurs éléments <base> sont présents dans un document, ils seront tous pris en compte et combinés.",
+        "correctAnswer": false,
+        "explanation": "Un document ne peut avoir qu'un seul élément <base> actif. Si plusieurs sont présents, seul le premier sera pris en compte et les autres seront ignorés."
+      }
+    ]
   }
 }
