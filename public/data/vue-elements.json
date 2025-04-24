@@ -2,171 +2,204 @@
   "vue": {
     "name": "Vue.js",
     "category": "basics",
-    "description": "Vue (/vju:/ à prononcer comme en anglais: view) est un framework JavaScript qui se repose sur les standards HTML, CSS et JavaScript. Il propose une manière efficace de déclarer des composants pour la construction d'interfaces utilisateur de toute complexité.",
-    "syntax": "// Création d'une application Vue\nimport { createApp, ref } from 'vue'\n\ncreateApp({\n  setup() {\n    return {\n      count: ref(0)\n    }\n  }\n}).mount('#app')",
+    "description": "Vue (/vju:/ à prononcer comme view) est un framework JavaScript progressif pour construire des interfaces utilisateur. Contrairement à d'autres frameworks monolithiques, Vue est conçu pour être adopté de manière incrémentale.",
+    "syntax": "// Création d'une application Vue\nimport { createApp } from 'vue'\nimport App from './App.vue'\n\ncreateApp(App).mount('#app')",
     "attributes": [
       {
         "name": "Rendu déclaratif",
-        "description": "Vue s'appuie sur le standard HTML avec une syntaxe de type template qui permet de décrire de manière déclarative la structure HTML tout en étant basée sur un état JavaScript."
+        "description": "Vue étend le HTML avec une syntaxe de template qui permet de décrire la structure HTML basée sur l'état JavaScript de manière déclarative."
       },
       {
         "name": "Réactivité",
-        "description": "Vue traque automatiquement tout changement d'état JavaScript et met à jour efficacement le DOM en cas de changement."
+        "description": "Vue traque automatiquement les changements d'état JavaScript et met à jour efficacement le DOM quand cela est nécessaire."
       },
       {
         "name": "Composants",
-        "description": "Système de composants qui permet de construire des interfaces en assemblant des composants réutilisables."
-      },
-      {
-        "name": "Single-File Components",
-        "description": "Format de fichier .vue qui encapsule la logique (JavaScript), le modèle (HTML) et les styles (CSS) du composant dans un seul fichier."
+        "description": "Système de composants pour construire des interfaces en assemblant des éléments réutilisables et isolés."
       }
     ],
     "examples": [
       {
         "title": "Application Vue simple",
-        "code": "import { createApp, ref } from 'vue'\n\ncreateApp({\n  setup() {\n    return {\n      count: ref(0)\n    }\n  }\n}).mount('#app')\n\n<!-- Template HTML -->\n<div id=\"app\">\n  <button @click=\"count++\">Le compteur est à {{ count }}</button>\n</div>"
-      },
-      {
-        "title": "Composant monofichier (SFC)",
-        "code": "<script setup>\nimport { ref } from 'vue'\nconst count = ref(0)\n</script>\n\n<template>\n  <button @click=\"count++\">Le compteur est à {{ count }}</button>\n</template>\n\n<style scoped>\nbutton {\n  font-weight: bold;\n}\n</style>"
-      },
-      {
-        "title": "Utilisation des directives",
-        "code": "<template>\n  <div>\n    <!-- Conditionnels -->\n    <p v-if=\"seen\">Maintenant vous me voyez</p>\n    \n    <!-- Boucles -->\n    <ul>\n      <li v-for=\"item in items\" :key=\"item.id\">{{ item.text }}</li>\n    </ul>\n    \n    <!-- Événements -->\n    <button v-on:click=\"reverseMessage\">Inverser le message</button>\n    <button @click=\"count++\">Incrémenter (syntaxe courte)</button>\n    \n    <!-- Binding de propriétés -->\n    <span v-bind:title=\"message\">Hover me</span>\n    <span :class=\"{ active: isActive }\">Classe conditionnelle</span>\n  </div>\n</template>"
-      },
-      {
-        "title": "Gestion de l'état avec la Composition API",
-        "code": "<script setup>\nimport { ref, computed, watch, onMounted } from 'vue'\n\n// État réactif\nconst count = ref(0)\nconst message = ref('Hello Vue!')\n\n// Propriétés calculées\nconst doubleCount = computed(() => count.value * 2)\n\n// Observateurs\nwatch(count, (newValue, oldValue) => {\n  console.log(`La valeur a changé de ${oldValue} à ${newValue}`)\n})\n\n// Hooks de cycle de vie\nonMounted(() => {\n  console.log('Le composant est monté!')\n})\n\n// Méthodes\nfunction increment() {\n  count.value++\n}\n</script>"
+        "code": "import { createApp } from 'vue'\n\nconst app = createApp({\n  data() {\n    return {\n      message: 'Hello Vue!',\n      count: 0\n    }\n  },\n  methods: {\n    increment() {\n      this.count++\n    }\n  }\n})\n\napp.mount('#app')\n\n<!-- Template HTML -->\n<div id=\"app\">\n  <h1>{{ message }}</h1>\n  <button @click=\"increment\">Le compteur est à {{ count }}</button>\n</div>"
       }
     ],
-    "related": ["reactivity", "components", "directives", "lifecycle"],
+    "related": ["components", "reactivity", "directives"],
     "animation": {
       "steps": [
         {
-          "title": "Vue.js - Le Framework Évolutif",
-          "text": "Vue est un framework JavaScript qui couvre la plupart des fonctionnalités courantes nécessaires au développement front-end. Il est conçu pour être flexible et adoptable de manière incrémentale.",
+          "title": "Vue.js - Le Framework Progressif",
+          "text": "Vue.js est un framework JavaScript qui permet de construire des interfaces utilisateur de manière progressive. Contrairement à d'autres frameworks monolithiques, Vue peut être intégré graduellement dans votre projet.",
           "code": "import { createApp } from 'vue'\nimport App from './App.vue'\n\ncreateApp(App).mount('#app')",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>Vue.js peut être utilisé de différentes manières :</pre><ul style='margin-top:5px'><li>Extension du HTML statique</li><li>Intégration de Web Components</li><li>Application mono-page (SPA)</li><li>Fullstack / Rendu côté serveur (SSR)</li><li>JAMStack / Génération de sites statiques (SSG)</li><li>Applications desktop, mobile, WebGL, terminal</li></ul></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><div style='display: flex; align-items: center; margin-bottom: 15px;'><div style='width: 40px; height: 40px; margin-right: 10px;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 196.32 170.02'><path fill='#42b883' d='M120.83 0L98.16 39.26 75.49 0H0l98.16 170.02L196.32 0z'/><path fill='#35495e' d='M120.83 0L98.16 39.26 75.49 0H39.26l58.9 102.01L157.06 0z'/></svg></div><h3 style='margin: 0; color: #35495e; font-size: 18px;'>Vue.js</h3></div><ul style='margin: 0; padding-left: 20px;'><li style='margin-bottom: 8px;'>Extension HTML statique</li><li style='margin-bottom: 8px;'>Applications mono-page (SPA)</li><li style='margin-bottom: 8px;'>Fullstack avec SSR</li><li style='margin-bottom: 8px;'>Applications desktop, mobile</li></ul></div>"
           }
         },
         {
-          "title": "Rendu déclaratif",
-          "text": "Vue s'appuie sur le standard HTML avec une syntaxe de type template qui permet de décrire de manière déclarative la structure HTML basée sur un état JavaScript.",
-          "code": "// JavaScript\nconst message = ref('Hello Vue!')\n\n<!-- HTML -->\n<div>{{ message }}</div>",
+          "title": "Rendu Déclaratif",
+          "text": "Vue utilise une syntaxe de template basée sur HTML, ce qui rend la création d'interfaces intuitives et simples à comprendre. Le système de template fournit un moyen de déclarer le HTML en fonction de l'état JavaScript.",
+          "code": "// État JavaScript\nconst message = ref('Hello Vue!')\nconst isVisible = ref(true)\n\n<!-- Template HTML -->\n<div v-if=\"isVisible\">\n  {{ message }}\n</div>",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>État JavaScript:</pre><pre style='margin:0; color:blue'>message = \"Hello Vue!\"</pre><pre style='margin:0'></pre><pre style='margin:0'>Rendu HTML:</pre><pre style='margin:0'>&lt;div&gt;Hello Vue!&lt;/div&gt;</pre><pre style='margin:0'></pre><pre style='margin:0'>Si l'état change:</pre><pre style='margin:0; color:blue'>message = \"Bonjour Vue!\"</pre><pre style='margin:0'></pre><pre style='margin:0'>Le DOM est automatiquement mis à jour:</pre><pre style='margin:0'>&lt;div&gt;Bonjour Vue!&lt;/div&gt;</pre></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><h3 style='margin: 0 0 15px; color: #35495e; border-bottom: 2px solid #42b883; padding-bottom: 8px;'>Rendu déclaratif</h3><div style='padding: 15px; background-color: white; border-radius: 4px; margin-bottom: 15px;'><div style='font-family: monospace; color: #35495e;'>// État JavaScript</div><div style='font-family: monospace; color: #42b883; margin-bottom: 10px;'>message = \"Hello Vue!\"</div><div style='font-family: monospace; color: #35495e;'>// HTML rendu</div><div style='font-family: monospace; color: #333;'>&lt;div&gt;Hello Vue!&lt;/div&gt;</div></div><div style='display: flex; align-items: center;'><div style='flex: 1; text-align: center; padding: 10px; background-color: rgba(66, 184, 131, 0.1); border-radius: 4px;'><div style='margin-bottom: 5px; color: #35495e;'>Quand l'état change...</div><div style='font-family: monospace; color: #42b883;'>message = \"Bonjour Vue!\"</div></div></div></div>"
           }
         },
         {
-          "title": "Réactivité",
-          "text": "Vue traque automatiquement tout changement d'état JavaScript et met à jour efficacement le DOM en cas de changement.",
-          "code": "import { ref } from 'vue'\n\n// Création d'une référence réactive\nconst count = ref(0)\n\n// Accès et modification\nconsole.log(count.value) // 0\ncount.value++\nconsole.log(count.value) // 1\n\n// Dans le template, pas besoin de .value\n// <button>{{ count }}</button>",
+          "title": "Système de Réactivité",
+          "text": "Le système de réactivité de Vue est au cœur de son fonctionnement. Il permet de suivre automatiquement les dépendances d'un composant et de mettre à jour efficacement le DOM quand ces dépendances changent.",
+          "code": "import { ref, reactive, computed } from 'vue'\n\n// Création d'un état réactif\nconst count = ref(0)\nconst user = reactive({\n  name: 'Alice',\n  isAdmin: true\n})\n\n// Propriété calculée basée sur l'état\nconst doubleCount = computed(() => count.value * 2)",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>1. Création d'un état réactif</pre><pre style='margin:0; color:blue'>const count = ref(0)</pre><pre style='margin:0'></pre><pre style='margin:0'>2. Vue établit des connexions de dépendance</pre><pre style='margin:0; color:blue'>Template → count</pre><pre style='margin:0'></pre><pre style='margin:0'>3. Modification de l'état</pre><pre style='margin:0; color:blue'>count.value++</pre><pre style='margin:0'></pre><pre style='margin:0'>4. Vue déclenche automatiquement la mise à jour du DOM</pre></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><h3 style='margin: 0 0 15px; color: #35495e; border-bottom: 2px solid #42b883; padding-bottom: 8px;'>Système de Réactivité</h3><div style='padding: 15px; background-color: white; border-radius: 6px; margin-bottom: 10px;'><ol style='margin: 0; padding-left: 25px;'><li style='margin-bottom: 8px;'>Vue suit les accès aux propriétés réactives</li><li style='margin-bottom: 8px;'>Il détecte quelles propriétés sont utilisées</li><li style='margin-bottom: 8px;'>Quand une propriété change, seuls les composants concernés sont mis à jour</li><li>Le DOM est mis à jour uniquement où nécessaire</li></ol></div><div style='display: flex; justify-content: center;'><div style='display: flex; flex-direction: column; align-items: center;'><div style='background-color: #35495e; color: white; padding: 10px 20px; border-radius: 4px; margin-bottom: 10px;'>État</div><svg width='30' height='30' viewBox='0 0 24 24'><path fill='#42b883' d='M7 10l5 5 5-5z'/></svg><div style='background-color: #42b883; color: white; padding: 10px 20px; border-radius: 4px;'>Vue / DOM</div></div></div></div>"
           }
         },
         {
-          "title": "Composants Single-File (SFC)",
-          "text": "Dans la plupart des projets Vue dotés d'outils de construction, nous créons des composants Vue en utilisant un format de fichier semblable à HTML appelé Composant monofichier (SFC).",
-          "code": "<script setup>\nimport { ref } from 'vue'\nconst count = ref(0)\n</script>\n\n<template>\n  <button @click=\"count++\">Le compteur est à {{ count }}</button>\n</template>\n\n<style scoped>\nbutton {\n  font-weight: bold;\n}\n</style>",
+          "title": "Composants Vue",
+          "text": "Les composants sont les blocs de construction essentiels dans Vue. Ils vous permettent de diviser votre interface utilisateur en pièces indépendantes et réutilisables que vous pouvez composer pour créer des applications complexes.",
+          "code": "// MyButton.vue\n<script setup>\nimport { ref } from 'vue'\n\nconst count = ref(0)\n\nfunction increment() {\n  count.value++\n}\n</script>\n\n<template>\n  <button @click=\"increment\" class=\"my-button\">\n    Cliqué {{ count }} fois\n  </button>\n</template>\n\n<style scoped>\n.my-button {\n  background-color: #42b883;\n  color: white;\n  border: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n}\n</style>",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>Un SFC contient 3 sections:</pre><pre style='margin:0'></pre><pre style='margin:0; color:blue'>&lt;script&gt; - Logique JavaScript</pre><pre style='margin:0'>Gestion de l'état, méthodes, hooks de cycle de vie</pre><pre style='margin:0'></pre><pre style='margin:0; color:green'>&lt;template&gt; - Structure HTML</pre><pre style='margin:0'>Syntaxe de template Vue avec directives</pre><pre style='margin:0'></pre><pre style='margin:0; color:purple'>&lt;style&gt; - CSS</pre><pre style='margin:0'>Styles, optionnellement scoped au composant</pre></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><h3 style='margin: 0 0 15px; color: #35495e; border-bottom: 2px solid #42b883; padding-bottom: 8px;'>Composants Vue</h3><div style='padding: 15px; background-color: white; border-radius: 6px; margin-bottom: 15px;'><div style='text-align: center; font-size: 16px; color: #35495e; margin-bottom: 10px; font-weight: bold;'>Composant monofichier (SFC)</div><div style='display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;'><div style='background-color: #35495e; color: white; padding: 5px 15px; border-radius: 4px; font-size: 14px;'>script</div><div style='background-color: #42b883; color: white; padding: 5px 15px; border-radius: 4px; font-size: 14px;'>template</div><div style='background-color: #ff7e67; color: white; padding: 5px 15px; border-radius: 4px; font-size: 14px;'>style</div></div><div style='text-align: center;'><button style='background-color: #42b883; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;'>Cliqué 0 fois</button></div></div><div style='text-align: center; font-size: 14px; color: #666;'>Les composants Vue combinent logique, template et style dans un seul fichier .vue</div></div>"
           }
         },
         {
           "title": "Directives Vue",
-          "text": "Vue utilise une syntaxe basée sur des attributs HTML spéciaux appelés 'directives' pour appliquer un comportement réactif au DOM.",
-          "code": "<!-- Affichage conditionnel -->\n<p v-if=\"seen\">Maintenant vous me voyez</p>\n\n<!-- Boucles -->\n<ul>\n  <li v-for=\"item in items\" :key=\"item.id\">{{ item.text }}</li>\n</ul>\n\n<!-- Événements -->\n<button v-on:click=\"handleClick\">Cliquez-moi</button>\n<button @click=\"count++\">Syntaxe abrégée</button>\n\n<!-- Liaison d'attributs -->\n<img v-bind:src=\"imageUrl\" :alt=\"imageAlt\">\n\n<!-- Liaison bidirectionnelle -->\n<input v-model=\"message\">",
+          "text": "Les directives sont des attributs spéciaux préfixés par v- qui appliquent un comportement réactif au DOM. Elles constituent l'une des fonctionnalités les plus puissantes de Vue pour manipuler la structure et l'apparence de votre interface utilisateur.",
+          "code": "<!-- Exemples de directives Vue -->\n<div v-if=\"isVisible\">Je suis visible</div>\n<div v-for=\"item in items\">{{ item.name }}</div>\n<button v-on:click=\"doSomething\">Cliquez-moi</button>\n<img v-bind:src=\"imageUrl\">\n<input v-model=\"message\">",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>Principales directives Vue:</pre><ul style='margin-top:5px'><li><span style='color:blue'>v-if / v-else / v-else-if</span> - Rendu conditionnel</li><li><span style='color:blue'>v-for</span> - Rendu de listes</li><li><span style='color:blue'>v-on / @</span> - Écoute d'événements</li><li><span style='color:blue'>v-bind / :</span> - Liaison d'attributs</li><li><span style='color:blue'>v-model</span> - Liaison bidirectionnelle pour les formulaires</li><li><span style='color:blue'>v-show</span> - Visibilité conditionnelle via CSS</li><li><span style='color:blue'>v-slot / #</span> - Distribution de contenu</li></ul></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><h3 style='margin: 0 0 15px; color: #35495e; border-bottom: 2px solid #42b883; padding-bottom: 8px;'>Directives Vue</h3><div style='display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;'><div style='background-color: white; padding: 10px; border-radius: 4px; border-left: 3px solid #42b883;'><div style='font-weight: bold; color: #35495e; margin-bottom: 5px;'>v-if / v-else</div><div style='font-family: monospace; font-size: 12px; color: #333;'>v-if=\"isVisible\"</div></div><div style='background-color: white; padding: 10px; border-radius: 4px; border-left: 3px solid #42b883;'><div style='font-weight: bold; color: #35495e; margin-bottom: 5px;'>v-for</div><div style='font-family: monospace; font-size: 12px; color: #333;'>v-for=\"item in items\"</div></div><div style='background-color: white; padding: 10px; border-radius: 4px; border-left: 3px solid #42b883;'><div style='font-weight: bold; color: #35495e; margin-bottom: 5px;'>v-on / @</div><div style='font-family: monospace; font-size: 12px; color: #333;'>@click=\"handleClick\"</div></div><div style='background-color: white; padding: 10px; border-radius: 4px; border-left: 3px solid #42b883;'><div style='font-weight: bold; color: #35495e; margin-bottom: 5px;'>v-bind / :</div><div style='font-family: monospace; font-size: 12px; color: #333;'>:src=\"imageUrl\"</div></div></div><div style='text-align: center; background-color: white; padding: 15px; border-radius: 4px;'><input type='text' value='Hello Vue' style='padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 200px;'><div style='margin-top: 10px; font-size: 14px; color: #666;'>v-model: liaison bidirectionnelle</div></div></div>"
           }
         }
       ]
-    }
+    },
+    "exercises": [
+      {
+        "type": "qcm",
+        "question": "Quelle directive Vue est utilisée pour le rendu conditionnel d'un élément dans le DOM ?",
+        "options": [
+          "v-if",
+          "v-for",
+          "v-show",
+          "v-bind"
+        ],
+        "correctAnswer": 0,
+        "explanation": "v-if est utilisé pour le rendu conditionnel. La différence avec v-show est que v-if fait un vrai rendu conditionnel (l'élément est ajouté/retiré du DOM) alors que v-show masque juste l'élément avec CSS."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "En Vue, les composants monofichiers (SFC) peuvent contenir du HTML, CSS et JavaScript dans un seul fichier.",
+        "correctAnswer": true,
+        "explanation": "Vrai. C'est l'une des caractéristiques principales des SFC (Single-File Components) de Vue. Ils permettent d'encapsuler la logique, le template et les styles dans un seul fichier .vue."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez le code pour créer une référence réactive en Vue.js :",
+        "codeTemplate": "import { [?] } from 'vue'\n\nconst count = ref(0)",
+        "correctAnswer": "ref",
+        "explanation": "La fonction ref() est utilisée pour créer une référence réactive dans Vue. Elle encapsule la valeur dans un objet réactif et permet à Vue de suivre les changements."
+      }
+    ]
   },
   "components": {
     "name": "Composants Vue",
     "category": "components",
-    "description": "Les composants sont des instances de Vue réutilisables avec un nom. Ils vous permettent de construire des applications en assemblant des éléments indépendants et réutilisables.",
-    "syntax": "// Définition de composant en Vue 3\n<script setup>\nimport { ref } from 'vue'\n\nconst count = ref(0)\n\nfunction increment() {\n  count.value++\n}\n</script>\n\n<template>\n  <button @click=\"increment\">{{ count }}</button>\n</template>",
+    "description": "Les composants sont les blocs de construction fondamentaux dans les applications Vue. Ils encapsulent du code réutilisable et peuvent être assemblés pour former des interfaces utilisateur complexes.",
+    "syntax": "// Avec la Composition API (Vue 3)\n<script setup>\nimport { ref } from 'vue'\n\nconst count = ref(0)\n\nfunction increment() {\n  count.value++\n}\n</script>\n\n<template>\n  <button @click=\"increment\">{{ count }}</button>\n</template>",
     "attributes": [
       {
         "name": "Props",
-        "description": "Attributs personnalisés que vous pouvez définir sur un composant pour passer des données du parent à l'enfant."
+        "description": "Attributs personnalisés que vous pouvez définir sur un composant pour passer des données du parent vers l'enfant."
       },
       {
         "name": "Émission d'événements",
-        "description": "Mécanisme pour communiquer des changements ou des actions du composant enfant vers le parent."
+        "description": "Mécanisme permettant aux composants enfants de communiquer avec leurs parents en émettant des événements."
       },
       {
         "name": "Slots",
         "description": "Système de distribution de contenu qui permet aux composants parents d'injecter du contenu dans des emplacements spécifiques des composants enfants."
-      },
-      {
-        "name": "Cycle de vie",
-        "description": "Hooks qui permettent d'exécuter du code à des moments spécifiques pendant la durée de vie d'un composant."
       }
     ],
     "examples": [
       {
-        "title": "Définition de composant avec props",
-        "code": "<script setup>\ndefineProps({\n  title: String,\n  likes: {\n    type: Number,\n    default: 0\n  },\n  isPublished: Boolean,\n  commentIds: Array,\n  author: Object\n})\n</script>\n\n<template>\n  <h3>{{ title }}</h3>\n  <p>Likes: {{ likes }}</p>\n</template>"
-      },
-      {
-        "title": "Émission d'événements",
-        "code": "<script setup>\nconst emit = defineEmits(['update', 'delete'])\n\nfunction onUpdate() {\n  emit('update', { id: 1, text: 'Updated content' })\n}\n\nfunction onDelete() {\n  emit('delete', 1)\n}\n</script>\n\n<template>\n  <button @click=\"onUpdate\">Mettre à jour</button>\n  <button @click=\"onDelete\">Supprimer</button>\n</template>"
-      },
-      {
-        "title": "Utilisation des slots",
-        "code": "<!-- ComponentParent.vue -->\n<template>\n  <ChildComponent>\n    <template #header>\n      <h2>Titre de l'en-tête</h2>\n    </template>\n    \n    <template #default>\n      <p>Contenu principal</p>\n    </template>\n    \n    <template #footer>\n      <p>Contenu du pied de page</p>\n    </template>\n  </ChildComponent>\n</template>\n\n<!-- ChildComponent.vue -->\n<template>\n  <header>\n    <slot name=\"header\">Titre par défaut</slot>\n  </header>\n  \n  <main>\n    <slot>Contenu par défaut</slot>\n  </main>\n  \n  <footer>\n    <slot name=\"footer\">Pied de page par défaut</slot>\n  </footer>\n</template>"
+        "title": "Composant avec Props",
+        "code": "<script setup>\n// Définition des props\nconst props = defineProps({\n  title: String,\n  likes: {\n    type: Number,\n    default: 0\n  },\n  isPublished: Boolean\n})\n</script>\n\n<template>\n  <div class=\"post\">\n    <h2>{{ title }}</h2>\n    <p>Likes: {{ likes }}</p>\n    <span v-if=\"isPublished\">Publié</span>\n  </div>\n</template>"
       }
     ],
-    "related": ["vue", "reactivity", "lifecycle", "directives"],
+    "related": ["vue", "reactivity", "lifecycle"],
     "animation": {
       "steps": [
         {
-          "title": "Composants en Vue",
-          "text": "Les composants sont l'élément fondamental de Vue. Ils permettent de construire des interfaces utilisateur en assemblant des blocs indépendants et réutilisables.",
-          "code": "// MonComposant.vue\n<script setup>\nimport { ref } from 'vue'\n\nconst count = ref(0)\n</script>\n\n<template>\n  <button @click=\"count++\">Clics: {{ count }}</button>\n</template>",
+          "title": "Composants Vue",
+          "text": "Les composants sont les blocs de construction essentiels dans Vue. Ils permettent de construire des interfaces utilisateur en assemblant des blocs indépendants et réutilisables.",
+          "code": "// MonComposant.vue\n<script setup>\nimport { ref } from 'vue'\n\nconst count = ref(0)\n\nfunction increment() {\n  count.value++\n}\n</script>\n\n<template>\n  <button @click=\"increment\" class=\"my-button\">\n    Cliqué {{ count }} fois\n  </button>\n</template>",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>Vue application</pre><pre style='margin:0'> ├── App (composant racine)</pre><pre style='margin:0'>     ├── Header (composant enfant)</pre><pre style='margin:0'>     ├── Content (composant enfant)</pre><pre style='margin:0'>     │    ├── Sidebar</pre><pre style='margin:0'>     │    └── MainContent</pre><pre style='margin:0'>     └── Footer (composant enfant)</pre></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><h3 style='margin: 0 0 15px; color: #35495e; border-bottom: 2px solid #42b883; padding-bottom: 8px;'>Structure de composants</h3><div style='padding: 15px; background-color: white; border-radius: 4px; margin-bottom: 15px;'><div style='width: 100%; text-align: center;'><div style='display: inline-block; padding: 8px 15px; background-color: #35495e; color: white; border-radius: 4px; margin-bottom: 10px;'>App (Root)</div><div style='display: flex; justify-content: space-around; margin-bottom: 10px;'><div style='padding: 6px 12px; background-color: #42b883; color: white; border-radius: 4px;'>Header</div><div style='padding: 6px 12px; background-color: #42b883; color: white; border-radius: 4px;'>Main</div><div style='padding: 6px 12px; background-color: #42b883; color: white; border-radius: 4px;'>Footer</div></div><div style='display: flex; justify-content: space-around;'><div style='padding: 6px 12px; background-color: #ff7e67; color: white; border-radius: 4px;'>NavBar</div><div style='padding: 6px 12px; background-color: #ff7e67; color: white; border-radius: 4px;'>Content</div></div></div></div><div style='text-align: center; color: #666; font-size: 14px;'>Les composants peuvent être imbriqués pour créer des interfaces complexes</div></div>"
           }
         },
         {
           "title": "Communication par Props",
-          "text": "Les props sont des attributs personnalisés que vous pouvez enregistrer sur un composant. Elles permettent de passer des données du composant parent vers ses enfants.",
-          "code": "<!-- Parent.vue -->\n<template>\n  <ChildComponent \n    :title=\"pageTitle\" \n    :user=\"currentUser\" \n  />\n</template>\n\n<!-- ChildComponent.vue -->\n<script setup>\ndefineProps(['title', 'user'])\n</script>\n\n<template>\n  <h2>{{ title }}</h2>\n  <p>User: {{ user.name }}</p>\n</template>",
+          "text": "Les props sont des attributs personnalisés que vous pouvez définir sur vos composants. Ils permettent de passer des données du composant parent au composant enfant, créant ainsi un flux de données descendant.",
+          "code": "<!-- Parent.vue -->\n<template>\n  <ChildComponent \n    :title=\"pageTitle\"\n    :user=\"currentUser\"\n    :items=\"itemList\"\n  />\n</template>\n\n<!-- ChildComponent.vue -->\n<script setup>\nconst props = defineProps({\n  title: String,\n  user: Object,\n  items: Array\n})\n</script>",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>Communication Parent → Enfant</pre><pre style='margin:0'></pre><pre style='margin:0'>Parent:</pre><pre style='margin:0; color:blue'>pageTitle = \"Mon titre de page\"</pre><pre style='margin:0; color:blue'>currentUser = { name: \"Alice\", role: \"Admin\" }</pre><pre style='margin:0'></pre><pre style='margin:0'>Enfant reçoit:</pre><pre style='margin:0; color:green'>title = \"Mon titre de page\"</pre><pre style='margin:0; color:green'>user = { name: \"Alice\", role: \"Admin\" }</pre></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><h3 style='margin: 0 0 15px; color: #35495e; border-bottom: 2px solid #42b883; padding-bottom: 8px;'>Communication par Props</h3><div style='display: flex; gap: 20px; margin-bottom: 15px;'><div style='flex: 1; padding: 15px; background-color: white; border-radius: 4px; border: 2px solid #35495e;'><div style='font-weight: bold; color: #35495e; margin-bottom: 10px;'>Parent</div><div style='padding: 8px; background-color: #f5f5f5; border-radius: 4px; margin-bottom: 5px; font-family: monospace; font-size: 12px;'>pageTitle = \"Dashboard\"</div><div style='padding: 8px; background-color: #f5f5f5; border-radius: 4px; font-family: monospace; font-size: 12px;'>user = { name: \"Alice\" }</div></div><div style='flex: 1; padding: 15px; background-color: white; border-radius: 4px; border: 2px solid #42b883;'><div style='font-weight: bold; color: #35495e; margin-bottom: 10px;'>Enfant</div><div style='padding: 8px; background-color: #f5f5f5; border-radius: 4px; margin-bottom: 5px; font-family: monospace; font-size: 12px;'>props.title = \"Dashboard\"</div><div style='padding: 8px; background-color: #f5f5f5; border-radius: 4px; font-family: monospace; font-size: 12px;'>props.user = { name: \"Alice\" }</div></div></div><div style='text-align: center;'><div style='display: inline-block; position: relative;'><div style='position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-color: white; padding: 0 10px; color: #42b883; font-weight: bold;'>Props</div><svg height='40' width='200'><line x1='0' y1='20' x2='200' y2='20' style='stroke:#42b883;stroke-width:2'/><polygon points='200,15 200,25 210,20' style='fill:#42b883;'/></svg></div></div></div>"
           }
         },
         {
-          "title": "Émission d'événements",
-          "text": "Les composants enfants peuvent émettre des événements personnalisés que les parents peuvent écouter pour réagir aux changements.",
-          "code": "<!-- ChildComponent.vue -->\n<script setup>\nconst emit = defineEmits(['update', 'delete'])\n\nfunction updateItem() {\n  emit('update', { id: 1, data: 'Updated' })\n}\n</script>\n\n<template>\n  <button @click=\"updateItem\">Mettre à jour</button>\n</template>\n\n<!-- Parent.vue -->\n<template>\n  <ChildComponent \n    @update=\"handleUpdate\" \n    @delete=\"handleDelete\" \n  />\n</template>",
+          "title": "Émission d'Événements",
+          "text": "Les composants enfants peuvent communiquer avec leurs parents en émettant des événements. Cela permet un flux de données ascendant et complète le modèle de communication unidirectionnel de Vue.",
+          "code": "<!-- ChildComponent.vue -->\n<script setup>\n// Déclarer les événements que ce composant peut émettre\nconst emit = defineEmits(['update', 'delete'])\n\nfunction updateItem(item) {\n  // Émettre l'événement avec des données\n  emit('update', { ...item, updated: true })\n}\n\nfunction deleteItem(id) {\n  emit('delete', id)\n}\n</script>\n\n<!-- Parent.vue -->\n<template>\n  <ChildComponent\n    @update=\"handleUpdate\"\n    @delete=\"handleDelete\"\n  />\n</template>",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>Communication Enfant → Parent</pre><pre style='margin:0'></pre><pre style='margin:0'>1. Enfant définit les événements</pre><pre style='margin:0; color:blue'>defineEmits(['update', 'delete'])</pre><pre style='margin:0'></pre><pre style='margin:0'>2. Enfant émet un événement avec des données</pre><pre style='margin:0; color:blue'>emit('update', { id: 1, data: 'Updated' })</pre><pre style='margin:0'></pre><pre style='margin:0'>3. Parent écoute l'événement</pre><pre style='margin:0; color:green'>@update=\"handleUpdate\"</pre><pre style='margin:0'></pre><pre style='margin:0'>4. Parent reçoit les données émises</pre></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><h3 style='margin: 0 0 15px; color: #35495e; border-bottom: 2px solid #42b883; padding-bottom: 8px;'>Émission d'Événements</h3><div style='display: flex; gap: 20px; margin-bottom: 15px;'><div style='flex: 1; padding: 15px; background-color: white; border-radius: 4px; border: 2px solid #42b883;'><div style='font-weight: bold; color: #35495e; margin-bottom: 10px;'>Enfant</div><div style='padding: 8px; background-color: #f5f5f5; border-radius: 4px; margin-bottom: 5px; font-family: monospace; font-size: 12px;'>defineEmits(['update', 'delete'])</div><div style='padding: 8px; background-color: #f5f5f5; border-radius: 4px; font-family: monospace; font-size: 12px;'>emit('update', { id: 1, updated: true })</div></div><div style='flex: 1; padding: 15px; background-color: white; border-radius: 4px; border: 2px solid #35495e;'><div style='font-weight: bold; color: #35495e; margin-bottom: 10px;'>Parent</div><div style='padding: 8px; background-color: #f5f5f5; border-radius: 4px; margin-bottom: 5px; font-family: monospace; font-size: 12px;'>&lt;ChildComponent<br>  @update=\"handleUpdate\"<br>  @delete=\"handleDelete\"<br>/&gt;</div></div></div><div style='text-align: center;'><div style='display: inline-block; position: relative;'><div style='position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-color: white; padding: 0 10px; color: #ff7e67; font-weight: bold;'>Events</div><svg height='40' width='200'><line x1='200' y1='20' x2='0' y2='20' style='stroke:#ff7e67;stroke-width:2'/><polygon points='0,15 0,25 -10,20' style='fill:#ff7e67;'/></svg></div></div></div>"
           }
         },
         {
           "title": "Système de Slots",
-          "text": "Les slots permettent aux composants parents d'injecter du contenu dans des emplacements spécifiques des composants enfants, offrant une grande flexibilité pour la composition d'interfaces.",
-          "code": "<!-- BaseCard.vue -->\n<template>\n  <div class=\"card\">\n    <div class=\"card-header\">\n      <slot name=\"header\">Header par défaut</slot>\n    </div>\n    \n    <div class=\"card-body\">\n      <slot>Contenu par défaut</slot>\n    </div>\n    \n    <div class=\"card-footer\">\n      <slot name=\"footer\">Footer par défaut</slot>\n    </div>\n  </div>\n</template>\n\n<!-- Utilisation -->\n<BaseCard>\n  <template #header>Mon titre personnalisé</template>\n  <p>Contenu principal</p>\n  <template #footer>Mes boutons <button>OK</button></template>\n</BaseCard>",
+          "text": "Les slots permettent aux composants parents d'injecter du contenu dans les composants enfants. Cela offre une grande flexibilité pour composer des interfaces en permettant aux composants parents de déterminer une partie du contenu des composants enfants.",
+          "code": "<!-- BaseCard.vue -->\n<template>\n  <div class=\"card\">\n    <div class=\"card-header\">\n      <slot name=\"header\">\n        <!-- Contenu par défaut si aucun slot n'est fourni -->\n        <h3>Titre par défaut</h3>\n      </slot>\n    </div>\n    \n    <div class=\"card-body\">\n      <!-- Slot par défaut (sans nom) -->\n      <slot>Contenu par défaut</slot>\n    </div>\n    \n    <div class=\"card-footer\">\n      <slot name=\"footer\">\n        <button>OK</button>\n      </slot>\n    </div>\n  </div>\n</template>",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>Le système de slots permet:</pre><ul style='margin-top:5px'><li>Injection de contenu flexible</li><li>Composants hautement réutilisables</li><li>Slots nommés pour plusieurs emplacements</li><li>Contenu par défaut si rien n'est fourni</li><li>Slots avec portée pour accéder aux données</li></ul></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><h3 style='margin: 0 0 15px; color: #35495e; border-bottom: 2px solid #42b883; padding-bottom: 8px;'>Système de Slots</h3><div style='display: flex; gap: 20px; margin-bottom: 20px;'><div style='flex: 1; padding: 15px; background-color: white; border-radius: 4px;'><div style='font-weight: bold; color: #35495e; margin-bottom: 10px;'>Composant Parent</div><div style='padding: 8px; background-color: #f5f5f5; border-radius: 4px; font-family: monospace; font-size: 12px;'>&lt;BaseCard&gt;<br>  &lt;template #header&gt;<br>    &lt;h3&gt;Mon titre&lt;/h3&gt;<br>  &lt;/template&gt;<br><br>  &lt;p&gt;Contenu principal&lt;/p&gt;<br><br>  &lt;template #footer&gt;<br>    &lt;button&gt;Sauvegarder&lt;/button&gt;<br>  &lt;/template&gt;<br>&lt;/BaseCard&gt;</div></div><div style='flex: 1; padding: 15px; background-color: white; border-radius: 4px;'><div style='font-weight: bold; color: #35495e; margin-bottom: 10px;'>Rendu Final</div><div style='border: 1px solid #ddd; border-radius: 4px; overflow: hidden;'><div style='background-color: #42b883; color: white; padding: 8px;'><h3 style='margin: 0; font-size: 16px;'>Mon titre</h3></div><div style='padding: 15px;'><p style='margin: 0;'>Contenu principal</p></div><div style='background-color: #f5f5f5; padding: 8px; border-top: 1px solid #ddd;'><button style='background-color: #35495e; color: white; border: none; padding: 5px 10px; border-radius: 4px;'>Sauvegarder</button></div></div></div></div></div>"
           }
         },
         {
-          "title": "Cycle de vie des composants",
-          "text": "Les composants Vue ont un cycle de vie qui vous permet d'exécuter du code à des moments spécifiques pendant leur existence.",
-          "code": "<script setup>\nimport { onMounted, onUpdated, onUnmounted, ref } from 'vue'\n\nconst count = ref(0)\n\nonMounted(() => {\n  console.log('Le composant est monté')\n})\n\nonUpdated(() => {\n  console.log('Le composant a été mis à jour')\n})\n\nonUnmounted(() => {\n  console.log('Le composant va être détruit')\n})\n</script>",
+          "title": "Cycle de Vie des Composants",
+          "text": "Chaque composant Vue possède un cycle de vie, avec des hooks que vous pouvez utiliser pour exécuter du code à des moments spécifiques. Dans la Composition API, ces hooks sont exposés sous forme de fonctions que vous pouvez importer et utiliser dans le setup.",
+          "code": "<script setup>\nimport { ref, onMounted, onUpdated, onUnmounted } from 'vue'\n\nconst count = ref(0)\n\n// Après que le composant est monté dans le DOM\nonMounted(() => {\n  console.log('Le composant est monté!')\n  // Parfait pour les initialisations, récupération de données\n})\n\n// Appelé après une mise à jour du DOM\nonUpdated(() => {\n  console.log('Le composant a été mis à jour!')\n})\n\n// Juste avant que le composant soit démonté\nonUnmounted(() => {\n  console.log('Le composant est démonté!')\n  // Nettoyage (event listeners, timers, etc.)\n})\n</script>",
           "visualDemo": {
-            "content": "<div class='html-element'><pre style='margin:0'>Cycle de vie d'un composant Vue:</pre><pre style='margin:0'></pre><pre style='margin:0; color:blue'>1. Création</pre><pre style='margin:0'>   - setup() [Composition API]</pre><pre style='margin:0'></pre><pre style='margin:0; color:green'>2. Montage</pre><pre style='margin:0'>   - onBeforeMount()</pre><pre style='margin:0'>   - onMounted()</pre><pre style='margin:0'></pre><pre style='margin:0; color:orange'>3. Mises à jour</pre><pre style='margin:0'>   - onBeforeUpdate()</pre><pre style='margin:0'>   - onUpdated()</pre><pre style='margin:0'></pre><pre style='margin:0; color:red'>4. Démontage</pre><pre style='margin:0'>   - onBeforeUnmount()</pre><pre style='margin:0'>   - onUnmounted()</pre></div>"
+            "content": "<div style='padding: 20px; background-color: #f8f8f8; border-radius: 6px; font-family: Arial, sans-serif;'><h3 style='margin: 0 0 15px; color: #35495e; border-bottom: 2px solid #42b883; padding-bottom: 8px;'>Cycle de Vie des Composants</h3><div style='display: flex; justify-content: center; margin-bottom: 15px;'><div style='position: relative; width: 80%; max-width: 500px; height: 120px;'><svg viewBox='0 0 500 120' width='100%' height='100%'><line x1='80' y1='30' x2='80' y2='90' stroke='#ccc' stroke-width='2' stroke-dasharray='5,5'/><line x1='200' y1='30' x2='200' y2='90' stroke='#ccc' stroke-width='2' stroke-dasharray='5,5'/><line x1='320' y1='30' x2='320' y2='90' stroke='#ccc' stroke-width='2' stroke-dasharray='5,5'/><line x1='440' y1='30' x2='440' y2='90' stroke='#ccc' stroke-width='2' stroke-dasharray='5,5'/><line x1='40' y1='30' x2='470' y2='30' stroke='#35495e' stroke-width='3'/><circle cx='80' cy='30' r='7' fill='#42b883'/><text x='80' y='20' font-family='Arial' font-size='12' fill='#35495e' text-anchor='middle'>Création</text><circle cx='200' cy='30' r='7' fill='#42b883'/><text x='200' y='20' font-family='Arial' font-size='12' fill='#35495e' text-anchor='middle'>Montage</text><circle cx='320' cy='30' r='7' fill='#42b883'/><text x='320' y='20' font-family='Arial' font-size='12' fill='#35495e' text-anchor='middle'>Mise à jour</text><circle cx='440' cy='30' r='7' fill='#42b883'/><text x='440' y='20' font-family='Arial' font-size='12' fill='#35495e' text-anchor='middle'>Démontage</text><text x='80' y='70' font-family='Arial' font-size='11' fill='#666' text-anchor='middle'>setup()</text><text x='200' y='70' font-family='Arial' font-size='11' fill='#666' text-anchor='middle'>onMounted()</text><text x='320' y='70' font-family='Arial' font-size='11' fill='#666' text-anchor='middle'>onUpdated()</text><text x='440' y='70' font-family='Arial' font-size='11' fill='#666' text-anchor='middle'>onUnmounted()</text></svg></div></div><div style='display: flex; gap: 15px;'><div style='flex: 1; padding: 12px; background-color: white; border-radius: 4px; text-align: center;'><div style='font-weight: bold; color: #35495e; margin-bottom: 5px;'>onMounted()</div><div style='color: #666; font-size: 13px;'>Initialisation, fetch API</div></div><div style='flex: 1; padding: 12px; background-color: white; border-radius: 4px; text-align: center;'><div style='font-weight: bold; color: #35495e; margin-bottom: 5px;'>onUpdated()</div><div style='color: #666; font-size: 13px;'>Réagir aux mises à jour</div></div><div style='flex: 1; padding: 12px; background-color: white; border-radius: 4px; text-align: center;'><div style='font-weight: bold; color: #35495e; margin-bottom: 5px;'>onUnmounted()</div><div style='color: #666; font-size: 13px;'>Nettoyage, libérer ressources</div></div></div></div>"
           }
         }
       ]
-    }
+    },
+    "exercises": [
+      {
+        "type": "qcm",
+        "question": "Comment un composant enfant peut-il communiquer avec son parent en Vue ?",
+        "options": [
+          "En modifiant directement les props",
+          "En émettant des événements",
+          "En utilisant $parent",
+          "En modifiant les variables globales"
+        ],
+        "correctAnswer": 1,
+        "explanation": "En Vue, un composant enfant ne doit pas modifier ses props (flux unidirectionnel). La méthode recommandée est d'émettre des événements que le parent peut écouter avec v-on ou @ pour réagir aux changements."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez ce code pour définir les props dans un composant Vue utilisant la Composition API :",
+        "codeTemplate": "// ChildComponent.vue\n<script setup>\nconst props = [?]({\n  title: String,\n  count: { type: Number, default: 0 }\n})\n</script>",
+        "correctAnswer": "defineProps",
+        "explanation": "defineProps() est un compilateur macro spécial utilisé dans <script setup> pour définir les props d'un composant. Il ne nécessite pas d'être importé explicitement."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "En Vue, les slots permettent d'injecter du contenu du composant parent vers le composant enfant.",
+        "correctAnswer": true,
+        "explanation": "Vrai. Les slots sont un mécanisme puissant qui permet au composant parent d'injecter du contenu dans des emplacements spécifiques du composant enfant. C'est une caractéristique importante pour créer des composants flexibles et réutilisables."
+      },
+      {
+        "type": "debugging",
+        "question": "Trouvez et corrigez l'erreur dans ce code de composant Vue :",
+        "buggyCode": "<script setup>\nimport { ref } from 'vue'\n\nconst count = ref(0)\n\nfunction increment() {\n  count++  // Erreur ici\n}\n</script>\n\n<template>\n  <button @click=\"increment\">Compteur: {{ count }}</button>\n</template>",
+        "correctAnswer": "<script setup>\nimport { ref } from 'vue'\n\nconst count = ref(0)\n\nfunction increment() {\n  count.value++\n}\n</script>\n\n<template>\n  <button @click=\"increment\">Compteur: {{ count }}</button>\n</template>",
+        "explanation": "Lorsqu'on utilise ref() pour créer une référence réactive, la valeur est encapsulée dans un objet réactif. Pour accéder ou modifier cette valeur dans du JavaScript, il faut utiliser la propriété .value. Dans le template, Vue accède automatiquement à .value, mais pas dans la logique JavaScript."
+      }
+    ]
   }
 }
