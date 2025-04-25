@@ -577,8 +577,37 @@ const NarrativeElementModal = ({
       }
     };
 
+    // Local check function for simple exercises
+    const locallyCheckAnswer = (exercise, userAnswer) => {
+      let isCorrect = false;
+      let explanation = exercise.explanation || "";
+
+      switch (exercise.type) {
+        case "qcm":
+          isCorrect = userAnswer === exercise.correctAnswer;
+          break;
+        case "vrai_faux":
+          isCorrect = userAnswer === exercise.correctAnswer;
+          break;
+        case "completion":
+          // More flexible comparison to allow minor variations
+          isCorrect =
+            userAnswer.toLowerCase().trim() ===
+            exercise.correctAnswer.toLowerCase().trim();
+          break;
+        default:
+          return null; // Returns null to indicate that Mistral should be used
+      }
+
+      return {
+        isCorrect,
+        explanation,
+        localCheck: true,
+      };
+    };
+
     const handleSubmitAnswer = async () => {
-      if (!userAnswers[currentExerciseIndex]) {
+      if (userAnswers[currentExerciseIndex] === undefined) {
         return; // Do nothing if no answer
       }
 
@@ -587,14 +616,20 @@ const NarrativeElementModal = ({
       try {
         const currentExercise = element.exercises[currentExerciseIndex];
         const userAnswer = userAnswers[currentExerciseIndex];
+        let result;
 
-        // Use Mistral to check the answer
-        // including the type of technology (dataType)
-        const result = await MistralService.checkExerciseAnswer(
-          currentExercise,
-          userAnswer,
-          dataType // Pass the dataType to adapt the context
-        );
+        // Use local verification for simple types of exercise
+        if (currentExercise.type === "debugging") {
+          // Only use Mistral for complex debugging exercises
+          result = await MistralService.checkExerciseAnswer(
+            currentExercise,
+            userAnswer,
+            dataType
+          );
+        } else {
+          // Use local verification for MCQ, true/false, completion
+          result = locallyCheckAnswer(currentExercise, userAnswer);
+        }
 
         // Update report with result
         setEvaluationResults({
