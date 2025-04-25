@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import Modal from "react-modal";
+import MistralService from "../services/MistralService";
 import "../styles/animations.css";
+import LoadingIndicator from "./LoadingIndicator";
 
 // Basic modal styles
 const customStyles = {
@@ -80,11 +82,13 @@ const NarrativeElementModal = ({
   const [dataLoaded, setDataLoaded] = useState(false);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
 
-  // États pour les exercices
+  // States for exercises
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [showExercises, setShowExercises] = useState(false);
   const [userAnswers, setUserAnswers] = useState({});
   const [exerciseSubmitted, setExerciseSubmitted] = useState(false);
+  const [evaluationResults, setEvaluationResults] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   // Refs
   const timeoutRef = useRef(null);
@@ -573,8 +577,48 @@ const NarrativeElementModal = ({
       }
     };
 
-    const handleSubmitAnswer = () => {
-      setExerciseSubmitted(true);
+    const handleSubmitAnswer = async () => {
+      if (!userAnswers[currentExerciseIndex]) {
+        return; // Do nothing if no answer
+      }
+
+      setIsLoading(true);
+
+      try {
+        const currentExercise = element.exercises[currentExerciseIndex];
+        const userAnswer = userAnswers[currentExerciseIndex];
+
+        // Use Mistral to check the answer
+        // including the type of technology (dataType)
+        const result = await MistralService.checkExerciseAnswer(
+          currentExercise,
+          userAnswer,
+          dataType // Pass the dataType to adapt the context
+        );
+
+        // Update report with result
+        setEvaluationResults({
+          ...evaluationResults,
+          [currentExerciseIndex]: result,
+        });
+
+        setExerciseSubmitted(true);
+      } catch (error) {
+        console.error("Erreur lors de l'évaluation de l'exercice:", error);
+        // Fallback on error - use default explanation
+        const currentExercise = element.exercises[currentExerciseIndex];
+        setEvaluationResults({
+          ...evaluationResults,
+          [currentExerciseIndex]: {
+            isCorrect: false, // Default consider incorrect in case of error
+            explanation: currentExercise.explanation,
+            error: true,
+          },
+        });
+        setExerciseSubmitted(true);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     const handleAnswerSelection = (answer) => {
@@ -780,31 +824,20 @@ const NarrativeElementModal = ({
           {exerciseSubmitted && (
             <div
               className={`p-3 rounded-lg ${
-                typeof currentExercise.correctAnswer === "number" ||
-                typeof currentExercise.correctAnswer === "boolean"
-                  ? userAnswers[currentExerciseIndex] ===
-                    currentExercise.correctAnswer
-                    ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
-                    : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
-                  : userAnswers[currentExerciseIndex] ===
-                    currentExercise.correctAnswer
+                evaluationResults[currentExerciseIndex]?.isCorrect
                   ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
                   : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
               }`}
             >
               <p className="font-medium mb-1">
-                {typeof currentExercise.correctAnswer === "number" ||
-                typeof currentExercise.correctAnswer === "boolean"
-                  ? userAnswers[currentExerciseIndex] ===
-                    currentExercise.correctAnswer
-                    ? "Bonne réponse !"
-                    : "Réponse incorrecte"
-                  : userAnswers[currentExerciseIndex] ===
-                    currentExercise.correctAnswer
+                {evaluationResults[currentExerciseIndex]?.isCorrect
                   ? "Bonne réponse !"
                   : "Réponse incorrecte"}
               </p>
-              <p>{currentExercise.explanation}</p>
+              <p>
+                {evaluationResults[currentExerciseIndex]?.explanation ||
+                  currentExercise.explanation}
+              </p>
             </div>
           )}
         </div>
@@ -812,10 +845,16 @@ const NarrativeElementModal = ({
         {!exerciseSubmitted && (
           <button
             onClick={handleSubmitAnswer}
-            disabled={userAnswers[currentExerciseIndex] === undefined}
+            disabled={
+              userAnswers[currentExerciseIndex] === undefined || isLoading
+            }
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Vérifier
+            {isLoading ? (
+              <LoadingIndicator size="small" theme={theme} />
+            ) : (
+              "Vérifier"
+            )}
           </button>
         )}
       </div>
