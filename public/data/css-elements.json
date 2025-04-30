@@ -35,7 +35,7 @@
           "text": "Les propriétés personnalisées CSS (variables CSS) permettent de définir des valeurs réutilisables dans une feuille de style. Elles sont préfixées par deux tirets (--) pour les distinguer des propriétés CSS standard.",
           "code": "/* Définition d'une propriété personnalisée */\n:root {\n  --couleur-primaire: #3498db;\n}\n\n/* Utilisation de la propriété */\n.element {\n  color: var(--couleur-primaire);\n}",
           "visualDemo": {
-            "content": "<div style='background-color: #f8f9fa; padding: 15px; border-radius: 8px; font-family: monospace;'><div style='margin-bottom: 10px; display: flex; align-items: center;'><span style='background: #3498db; width: 20px; height: 20px; display: inline-block; margin-right: 10px; border-radius: 3px;'></span> <code>--couleur-primaire: #3498db;</code></div><div>Avec les variables CSS, définissez une fois, utilisez partout !</div></div>"
+            "content": "<div style='background-color: #f8f9fa; padding: 20px; border-radius: 8px; font-family: system-ui, sans-serif; color: #333; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='margin-bottom: 15px; display: flex; align-items: center;'><span style='background: #3498db; width: 24px; height: 24px; display: inline-block; margin-right: 12px; border-radius: 4px; box-shadow: 0 2px 3px rgba(0,0,0,0.2);'></span><code style='font-family: monospace; background-color: #eee; padding: 3px 6px; border-radius: 4px; font-size: 14px;'>--couleur-primaire: #3498db;</code></div><div style='font-size: 15px; line-height: 1.5;'>Avec les variables CSS, <strong>définissez une fois, utilisez partout !</strong></div></div>"
           }
         },
         {
@@ -43,7 +43,7 @@
           "text": "Les propriétés personnalisées suivent les règles de portée CSS. En les définissant sur l'élément :root, elles sont disponibles globalement, mais vous pouvez aussi les définir sur n'importe quel élément pour limiter leur portée.",
           "code": "/* Variables globales */\n:root {\n  --couleur-texte: black;\n}\n\n/* Portée limitée */\n.theme-sombre {\n  --couleur-texte: white;\n  --couleur-fond: #333;\n}\n\n.element {\n  color: var(--couleur-texte);\n  background-color: var(--couleur-fond, transparent);\n}",
           "visualDemo": {
-            "content": "<div style='display: flex; gap: 15px;'><div style='flex: 1; padding: 15px; background-color: white; color: black; border-radius: 8px; border: 1px solid #ddd;'><strong>Page normale</strong><div><code>--couleur-texte: black;</code></div></div><div style='flex: 1; padding: 15px; background-color: #333; color: white; border-radius: 8px; border: 1px solid #555;'><strong>Theme sombre</strong><div><code>--couleur-texte: white;</code><br><code>--couleur-fond: #333;</code></div></div></div>"
+            "content": "<div style='display: flex; gap: 20px; font-family: system-ui, sans-serif;'><div style='flex: 1; padding: 20px; background-color: white; color: black; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.05);'><div style='font-weight: 600; margin-bottom: 12px; font-size: 16px;'>Page normale</div><div style='font-family: monospace; background-color: rgba(0,0,0,0.05); padding: 8px; border-radius: 6px; font-size: 14px;'>--couleur-texte: black;</div></div><div style='flex: 1; padding: 20px; background-color: #333; color: white; border-radius: 8px; border: 1px solid #555; box-shadow: 0 2px 4px rgba(0,0,0,0.2);'><div style='font-weight: 600; margin-bottom: 12px; font-size: 16px;'>Thème sombre</div><div style='font-family: monospace; background-color: rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; font-size: 14px;'>--couleur-texte: white;<br>--couleur-fond: #333;</div></div></div>"
           }
         },
         {
@@ -51,7 +51,7 @@
           "text": "La fonction var() permet d'insérer la valeur d'une propriété personnalisée. Elle accepte un second argument qui sera utilisé comme valeur par défaut si la propriété n'est pas définie ou n'est pas valide.",
           "code": ":root {\n  --padding-bouton: 8px 16px;\n}\n\n.bouton {\n  /* Valeur par défaut si --couleur-bouton n'existe pas */\n  background-color: var(--couleur-bouton, #2ecc71);\n  padding: var(--padding-bouton);\n  border-radius: var(--radius-bouton, 4px);\n}",
           "visualDemo": {
-            "content": "<div style='padding: 20px; background-color: #f5f5f5; border-radius: 8px;'><button style='background-color: #2ecc71; padding: 8px 16px; border-radius: 4px; border: none; color: white; font-weight: bold;'>Bouton</button><div style='margin-top: 15px; font-family: monospace; font-size: 14px;'><div>background-color: var(--couleur-bouton, #2ecc71);</div><div>padding: var(--padding-bouton);</div><div>border-radius: var(--radius-bouton, 4px);</div></div></div>"
+            "content": "<div style='padding: 25px; background-color: #f5f5f5; border-radius: 10px; font-family: system-ui, sans-serif; color: #333; border: 1px solid #e0e0e0;'><div style='text-align: center; margin-bottom: 20px;'><button style='background-color: #2ecc71; padding: 8px 16px; border-radius: 4px; border: none; color: white; font-weight: 500; font-size: 15px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);'>Bouton</button></div><div style='background-color: white; border-radius: 8px; padding: 15px; border: 1px solid #ddd; font-family: monospace; font-size: 14px; line-height: 1.6;'><div><span style='color: #777;'>/* Pas de variable définie, valeur par défaut utilisée */</span></div><div>background-color: var(<span style='color: #e74c3c;'>--couleur-bouton</span>, <span style='color: #3498db;'>#2ecc71</span>);</div><div>padding: var(<span style='color: #2ecc71;'>--padding-bouton</span>);</div><div>border-radius: var(<span style='color: #e74c3c;'>--radius-bouton</span>, <span style='color: #3498db;'>4px</span>);</div></div></div>"
           }
         },
         {
@@ -59,7 +59,7 @@
           "text": "Les propriétés personnalisées peuvent stocker des valeurs complexes et être utilisées dans des calculs avec la fonction calc().",
           "code": ":root {\n  --espacement-base: 8px;\n  --couleur-base: rgb(65, 105, 225);\n  --ombre-standard: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n\n.carte {\n  padding: calc(var(--espacement-base) * 2);\n  box-shadow: var(--ombre-standard);\n  border: 1px solid var(--couleur-base);\n}",
           "visualDemo": {
-            "content": "<div style='padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'><div style='padding: 16px; border: 1px solid rgb(65, 105, 225); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); border-radius: 4px; background-color: white;'><div style='font-weight: bold; margin-bottom: 8px;'>Exemple de carte</div><div style='color: #555;'>Les variables CSS permettent de standardiser les valeurs comme les espacements, couleurs et ombres.</div></div><div style='margin-top: 15px; font-family: monospace; font-size: 13px;'><div>--espacement-base: 8px;</div><div>padding: calc(var(--espacement-base) * 2); <span style='color: #666;'>/* = 16px */</span></div></div></div>"
+            "content": "<div style='padding: 25px; background-color: #f8f9fa; border-radius: 10px; font-family: system-ui, sans-serif; box-shadow: 0 2px 10px rgba(0,0,0,0.05);'><div style='padding: 16px; border: 1px solid rgb(65, 105, 225); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); border-radius: 8px; background-color: white; margin-bottom: 20px;'><div style='font-weight: 600; margin-bottom: 12px; color: #333; font-size: 16px;'>Exemple de carte</div><div style='color: #555; line-height: 1.5; font-size: 14px;'>Les variables CSS permettent de standardiser les valeurs comme les espacements, couleurs et ombres à travers votre site.</div></div><div style='background-color: #e9ecef; border-radius: 8px; padding: 15px; font-family: monospace; font-size: 14px; color: #333; line-height: 1.6;'><div style='color: #666;'>/* Variables définies */</div><div>--espacement-base: <span style='color: #e74c3c;'>8px</span>;</div><div>--couleur-base: <span style='color: #3498db;'>rgb(65, 105, 225)</span>;</div><div style='color: #666;'>/* Utilisation avec calc() */</div><div>padding: calc(<span style='color: #e74c3c;'>var(--espacement-base)</span> * 2); <span style='color: #888;'>/* = 16px */</span></div></div></div>"
           }
         },
         {
@@ -67,11 +67,65 @@
           "text": "Les propriétés personnalisées peuvent être redéfinies dans les media queries pour créer des designs adaptatifs, ou pour implémenter des thèmes clairs/sombres facilement.",
           "code": ":root {\n  --couleur-texte: #333;\n  --couleur-fond: #fff;\n}\n\n@media (prefers-color-scheme: dark) {\n  :root {\n    --couleur-texte: #eee;\n    --couleur-fond: #222;\n  }\n}\n\nbody {\n  color: var(--couleur-texte);\n  background-color: var(--couleur-fond);\n}",
           "visualDemo": {
-            "content": "<div style='display: flex; gap: 20px;'><div style='flex: 1; padding: 15px; background-color: #fff; color: #333; border-radius: 8px; border: 1px solid #ddd;'><strong>Thème clair</strong><div style='margin-top: 10px; font-family: monospace;'>--couleur-texte: #333;<br>--couleur-fond: #fff;</div></div><div style='flex: 1; padding: 15px; background-color: #222; color: #eee; border-radius: 8px; border: 1px solid #444;'><strong>Thème sombre</strong><div style='margin-top: 10px; font-family: monospace;'>--couleur-texte: #eee;<br>--couleur-fond: #222;</div></div></div>"
+            "content": "<div style='display: flex; gap: 25px; font-family: system-ui, sans-serif;'><div style='flex: 1; padding: 20px; background-color: #fff; color: #333; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05);'><div style='font-weight: 600; margin-bottom: 15px; font-size: 16px; border-bottom: 2px solid #3498db; padding-bottom: 5px;'>Thème clair</div><div style='background-color: rgba(0,0,0,0.03); border-radius: 6px; padding: 12px; font-family: monospace; line-height: 1.6;'>:root {<br>&nbsp;&nbsp;--couleur-texte: <span style='color: #333; background: #f8f9fa; padding: 2px 4px; border-radius: 2px;'>#333</span>;<br>&nbsp;&nbsp;--couleur-fond: <span style='color: #333; background: #f8f9fa; padding: 2px 4px; border-radius: 2px;'>#fff</span>;<br>}</div></div><div style='flex: 1; padding: 20px; background-color: #222; color: #eee; border-radius: 8px; border: 1px solid #444; box-shadow: 0 2px 5px rgba(0,0,0,0.2);'><div style='font-weight: 600; margin-bottom: 15px; font-size: 16px; border-bottom: 2px solid #3498db; padding-bottom: 5px;'>Thème sombre</div><div style='background-color: rgba(255,255,255,0.1); border-radius: 6px; padding: 12px; font-family: monospace; line-height: 1.6;'>@media (prefers-color-scheme: dark) {<br>&nbsp;&nbsp;:root {<br>&nbsp;&nbsp;&nbsp;&nbsp;--couleur-texte: <span style='color: #eee; background: #333; padding: 2px 4px; border-radius: 2px;'>#eee</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;--couleur-fond: <span style='color: #eee; background: #333; padding: 2px 4px; border-radius: 2px;'>#222</span>;<br>&nbsp;&nbsp;}<br>}</div></div></div>"
+          }
+        },
+        {
+          "title": "Combinaison avec JavaScript",
+          "text": "Les propriétés personnalisées peuvent être lues et modifiées via JavaScript, ce qui permet d'intégrer des fonctionnalités interactives comme les modes clairs/sombres ou les thèmes personnalisés.",
+          "code": "/* Définition dans le CSS */\n:root {\n  --couleur-primaire: #3498db;\n  --couleur-texte: #333;\n  --couleur-fond: #fff;\n}\n\n/* Accès en JavaScript */\nconst root = document.documentElement;\n\n// Lecture d'une variable\nconst couleurPrimaire = getComputedStyle(root).getPropertyValue('--couleur-primaire');\n\n// Modification d'une variable\nroot.style.setProperty('--couleur-primaire', '#e74c3c');",
+          "visualDemo": {
+            "content": "<div style='padding: 20px; background-color: #f8f9fa; border-radius: 10px; font-family: system-ui, sans-serif; border: 1px solid #ddd;'><div style='display: flex; justify-content: space-between; margin-bottom: 20px;'><div style='font-weight: 600; font-size: 16px; color: #333;'>Thème interactif</div><div><button style='background-color: #3498db; color: white; border: none; border-radius: 4px; padding: 6px 12px; margin-right: 8px; font-size: 14px; cursor: pointer;'>Bleu</button><button style='background-color: #e74c3c; color: white; border: none; border-radius: 4px; padding: 6px 12px; margin-right: 8px; font-size: 14px; cursor: pointer;'>Rouge</button><button style='background-color: #2ecc71; color: white; border: none; border-radius: 4px; padding: 6px 12px; font-size: 14px; cursor: pointer;'>Vert</button></div></div><div style='background-color: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px;'><div style='font-family: monospace; margin-bottom: 15px; background-color: #f1f3f5; padding: 10px; border-radius: 6px; font-size: 14px; color: #333;'>/* CSS */<br>:root {<br>&nbsp;&nbsp;--couleur-primaire: <span style='color: #3498db;'>#3498db</span>;<br>}</div><div style='display: flex; justify-content: center;'><div style='width: 200px; height: 50px; background-color: #3498db; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 500;'>Élément coloré</div></div></div><div style='font-family: monospace; font-size: 14px; line-height: 1.6; color: #333; background-color: #f1f3f5; padding: 12px; border-radius: 6px;'>/* JavaScript */<br>// Changer la couleur primaire<br>root.style.setProperty('--couleur-primaire', '#e74c3c');</div></div>"
           }
         }
       ]
     },
-    "related": ["var", "calc", "color", "background-color", "root"]
+    "related": ["var", "calc", "color", "background-color", "root"],
+    "exercises": [
+      {
+        "type": "qcm",
+        "question": "Quelle est la syntaxe correcte pour déclarer une propriété personnalisée CSS ?",
+        "options": [
+          "--ma-variable: valeur;",
+          "$ma-variable: valeur;",
+          "@ma-variable: valeur;",
+          ".ma-variable: valeur;"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Les propriétés personnalisées CSS doivent toujours commencer par deux tirets (--). C'est cette syntaxe qui les distingue des propriétés CSS standard. Les autres notations comme $ sont utilisées dans des préprocesseurs comme Sass."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "Les propriétés personnalisées CSS peuvent être redéfinies localement pour un élément spécifique et ses descendants.",
+        "correctAnswer": true,
+        "explanation": "Vrai. Les propriétés personnalisées respectent la cascade CSS et l'héritage. Vous pouvez les définir globalement sur :root, puis les redéfinir localement sur n'importe quel élément. La nouvelle valeur sera disponible pour cet élément et ses descendants."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez le code suivant pour utiliser une propriété personnalisée avec une valeur par défaut :",
+        "codeTemplate": ".element {\n  color: [?](--couleur-texte, #333);\n}",
+        "correctAnswer": "var",
+        "explanation": "La fonction var() est utilisée pour insérer la valeur d'une propriété personnalisée CSS. Elle accepte deux arguments : le nom de la propriété et une valeur par défaut optionnelle qui sera utilisée si la propriété n'est pas définie."
+      },
+      {
+        "type": "debugging",
+        "question": "Trouvez et corrigez l'erreur dans ce code CSS :",
+        "buggyCode": ":root {\n  --primary-color: #3498db;\n}\n\n.button {\n  background-color: --primary-color;\n  color: white;\n  padding: 10px 15px;\n  border-radius: 4px;\n}",
+        "correctAnswer": ":root {\n  --primary-color: #3498db;\n}\n\n.button {\n  background-color: var(--primary-color);\n  color: white;\n  padding: 10px 15px;\n  border-radius: 4px;\n}",
+        "explanation": "Les propriétés personnalisées CSS ne peuvent pas être utilisées directement comme valeurs. Vous devez toujours utiliser la fonction var() pour accéder à leur valeur. La ligne correcte est : background-color: var(--primary-color);"
+      },
+      {
+        "type": "qcm",
+        "question": "Comment accéder à une propriété personnalisée CSS en JavaScript ?",
+        "options": [
+          "document.querySelector(':root').--couleur-primaire",
+          "CSS.getVariable('--couleur-primaire')",
+          "getComputedStyle(document.documentElement).getPropertyValue('--couleur-primaire')",
+          "document.style.getVariable('--couleur-primaire')"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Pour accéder à une propriété personnalisée en JavaScript, on utilise la méthode getComputedStyle() pour obtenir les styles calculés d'un élément, puis getPropertyValue() pour récupérer la valeur d'une propriété spécifique."
+      }
+    ]
   }
 }
