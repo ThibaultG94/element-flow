@@ -127,5 +127,138 @@
         "explanation": "Pour accéder à une propriété personnalisée en JavaScript, on utilise la méthode getComputedStyle() pour obtenir les styles calculés d'un élément, puis getPropertyValue() pour récupérer la valeur d'une propriété spécifique."
       }
     ]
+  },
+  ":active": {
+    "name": "Pseudo-classe :active",
+    "category": "pseudo-classes",
+    "description": "La pseudo-classe :active cible un élément lorsqu'il est activé par l'utilisateur. Elle permet de fournir un feedback visuel indiquant que l'activation a bien été détectée par le navigateur. Pour les interactions avec un pointeur, cela correspond généralement au moment entre l'appui sur le pointeur et son relâchement.",
+    "syntax": "sélecteur:active { /* styles */ }",
+    "attributes": [
+      {
+        "name": "Détection d'activation",
+        "description": "S'applique quand l'utilisateur active l'élément, typiquement pendant le clic pour les dispositifs de pointage."
+      },
+      {
+        "name": "Touche de tabulation",
+        "description": "Est également activée lorsque l'utilisateur emploie la touche de tabulation pour naviguer."
+      },
+      {
+        "name": "Compatibilité",
+        "description": "Supportée par tous les navigateurs modernes, mais peut nécessiter des ajustements pour les appareils tactiles."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Liens actifs",
+        "code": "a:link {\n  color: blue;\n}\na:visited {\n  color: purple;\n}\na:hover {\n  background: yellow;\n}\na:active {\n  color: red;\n} /* Liens actifs */"
+      },
+      {
+        "title": "Éléments de formulaire actifs",
+        "code": "form:active {\n  color: red;\n}\n\nform button {\n  background: white;\n}"
+      },
+      {
+        "title": "Paragraphes actifs",
+        "code": "p:active {\n  background: #eee;\n} /* Paragraphes actifs */"
+      }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "Qu'est-ce que la pseudo-classe :active ?",
+          "text": "La pseudo-classe :active permet de cibler un élément lorsqu'il est activé par l'utilisateur, généralement pendant la durée d'un clic. Elle offre un retour visuel immédiat pour indiquer que l'interaction a été détectée.",
+          "code": "/* Exemple basique */\na:active {\n  color: red;\n  text-decoration: underline;\n}",
+          "visualDemo": {
+            "content": "<div style='padding: 20px; background-color: #f8f9fa; border-radius: 8px; font-family: system-ui, sans-serif; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='text-align: center; margin-bottom: 20px;'><a href='#' style='display: inline-block; padding: 10px 25px; background-color: #e9ecef; color: #495057; text-decoration: none; border-radius: 4px; font-family: sans-serif; margin-bottom: 15px;'>Cliquez-moi (état normal)</a><div style='display: inline-block; padding: 10px 25px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px; font-family: sans-serif; box-shadow: inset 0 0 0 2px rgba(0,0,0,0.1);'>Pendant le clic (:active)</div></div><div style='width: 220px; margin: 0 auto; padding: 10px; background-color: rgba(0,0,0,0.05); border-radius: 6px;'><div style='font-family: monospace; font-size: 14px; color: #333;'>a:active {<br>&nbsp;&nbsp;color: white;<br>&nbsp;&nbsp;background: #dc3545;<br>}</div></div></div>"
+          }
+        },
+        {
+          "title": "Ordre des pseudo-classes pour les liens",
+          "text": "L'ordre des pseudo-classes pour les liens est important : :link, :visited, :hover, :active (\"LoVe HAte\"). Si ces règles ont la même spécificité, cet ordre garantit que les états plus spécifiques comme :active ne sont pas écrasés par des états plus généraux.",
+          "code": "/* Ordre correct des pseudo-classes */\na:link { color: blue; }\na:visited { color: purple; }\na:hover { background-color: yellow; }\na:active { color: red; }",
+          "visualDemo": {
+            "content": "<div style='padding: 20px; background-color: #f8f9fa; border-radius: 8px; font-family: system-ui, sans-serif; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='font-weight: 600; font-size: 18px; margin-bottom: 15px; color: #2c3e50;'>Ordre des pseudo-classes (\"LoVe HAte\")</div><div style='display: flex; flex-direction: column; gap: 15px;'><div style='padding: 12px; border-radius: 6px; background-color: white; border-left: 4px solid #007bff;'><div style='font-weight: 500; margin-bottom: 6px; color: #007bff;'>:link</div><div style='font-family: monospace; font-size: 14px;'>a:link { color: blue; }</div></div><div style='padding: 12px; border-radius: 6px; background-color: white; border-left: 4px solid #6f42c1;'><div style='font-weight: 500; margin-bottom: 6px; color: #6f42c1;'>:visited</div><div style='font-family: monospace; font-size: 14px;'>a:visited { color: purple; }</div></div><div style='padding: 12px; border-radius: 6px; background-color: white; border-left: 4px solid #ffc107;'><div style='font-weight: 500; margin-bottom: 6px; color: #856404;'>:hover</div><div style='font-family: monospace; font-size: 14px;'>a:hover { background-color: yellow; }</div></div><div style='padding: 12px; border-radius: 6px; background-color: white; border-left: 4px solid #dc3545;'><div style='font-weight: 500; margin-bottom: 6px; color: #dc3545;'>:active</div><div style='font-family: monospace; font-size: 14px;'>a:active { color: red; }</div></div></div></div>"
+          }
+        },
+        {
+          "title": "Utilisation avec les éléments de formulaire",
+          "text": "La pseudo-classe :active est particulièrement utile pour les éléments interactifs comme les boutons. Elle permet de donner un retour visuel instantané lors du clic, améliorant ainsi l'expérience utilisateur.",
+          "code": "button {\n  background-color: #4CAF50;\n  color: white;\n  padding: 10px 15px;\n  border: none;\n  border-radius: 4px;\n}\n\nbutton:active {\n  background-color: #3e8e41;\n  transform: translateY(2px);\n  box-shadow: 0 1px 2px rgba(0,0,0,0.2);\n}",
+          "visualDemo": {
+            "content": "<div style='padding: 20px; background-color: #f8f9fa; border-radius: 8px; font-family: system-ui, sans-serif; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='font-weight: 600; font-size: 18px; margin-bottom: 15px; color: #2c3e50;'>Effet de bouton au clic</div><div style='display: flex; gap: 25px;'><div style='flex: 1; display: flex; flex-direction: column; gap: 20px; align-items: center;'><div style='display: flex; flex-direction: column; align-items: center;'><div style='font-weight: 500; margin-bottom: 10px; color: #555;'>État normal</div><button style='background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; font-size: 16px; box-shadow: 0 3px 5px rgba(0,0,0,0.2); width: 150px;'>Bouton</button></div><div style='display: flex; flex-direction: column; align-items: center;'><div style='font-weight: 500; margin-bottom: 10px; color: #555;'>État :active</div><button style='background-color: #3e8e41; color: white; padding: 10px 15px; border: none; border-radius: 4px; font-size: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); transform: translateY(2px); width: 150px;'>Bouton</button></div></div><div style='flex: 1; background-color: white; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); line-height: 1.5;'>button:active {<br>&nbsp;&nbsp;background-color: #3e8e41;<br>&nbsp;&nbsp;transform: translateY(2px);<br>&nbsp;&nbsp;box-shadow: 0 1px 2px rgba(0,0,0,0.2);<br>}</div></div></div>"
+          }
+        },
+        {
+          "title": "Spécificités pour différents types d'éléments",
+          "text": "La pseudo-classe :active peut être utilisée sur différents types d'éléments HTML, pas seulement les liens. Chaque type d'élément peut bénéficier d'un retour visuel spécifique.",
+          "code": "/* Ciblage spécifique */\na:active { color: red; }\nbutton:active { background-color: #ddd; }\np:active { background-color: #eee; }",
+          "visualDemo": {
+            "content": "<div style='padding: 20px; background-color: #f8f9fa; border-radius: 8px; font-family: system-ui, sans-serif; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;'><div style='text-align: center;'><a href='#' style='display: inline-block; padding: 8px 12px; color: red; text-decoration: none; border: 1px solid #ddd; border-radius: 4px; background-color: #f8f9fa; min-width: 80px;'>Lien</a><div style='font-size: 12px; margin-top: 5px; color: #666;'>a:active</div></div><div style='text-align: center;'><button style='padding: 8px 12px; background-color: #ddd; border: none; border-radius: 4px; font-size: 14px; min-width: 80px;'>Bouton</button><div style='font-size: 12px; margin-top: 5px; color: #666;'>button:active</div></div><div style='text-align: center;'><div style='padding: 8px 12px; background-color: #eee; border-radius: 4px; font-size: 14px; min-width: 80px;'>Paragraphe</div><div style='font-size: 12px; margin-top: 5px; color: #666;'>p:active</div></div></div><div style='width: 280px; margin: 0 auto; padding: 12px; background-color: rgba(0,0,0,0.05); border-radius: 6px;'><div style='font-family: monospace; font-size: 13px; color: #333;'>/* États actifs par élément */<br>a:active { color: red; }<br>button:active { background: #ddd; }<br>p:active { background: #eee; }</div></div></div>"
+          }
+        },
+        {
+          "title": "Interaction avec les autres pseudo-classes",
+          "text": "Lorsqu'on combine :active avec d'autres pseudo-classes comme :hover, on peut créer des effets d'interaction plus riches et plus sophistiqués. L'ordre de ces déclarations est crucial pour obtenir l'effet désiré.",
+          "code": "button {\n  background-color: #4CAF50;\n  color: white;\n  transition: all 0.3s ease;\n}\n\nbutton:hover {\n  background-color: #66bb6a;\n}\n\nbutton:active {\n  background-color: #388e3c;\n  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);\n}",
+          "visualDemo": {
+            "content": "<div style='padding: 20px; background-color: #f8f9fa; border-radius: 8px; font-family: system-ui, sans-serif; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; justify-content: center; margin-bottom: 15px;'><div style='display: flex; gap: 15px;'><button style='background-color: #4CAF50; color: white; padding: 8px 12px; border: none; border-radius: 4px; font-size: 14px; width: 90px;'>Normal</button><button style='background-color: #66bb6a; color: white; padding: 8px 12px; border: none; border-radius: 4px; font-size: 14px; width: 90px;'>:hover</button><button style='background-color: #388e3c; color: white; padding: 8px 12px; border: none; border-radius: 4px; font-size: 14px; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); width: 90px;'>:active</button></div></div><div style='display: flex; justify-content: center; margin-bottom: 15px;'><svg viewBox='0 0 300 40' width='280' height='40'><line x1='50' y1='20' x2='150' y2='20' stroke='#ccc' stroke-width='2'/><line x1='150' y1='20' x2='250' y2='20' stroke='#ccc' stroke-width='2'/><circle cx='50' cy='20' r='6' fill='#4CAF50'/><circle cx='150' cy='20' r='6' fill='#66bb6a'/><circle cx='250' cy='20' r='6' fill='#388e3c'/><text x='100' y='35' font-family='Arial' font-size='11' fill='#555' text-anchor='middle'>Survol</text><text x='200' y='35' font-family='Arial' font-size='11' fill='#555' text-anchor='middle'>Clic</text></svg></div><div style='width: 280px; margin: 0 auto; padding: 12px; background-color: rgba(0,0,0,0.05); border-radius: 6px;'><div style='font-family: monospace; font-size: 13px; color: #333;'>button:hover {<br>&nbsp;&nbsp;background-color: #66bb6a;<br>}<br><br>button:active {<br>&nbsp;&nbsp;background-color: #388e3c;<br>&nbsp;&nbsp;box-shadow: inset 0 0 5px rgba(0,0,0,0.5);<br>}</div></div></div>"
+          }
+        },
+        {
+          "title": "Considérations pour les appareils mobiles et tactiles",
+          "text": "Sur les appareils tactiles, l'effet :active est généralement de courte durée et peut être difficile à percevoir. Pour une meilleure expérience utilisateur, il est recommandé de combiner :active avec d'autres effets visuels et de s'assurer que les zones cliquables sont suffisamment grandes.",
+          "code": "/* Optimisation pour mobiles */\n.bouton-tactile {\n  padding: 12px 20px; /* Zone tactile plus grande */\n  -webkit-tap-highlight-color: rgba(0,0,0,0); /* Supprime la surbrillance par défaut */\n}\n\n.bouton-tactile:active {\n  background-color: #007bff;\n  color: white;\n  transform: scale(0.98); /* Effet subtil mais perceptible */\n}",
+          "visualDemo": {
+            "content": "<div style='padding: 20px; background-color: #f8f9fa; border-radius: 8px; font-family: system-ui, sans-serif; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; justify-content: center; margin-bottom: 15px;'><div style='text-align: center;'><div style='display: flex; gap: 20px; justify-content: center; margin-bottom: 15px;'><button style='padding: 12px 20px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; font-size: 14px; color: #333; min-width: 120px;'>Normal</button><button style='padding: 12px 20px; background-color: #007bff; border: 1px solid #007bff; border-radius: 8px; font-size: 14px; color: white; min-width: 120px; transform: scale(0.98); box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);'>:active</button></div><div style='margin-top: 5px; text-align: center; padding: 8px 12px; background-color: rgba(0,0,0,0.05); border-radius: 4px; display: inline-block;'><span style='font-size: 13px; color: #666;'>Zone tactile élargie + effet <code>scale(0.98)</code></span></div></div></div><div style='width: 280px; margin: 0 auto; padding: 12px; background-color: rgba(0,0,0,0.05); border-radius: 6px; margin-top: 15px;'><div style='font-family: monospace; font-size: 13px; color: #333; line-height: 1.4;'>.bouton-tactile {<br>&nbsp;&nbsp;padding: 12px 20px; <span style='color: #097969;'>/* Zone élargie */</span><br>&nbsp;&nbsp;-webkit-tap-highlight-color: transparent;<br>}<br><br>.bouton-tactile:active {<br>&nbsp;&nbsp;background-color: #007bff;<br>&nbsp;&nbsp;transform: scale(0.98);<br>&nbsp;&nbsp;box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);<br>}</div></div></div>"
+          }
+        }
+      ]
+    },
+    "related": [":hover", ":focus", ":link", ":visited", "pseudo-classes"],
+    "exercises": [
+      {
+        "type": "qcm",
+        "question": "Dans quel ordre les pseudo-classes de lien doivent-elles être déclarées pour fonctionner correctement ?",
+        "options": [
+          ":link, :visited, :hover, :active",
+          ":active, :hover, :visited, :link",
+          ":hover, :active, :link, :visited",
+          ":link, :active, :hover, :visited"
+        ],
+        "correctAnswer": 0,
+        "explanation": "L'ordre correct est :link, :visited, :hover, :active (mémo \"LoVe HAte\"). Cet ordre est important car les règles CSS qui ont la même spécificité sont appliquées dans l'ordre où elles apparaissent dans la feuille de style. Les états plus spécifiques comme :active doivent venir après les états plus généraux."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "La pseudo-classe :active ne peut être appliquée qu'aux liens (<a>).",
+        "correctAnswer": false,
+        "explanation": "Faux. Bien que couramment utilisée avec les liens, la pseudo-classe :active peut être appliquée à n'importe quel élément HTML, y compris les boutons, les éléments de formulaire et même les paragraphes. Elle représente le moment où un élément est activé par l'utilisateur."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez ce code CSS pour donner un effet d'enfoncement à un bouton quand il est cliqué :",
+        "codeTemplate": "button:active {\n  [?]: translateY(2px);\n  box-shadow: 0 1px 2px rgba(0,0,0,0.2);\n}",
+        "correctAnswer": "transform",
+        "explanation": "La propriété transform avec la fonction translateY() permet de déplacer l'élément sur l'axe vertical. Combinée avec une ombre légère, cela crée un effet d'enfoncement réaliste quand le bouton est cliqué."
+      },
+      {
+        "type": "debugging",
+        "question": "Trouvez et corrigez l'erreur dans ce code CSS pour les états d'un lien :",
+        "buggyCode": "a:link { color: blue; }\na:hover { background-color: yellow; }\na:active { color: red; }\na:visited { color: purple; }",
+        "correctAnswer": "a:link { color: blue; }\na:visited { color: purple; }\na:hover { background-color: yellow; }\na:active { color: red; }",
+        "explanation": "L'ordre des pseudo-classes est incorrect. L'ordre correct doit être :link, :visited, :hover, :active pour que chaque état remplace correctement le précédent lors des interactions. Sinon, l'état :visited pourrait écraser l'état :hover ou :active."
+      },
+      {
+        "type": "qcm",
+        "question": "Quelle est la spécification de CSS concernant la pseudo-classe :active sur les systèmes avec plusieurs boutons de souris ?",
+        "options": [
+          "Elle s'applique à n'importe quel bouton de la souris",
+          "Elle ne s'applique qu'au bouton principal (généralement gauche)",
+          "Elle s'applique uniquement au bouton droit de la souris",
+          "Elle ne s'applique qu'aux clics du milieu"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Selon CSS 3, la pseudo-classe :active ne doit s'appliquer qu'au bouton principal de la souris, qui est généralement le bouton gauche pour les droitiers. Cela assure un comportement cohérent entre les différents navigateurs et systèmes."
+      }
+    ]
   }
 }
