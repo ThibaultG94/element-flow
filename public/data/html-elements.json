@@ -211,5 +211,116 @@
         "explanation": "Un document ne peut avoir qu'un seul élément <base> actif. Si plusieurs sont présents, seul le premier sera pris en compte et les autres seront ignorés."
       }
     ]
+  },
+  "head": {
+    "name": "<head>",
+    "description": "L'élément de métadonnées (en-tête) du document HTML qui contient des informations sur la page comme le titre, les liens vers des feuilles de style et scripts, les métadonnées et plus encore.",
+    "category": "structure",
+    "syntax": "<head>\n  <title>Titre du document</title>\n  <!-- Autres métadonnées -->\n</head>",
+    "attributes": [
+      {
+        "name": "profile",
+        "description": "L'URI d'un ou plusieurs profils de métadonnées, séparés par un espace. Attribut déprécié en HTML5."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Structure de base avec head",
+        "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Titre du document</title>\n  <link rel=\"stylesheet\" href=\"styles.css\">\n  <script src=\"script.js\"></script>\n</head>\n<body>\n  <h1>Contenu de la page</h1>\n</body>\n</html>"
+      },
+      {
+        "title": "En-tête avec métadonnées",
+        "code": "<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <meta name=\"description\" content=\"Description de la page pour les moteurs de recherche\">\n  <meta name=\"keywords\" content=\"html, css, javascript, tutoriel\">\n  <meta name=\"author\" content=\"Nom de l'auteur\">\n  <title>Titre de la page</title>\n</head>"
+      },
+      {
+        "title": "En-tête avec Open Graph",
+        "code": "<head>\n  <title>Titre de la page</title>\n  <meta property=\"og:title\" content=\"Titre pour les réseaux sociaux\">\n  <meta property=\"og:description\" content=\"Description pour les réseaux sociaux\">\n  <meta property=\"og:image\" content=\"https://example.com/image.jpg\">\n  <meta property=\"og:url\" content=\"https://example.com/page\">\n  <meta property=\"og:type\" content=\"website\">\n</head>"
+      }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "L'élément <head>",
+          "text": "L'élément <head> est un conteneur pour les métadonnées du document HTML. Ces métadonnées ne sont généralement pas visibles pour l'utilisateur mais sont importantes pour le navigateur et les moteurs de recherche.",
+          "code": "<html>\n  <head>\n    <!-- Métadonnées du document -->\n  </head>\n  <body>\n    <!-- Contenu visible de la page -->\n  </body>\n</html>",
+          "visualDemo": {
+            "content": "<div class=\"html-element\">Document HTML<div class=\"head-element\">Métadonnées (head)</div><div class=\"body-element\">Contenu visible (body)</div></div>"
+          }
+        },
+        {
+          "title": "Position de l'élément <head>",
+          "text": "L'élément <head> doit être le premier enfant de l'élément <html> et vient avant l'élément <body>. Il contient des informations sur le document qui ne sont pas directement affichées à l'utilisateur.",
+          "code": "<!DOCTYPE html>\n<html>\n  <head>\n    <!-- Métadonnées, titre, etc. -->\n  </head>\n  <body>\n    <!-- Contenu visible -->\n  </body>\n</html>",
+          "visualDemo": {
+            "content": "<div style='font-family: monospace; border: 1px solid #ddd; border-radius: 6px; padding: 12px; background-color: #f8f9fa; max-width: 100%; overflow: hidden;'><div style='color: #444; margin-bottom: 8px; font-weight: bold;'>Structure du document HTML</div><div style='display: flex;'><div style='color: #999; margin-right: 8px; user-select: none;'>1<br>2<br>3<br>4<br>5<br>6<br>7</div><div style='width: 100%; overflow-x: auto;'><div><span style='color: #0000cc;'>&lt;!DOCTYPE html&gt;</span></div><div><span style='color: #0000cc;'>&lt;html&gt;</span></div><div>&nbsp;&nbsp;<span style='color: #116644; font-weight: bold;'>&lt;head&gt;</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;Métadonnées invisibles</div><div>&nbsp;&nbsp;<span style='color: #116644; font-weight: bold;'>&lt;/head&gt;</span></div><div>&nbsp;&nbsp;<span style='color: #0000cc;'>&lt;body&gt;</span> Contenu visible <span style='color: #0000cc;'>&lt;/body&gt;</span></div><div><span style='color: #0000cc;'>&lt;/html&gt;</span></div></div></div></div>"
+          }
+        },
+        {
+          "title": "L'élément <title>",
+          "text": "L'élément <title> est la seule balise obligatoire dans <head>. Il définit le titre du document qui s'affiche dans l'onglet du navigateur et est utilisé par les moteurs de recherche.",
+          "code": "<head>\n  <title>Titre de ma page</title>\n</head>",
+          "visualDemo": {
+            "content": "<div style='font-family: sans-serif; max-width: 400px;'><div style='background-color: #e8e8e8; border-top-left-radius: 6px; border-top-right-radius: 6px; padding: 8px; display: flex; align-items: center;'><div style='background-color: #fff; border-radius: 4px; padding: 4px 10px; display: inline-block; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;'><span style='font-weight: bold;'>Titre de ma page</span></div></div><div style='border: 1px solid #ccc; border-top: none; padding: 15px; background-color: #f5f5f5; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; font-size: 14px; color: #555;'>Contenu de la page (dans le &lt;body&gt;)</div><div style='margin-top: 10px; font-size: 13px; color: #666;'>Le titre défini dans &lt;title&gt; s'affiche dans l'onglet du navigateur</div></div>"
+          }
+        },
+        {
+          "title": "Éléments communs dans <head>",
+          "text": "L'élément <head> contient généralement des balises meta, des liens vers les feuilles de style CSS, des scripts JavaScript et d'autres métadonnées essentielles.",
+          "code": "<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Titre de la page</title>\n  <link rel=\"stylesheet\" href=\"styles.css\">\n  <script src=\"script.js\"></script>\n</head>",
+          "visualDemo": {
+            "content": "<div style='font-family: monospace; border: 1px solid #ddd; border-radius: 6px; padding: 12px; background-color: #f8f9fa; max-width: 100%; overflow: hidden;'><div style='color: #444; margin-bottom: 8px; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 8px;'>Éléments courants dans &lt;head&gt;</div><div style='display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;'><div style='flex: 1; min-width: 200px; background-color: #e3f2fd; border-radius: 4px; padding: 8px;'><div style='color: #0d47a1; font-weight: bold; margin-bottom: 4px;'>&lt;meta&gt;</div><div style='color: #333; font-size: 13px;'>Métadonnées invisibles comme l'encodage, la description, les mots-clés</div></div><div style='flex: 1; min-width: 200px; background-color: #e8f5e9; border-radius: 4px; padding: 8px;'><div style='color: #2e7d32; font-weight: bold; margin-bottom: 4px;'>&lt;title&gt;</div><div style='color: #333; font-size: 13px;'>Titre du document (obligatoire)</div></div><div style='flex: 1; min-width: 200px; background-color: #fff3e0; border-radius: 4px; padding: 8px;'><div style='color: #e65100; font-weight: bold; margin-bottom: 4px;'>&lt;link&gt;</div><div style='color: #333; font-size: 13px;'>Ressources externes comme CSS, icônes</div></div><div style='flex: 1; min-width: 200px; background-color: #f3e5f5; border-radius: 4px; padding: 8px;'><div style='color: #6a1b9a; font-weight: bold; margin-bottom: 4px;'>&lt;script&gt;</div><div style='color: #333; font-size: 13px;'>JavaScript interne ou externe</div></div><div style='flex: 1; min-width: 200px; background-color: #eeeeee; border-radius: 4px; padding: 8px;'><div style='color: #424242; font-weight: bold; margin-bottom: 4px;'>&lt;style&gt;</div><div style='color: #333; font-size: 13px;'>CSS interne</div></div><div style='flex: 1; min-width: 200px; background-color: #e1f5fe; border-radius: 4px; padding: 8px;'><div style='color: #01579b; font-weight: bold; margin-bottom: 4px;'>&lt;base&gt;</div><div style='color: #333; font-size: 13px;'>URL de base pour tous les liens relatifs</div></div></div></div>"
+          }
+        },
+        {
+          "title": "Impact sur le référencement",
+          "text": "Le contenu de l'élément <head> joue un rôle crucial pour le référencement (SEO) et la façon dont le contenu est partagé sur les réseaux sociaux.",
+          "code": "<head>\n  <title>Comment améliorer son SEO</title>\n  <meta name=\"description\" content=\"Guide complet pour améliorer le référencement de votre site web\">\n  <meta name=\"robots\" content=\"index, follow\">\n  <meta property=\"og:title\" content=\"Guide SEO\">\n  <meta property=\"og:image\" content=\"seo-image.jpg\">\n  <link rel=\"canonical\" href=\"https://example.com/seo-guide\">\n</head>",
+          "visualDemo": {
+            "content": "<div style='font-family: sans-serif; max-width: 400px;'><div style='background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; padding: 12px;'><div style='font-weight: bold; color: #333; font-size: 16px; margin-bottom: 6px;'>Résultat dans les moteurs de recherche:</div><div style='background-color: white; border-radius: 4px; padding: 10px; border: 1px solid #eee;'><div style='color: #1a0dab; font-size: 18px; margin-bottom: 4px; cursor: pointer;'>Comment améliorer son SEO</div><div style='color: #006621; font-size: 14px; margin-bottom: 4px;'>https://example.com/seo-guide</div><div style='color: #545454; font-size: 14px;'>Guide complet pour améliorer le référencement de votre site web</div></div></div><div style='margin-top: 15px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; padding: 12px;'><div style='font-weight: bold; color: #333; font-size: 16px; margin-bottom: 6px;'>Partage sur réseaux sociaux:</div><div style='background-color: white; border-radius: 4px; padding: 10px; border: 1px solid #eee;'><div style='font-weight: bold; font-size: 16px; margin-bottom: 4px;'>Guide SEO</div><div style='color: #666; font-size: 14px; margin-bottom: 8px;'>Guide complet pour améliorer le référencement...</div><div style='background-color: #f0f0f0; height: 40px; display: flex; align-items: center; justify-content: center; color: #666; font-style: italic; font-size: 12px; border-radius: 3px;'>Image d'aperçu (seo-image.jpg)</div></div></div></div>"
+          }
+        }
+      ]
+    },
+    "related": ["html", "title", "meta", "link", "script", "base", "style"],
+    "notes": [
+      "Dans les navigateurs HTML5 conformes, l'élément <head> peut être omis, mais ce n'est pas recommandé pour la compatibilité.",
+      "L'élément <title> est obligatoire dans l'élément <head>, même si ce dernier est implicite.",
+      "Le contenu de l'élément <head> n'est pas affiché directement sur la page, mais contient des informations essentielles pour le navigateur et les moteurs de recherche."
+    ],
+    "accessibility": "Bien que le contenu de <head> ne soit pas directement lié à l'accessibilité visuelle, les métadonnées qu'il contient peuvent améliorer l'accessibilité globale du site. Par exemple, un bon titre de page aide les utilisateurs de lecteurs d'écran à comprendre le contexte de la page.",
+    "exercises": [
+      {
+        "type": "qcm",
+        "question": "Parmi ces éléments, lequel est obligatoire dans la section <head> ?",
+        "options": [
+          "<meta>",
+          "<title>",
+          "<link>",
+          "<script>"
+        ],
+        "correctAnswer": 1,
+        "explanation": "L'élément <title> est le seul élément obligatoire dans la section <head>. Il définit le titre du document qui apparaît dans l'onglet du navigateur et est utilisé par les moteurs de recherche."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "L'élément <head> peut contenir du contenu visible sur la page web.",
+        "correctAnswer": false,
+        "explanation": "L'élément <head> contient uniquement des métadonnées et des informations pour les navigateurs et moteurs de recherche. Le contenu visible doit être placé dans l'élément <body>."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez ce code pour définir l'encodage UTF-8 pour un document HTML :",
+        "codeTemplate": "<head>\n  [?]\n  <title>Ma page</title>\n</head>",
+        "correctAnswer": "<meta charset=\"UTF-8\">",
+        "explanation": "La balise <meta charset=\"UTF-8\"> est utilisée pour spécifier l'encodage des caractères du document en UTF-8, ce qui permet d'afficher correctement les caractères spéciaux et les accents."
+      },
+      {
+        "type": "debugging",
+        "question": "Ce code ne fonctionne pas correctement. Identifiez et corrigez l'erreur :",
+        "buggyCode": "<head>\n  <title>Mon site</title>\n  <p>Bienvenue sur mon site web</p>\n  <link rel=\"stylesheet\" href=\"style.css\">\n</head>",
+        "correctAnswer": "<head>\n  <title>Mon site</title>\n  <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n  <p>Bienvenue sur mon site web</p>\n</body>",
+        "explanation": "L'élément <p> est un élément de contenu visible qui doit être placé dans la section <body>, pas dans <head>. L'élément <head> ne doit contenir que des métadonnées et des informations pour le navigateur."
+      }
+    ]
   }
 }
