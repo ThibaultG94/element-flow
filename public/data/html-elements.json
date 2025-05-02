@@ -322,5 +322,178 @@
         "explanation": "L'élément <p> est un élément de contenu visible qui doit être placé dans la section <body>, pas dans <head>. L'élément <head> ne doit contenir que des métadonnées et des informations pour le navigateur."
       }
     ]
+  },
+  "link": {
+    "name": "<link>",
+    "description": "L'élément HTML <link> définit la relation entre le document courant et une ressource externe. Il est le plus souvent utilisé pour lier des feuilles de style CSS, des icônes pour la barre de titre ou d'application, et pour définir des relations d'optimisation pour les navigateurs.",
+    "category": "metadata",
+    "syntax": "<link rel=\"stylesheet\" href=\"styles.css\">",
+    "attributes": [
+      {
+        "name": "href",
+        "description": "Cet attribut définit l'URL de la ressource liée. L'URL utilisée peut être absolue ou relative."
+      },
+      {
+        "name": "rel",
+        "description": "Cet attribut indique la relation qui existe entre le document et la ressource liée. Cet attribut doit être une liste de types de lien, séparés par des espaces. Les valeurs les plus courantes sont 'stylesheet', 'icon', 'preload', 'prefetch', etc."
+      },
+      {
+        "name": "type",
+        "description": "Cet attribut est utilisé pour définir le type de contenu auquel le lien fait référence. La valeur de cet attribut doit être un type MIME tel que 'text/css' ou 'image/png'."
+      },
+      {
+        "name": "media",
+        "description": "Cet attribut indique le média auquel s'applique la ressource liée. Sa valeur doit être une requête média. Principalement utilisé pour les feuilles de style conditionnelles selon le dispositif d'affichage."
+      },
+      {
+        "name": "as",
+        "description": "Cet attribut est uniquement utilisé lorsque rel='preload' ou rel='prefetch' est utilisé. Il indique le type de contenu chargé par l'élément <link> et permet au navigateur de déterminer la priorité du contenu."
+      },
+      {
+        "name": "crossorigin",
+        "description": "Cet attribut indique si la ressource doit être récupérée avec une requête CORS. Les valeurs autorisées sont 'anonymous' (une requête cross-origin sans information d'identification) et 'use-credentials' (avec informations d'authentification)."
+      },
+      {
+        "name": "integrity",
+        "description": "Cet attribut contient des métadonnées qui correspondent à l'empreinte cryptographique de la ressource. Permet de vérifier que la ressource récupérée n'a pas été manipulée."
+      },
+      {
+        "name": "referrerpolicy",
+        "description": "Cet attribut indique le référent à utiliser lors de la récupération de la ressource, avec des valeurs comme 'no-referrer', 'no-referrer-when-downgrade', 'origin', etc."
+      },
+      {
+        "name": "hreflang",
+        "description": "Cet attribut indique la langue de la ressource liée. La valeur doit être une balise de langue BCP47 valide."
+      },
+      {
+        "name": "sizes",
+        "description": "Cet attribut définit les dimensions des icônes pour le média contenu dans la ressource. Utilisé uniquement avec rel='icon'."
+      },
+      {
+        "name": "disabled",
+        "description": "Cet attribut booléen indique si la feuille de style référencée devrait être chargée et appliquée au document. Utilisable uniquement avec les liens de type stylesheet."
+      },
+      {
+        "name": "title",
+        "description": "L'attribut title pour l'élément <link> définit une feuille de style alternative ou préférée lorsqu'il est utilisé avec rel='stylesheet'."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Lier une feuille de style CSS",
+        "code": "<head>\n  <link href=\"style.css\" rel=\"stylesheet\">\n</head>"
+      },
+      {
+        "title": "Définir une icône de site (favicon)",
+        "code": "<head>\n  <link rel=\"icon\" href=\"favicon.ico\" type=\"image/x-icon\">\n</head>"
+      },
+      {
+        "title": "Lier des feuilles de style conditionnelles",
+        "code": "<head>\n  <link href=\"print.css\" rel=\"stylesheet\" media=\"print\">\n  <link href=\"mobile.css\" rel=\"stylesheet\" media=\"screen and (max-width: 600px)\">\n</head>"
+      },
+      {
+        "title": "Précharger des ressources",
+        "code": "<head>\n  <link rel=\"preload\" href=\"myFont.woff2\" as=\"font\" type=\"font/woff2\" crossorigin=\"anonymous\">\n</head>"
+      },
+      {
+        "title": "Feuilles de style alternatives",
+        "code": "<head>\n  <link href=\"default.css\" rel=\"stylesheet\" title=\"Mise en forme par défaut\">\n  <link href=\"joli.css\" rel=\"alternate stylesheet\" title=\"Joli\">\n  <link href=\"simple.css\" rel=\"alternate stylesheet\" title=\"Simple\">\n</head>"
+      }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "L'élément <link>",
+          "text": "L'élément <link> définit la relation entre le document courant et une ressource externe. Il est principalement utilisé pour lier des feuilles de style CSS.",
+          "code": "<link href=\"style.css\" rel=\"stylesheet\">",
+          "visualDemo": {
+            "content": "<div style='font-family: monospace; border: 1px solid #ddd; border-radius: 6px; padding: 12px; background-color: #f8f9fa; max-width: 100%; overflow: hidden;'><div style='color: #444; margin-bottom: 8px; font-weight: bold;'>Structure du document HTML</div><div style='display: flex;'><div style='color: #999; margin-right: 8px; user-select: none;'>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div><div style='width: 100%; overflow-x: auto;'><div><span style='color: #0000cc;'>&lt;!DOCTYPE html&gt;</span></div><div><span style='color: #0000cc;'>&lt;html&gt;</span></div><div>&nbsp;&nbsp;<span style='color: #0000cc;'>&lt;head&gt;</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #0000cc;'>&lt;title&gt;</span>Ma page<span style='color: #0000cc;'>&lt;/title&gt;</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #116644; font-weight: bold;'>&lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot;&gt;</span></div><div>&nbsp;&nbsp;<span style='color: #0000cc;'>&lt;/head&gt;</span></div><div>&nbsp;&nbsp;<span style='color: #0000cc;'>&lt;body&gt;</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;Contenu de la page avec style appliqué</div><div>&nbsp;&nbsp;<span style='color: #0000cc;'>&lt;/body&gt;</span></div></div></div></div>"
+          }
+        },
+        {
+          "title": "Position de l'élément <link>",
+          "text": "L'élément <link> est généralement placé dans la section <head> du document, bien qu'il puisse théoriquement apparaître dans <body> pour certains types de relations.",
+          "code": "<head>\n  <meta charset=\"UTF-8\">\n  <title>Ma page</title>\n  <link href=\"style.css\" rel=\"stylesheet\">\n</head>",
+          "visualDemo": {
+            "content": "<div style='font-family: monospace; border: 1px solid #ddd; border-radius: 6px; padding: 12px; background-color: #f8f9fa; max-width: 100%; overflow: hidden;'><div style='color: #444; margin-bottom: 8px; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 8px;'>Placement recommandé</div><div style='background-color: #e8f5e9; border-radius: 4px; padding: 8px; margin-bottom: 12px;'><div style='font-weight: bold; color: #2e7d32; margin-bottom: 4px;'>Bon placement:</div><div>&lt;head&gt;</div><div>&nbsp;&nbsp;&lt;meta charset=&quot;UTF-8&quot;&gt;</div><div>&nbsp;&nbsp;&lt;title&gt;Ma page&lt;/title&gt;</div><div>&nbsp;&nbsp;<span style='color: #116644; font-weight: bold;'>&lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot;&gt;</span></div><div>&lt;/head&gt;</div></div><div style='background-color: #ffebee; border-radius: 4px; padding: 8px;'><div style='font-weight: bold; color: #c62828; margin-bottom: 4px;'>À éviter:</div><div>&lt;body&gt;</div><div>&nbsp;&nbsp;&lt;p&gt;Un paragraphe&lt;/p&gt;</div><div>&nbsp;&nbsp;<span style='color: #c62828; font-weight: bold;'>&lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot;&gt;</span> &lt;!-- Éviter ce placement --&gt;</div><div>&lt;/body&gt;</div></div></div>"
+          }
+        },
+        {
+          "title": "Attributs href et rel",
+          "text": "Les attributs essentiels sont href, qui spécifie l'URL de la ressource, et rel, qui définit la relation entre le document et la ressource liée.",
+          "code": "<link href=\"styles/main.css\" rel=\"stylesheet\">\n<link rel=\"icon\" href=\"favicon.ico\">",
+          "visualDemo": {
+            "content": "<div style='font-family: monospace; border: 1px solid #ddd; border-radius: 6px; padding: 12px; background-color: #f8f9fa; max-width: 100%; overflow: hidden;'><div style='color: #444; margin-bottom: 8px; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 8px;'>Attributs principaux</div><div style='display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 15px;'><div style='flex: 1; min-width: 200px; background-color: #e3f2fd; border-radius: 4px; padding: 8px;'><div style='color: #0d47a1; font-weight: bold; margin-bottom: 4px;'>href</div><div style='color: #333; font-size: 13px;'>URL de la ressource liée</div><div style='margin-top: 8px; padding: 4px; background: #f5f5f5; border-radius: 2px; font-size: 12px;'><code>href=&quot;styles/main.css&quot;</code></div></div><div style='flex: 1; min-width: 200px; background-color: #e8f5e9; border-radius: 4px; padding: 8px;'><div style='color: #2e7d32; font-weight: bold; margin-bottom: 4px;'>rel</div><div style='color: #333; font-size: 13px;'>Relation avec le document</div><div style='margin-top: 8px; padding: 4px; background: #f5f5f5; border-radius: 2px; font-size: 12px;'><code>rel=&quot;stylesheet&quot;</code></div></div></div><div style='margin-top: 10px; background-color: #e3f2fd; border-radius: 4px; padding: 8px;'><div style='font-weight: bold; color: #0d47a1; margin-bottom: 6px;'>Relations courantes (valeurs de rel):</div><div style='display: flex; flex-wrap: wrap; gap: 6px;'><span style='display: inline-block; padding: 3px 6px; background: #bbdefb; border-radius: 3px; font-size: 12px;'>stylesheet</span><span style='display: inline-block; padding: 3px 6px; background: #bbdefb; border-radius: 3px; font-size: 12px;'>icon</span><span style='display: inline-block; padding: 3px 6px; background: #bbdefb; border-radius: 3px; font-size: 12px;'>preload</span><span style='display: inline-block; padding: 3px 6px; background: #bbdefb; border-radius: 3px; font-size: 12px;'>prefetch</span><span style='display: inline-block; padding: 3px 6px; background: #bbdefb; border-radius: 3px; font-size: 12px;'>alternate</span></div></div></div>"
+          }
+        },
+        {
+          "title": "Types de liens courants",
+          "text": "Les types de liens les plus courants sont stylesheet pour les feuilles de style CSS et icon pour les favicons du site.",
+          "code": "<!-- Feuille de style CSS -->\n<link rel=\"stylesheet\" href=\"styles.css\">\n\n<!-- Favicon du site -->\n<link rel=\"icon\" href=\"favicon.ico\">\n\n<!-- Icône pour appareils Apple -->\n<link rel=\"apple-touch-icon-precomposed\" sizes=\"114x114\" href=\"apple-icon-114.png\" type=\"image/png\">",
+          "visualDemo": {
+            "content": "<div style='font-family: sans-serif; max-width: 450px;'><div style='background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; padding: 12px; margin-bottom: 15px;'><div style='font-weight: bold; font-size: 16px; margin-bottom: 8px; display: flex; align-items: center;'><span style='background-color: #e8f5e9; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 8px;'>1</span>Feuille de style CSS</div><div style='font-family: monospace; padding: 8px; background-color: #f8f9fa; border-radius: 4px; font-size: 13px;'>&lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;</div><div style='margin-top: 6px; font-size: 12px; color: #666;'>Applique des styles visuels à la page</div></div><div style='display: flex; flex-wrap: wrap; gap: 10px;'><div style='flex: 1; min-width: 200px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; padding: 12px;'><div style='font-weight: bold; font-size: 14px; margin-bottom: 8px; display: flex; align-items: center;'><span style='background-color: #e3f2fd; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 8px;'>2</span>Favicon</div><div style='font-family: monospace; padding: 8px; background-color: #f8f9fa; border-radius: 4px; font-size: 12px;'>&lt;link rel=&quot;icon&quot; href=&quot;favicon.ico&quot;&gt;</div><div style='margin-top: 6px; font-size: 11px; color: #666;'>Icône dans l'onglet du navigateur</div></div><div style='flex: 1; min-width: 200px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; padding: 12px;'><div style='font-weight: bold; font-size: 14px; margin-bottom: 8px; display: flex; align-items: center;'><span style='background-color: #fff3e0; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 8px;'>3</span>Icône mobile</div><div style='font-family: monospace; padding: 8px; background-color: #f8f9fa; border-radius: 4px; font-size: 12px;'>&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;114x114&quot; href=&quot;icon.png&quot;&gt;</div><div style='margin-top: 6px; font-size: 11px; color: #666;'>Icône pour écran d'accueil mobile</div></div></div></div>"
+          }
+        },
+        {
+          "title": "Requêtes media",
+          "text": "L'attribut media permet de cibler un média spécifique, comme l'impression ou un certain type d'écran, pour l'application d'une feuille de style.",
+          "code": "<link href=\"print.css\" rel=\"stylesheet\" media=\"print\">\n<link href=\"mobile.css\" rel=\"stylesheet\" media=\"screen and (max-width: 600px)\">",
+          "visualDemo": {
+            "content": "<div style='font-family: sans-serif; max-width: 450px;'><div style='border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 15px;'><div style='background-color: #f5f5f5; padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;'>Feuilles de style conditionnelles</div><div style='padding: 15px; background-color: white;'><div style='margin-bottom: 12px; border-left: 4px solid #4caf50; padding-left: 10px;'><div style='font-family: monospace; margin-bottom: 5px; font-size: 13px;'>&lt;link href=&quot;print.css&quot; rel=&quot;stylesheet&quot; media=&quot;print&quot;&gt;</div><div style='font-size: 12px; color: #666;'>Style appliqué uniquement à l'impression</div></div><div style='margin-bottom: 12px; border-left: 4px solid #2196f3; padding-left: 10px;'><div style='font-family: monospace; margin-bottom: 5px; font-size: 13px;'>&lt;link href=&quot;mobile.css&quot; rel=&quot;stylesheet&quot; media=&quot;screen and (max-width: 600px)&quot;&gt;</div><div style='font-size: 12px; color: #666;'>Style appliqué uniquement aux petits écrans</div></div></div></div><div style='display: flex; gap: 10px;'><div style='flex: 1; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'><div style='background-color: #f5f5f5; padding: 8px; font-size: 12px; text-align: center; border-bottom: 1px solid #ddd;'>Écran normal</div><div style='padding: 10px; background-color: white; height: 80px; display: flex; align-items: center; justify-content: center;'><div style='text-align: center;'><div style='font-weight: bold; color: #333;'>Style par défaut</div><div style='font-size: 11px; color: #666;'>screen.css</div></div></div></div><div style='flex: 1; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'><div style='background-color: #f5f5f5; padding: 8px; font-size: 12px; text-align: center; border-bottom: 1px solid #ddd;'>Impression</div><div style='padding: 10px; background-color: white; height: 80px; display: flex; align-items: center; justify-content: center;'><div style='text-align: center;'><div style='font-weight: bold; color: #333;'>Style d'impression</div><div style='font-size: 11px; color: #666;'>print.css</div><div style='font-size: 10px; color: #999; margin-top: 3px;'>Sans couleurs, optimisé pour l'impression</div></div></div></div></div></div>"
+          }
+        },
+        {
+          "title": "Préchargement de ressources",
+          "text": "Les valeurs de rel comme 'preload' et 'prefetch' permettent d'optimiser le chargement des ressources importantes comme les polices, scripts ou images.",
+          "code": "<link rel=\"preload\" href=\"myFont.woff2\" as=\"font\" type=\"font/woff2\" crossorigin=\"anonymous\">\n<link rel=\"prefetch\" href=\"page-2.html\">",
+          "visualDemo": {
+            "content": "<div style='font-family: sans-serif; max-width: 450px;'><div style='border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 15px;'><div style='background-color: #f5f5f5; padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;'>Optimisation du chargement</div><div style='padding: 15px; background-color: white;'><div style='margin-bottom: 15px;'><div style='font-weight: bold; margin-bottom: 5px; color: #0d47a1;'>Préchargement (preload)</div><div style='font-family: monospace; margin-bottom: 5px; font-size: 13px; background-color: #f5f5f5; padding: 8px; border-radius: 4px;'>&lt;link rel=&quot;preload&quot; href=&quot;font.woff2&quot; as=&quot;font&quot; type=&quot;font/woff2&quot; crossorigin&gt;</div><div style='font-size: 12px; color: #666;'>Charge immédiatement une ressource critique pour la page actuelle</div></div><div><div style='font-weight: bold; margin-bottom: 5px; color: #2e7d32;'>Pré-récupération (prefetch)</div><div style='font-family: monospace; margin-bottom: 5px; font-size: 13px; background-color: #f5f5f5; padding: 8px; border-radius: 4px;'>&lt;link rel=&quot;prefetch&quot; href=&quot;page-2.html&quot;&gt;</div><div style='font-size: 12px; color: #666;'>Récupère une ressource en arrière-plan pour la navigation future</div></div></div></div><div style='background-color: #e3f2fd; border-radius: 8px; padding: 12px; font-size: 13px;'><div style='font-weight: bold; margin-bottom: 8px;'>💡 Impact sur les performances</div><div style='margin-bottom: 6px;'>• <strong>preload</strong>: Priorité élevée, charge immédiatement</div><div style='margin-bottom: 6px;'>• <strong>prefetch</strong>: Faible priorité, charge pendant les temps d'inactivité</div><div>• L'attribut <strong>as</strong> aide le navigateur à définir la priorité et la politique de sécurité</div></div></div>"
+          }
+        }
+      ]
+    },
+    "related": ["head", "base", "style", "script", "meta"],
+    "notes": [
+      "L'élément <link> est auto-fermant et ne contient pas de contenu textuel.",
+      "Il est généralement recommandé de placer tous les éléments <link> dans la section <head> du document.",
+      "Certains types de liens comme stylesheet peuvent techniquement être placés dans <body> dans HTML5, mais ce n'est pas une pratique recommandée.",
+      "La politique de sécurité de contenu (CSP) peut affecter le chargement des ressources liées, en particulier les favicons et les polices.",
+      "WebTV prend en charge la valeur 'next' pour l'attribut rel, permettant de précharger la page suivante dans une série."
+    ],
+    "accessibility": "Les feuilles de style liées avec les bonnes requêtes media peuvent grandement améliorer l'accessibilité, notamment en définissant des styles spécifiques pour l'impression ou des lecteurs d'écran. L'attribut 'disabled' peut être utilisé pour désactiver temporairement une feuille de style, ce qui peut être utile pour des fonctionnalités comme le mode sombre.",
+    "exercises": [
+      {
+        "type": "qcm",
+        "question": "Quelle est la fonction principale de l'élément <link> ?",
+        "options": [
+          "Créer des liens hypertextes vers d'autres pages web",
+          "Définir des relations entre le document courant et des ressources externes",
+          "Lier des scripts JavaScript au document HTML",
+          "Créer des liens entre différentes sections d'une même page"
+        ],
+        "correctAnswer": 1,
+        "explanation": "L'élément <link> définit des relations entre le document courant et des ressources externes comme des feuilles de style CSS, des icônes, etc. Il ne crée pas de liens hypertextes (c'est le rôle de l'élément <a>)."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "L'élément <link> peut être placé n'importe où dans un document HTML.",
+        "correctAnswer": false,
+        "explanation": "Bien que HTML5 permette techniquement certains types de <link> dans le <body>, il est recommandé de placer tous les éléments <link> dans la section <head> du document pour assurer une compatibilité et un fonctionnement optimal."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez ce code pour charger une feuille de style uniquement sur les appareils mobiles :",
+        "codeTemplate": "<link href=\"mobile.css\" rel=\"stylesheet\" [?]>",
+        "correctAnswer": "media=\"screen and (max-width: 768px)\"",
+        "explanation": "L'attribut media avec la valeur \"screen and (max-width: 768px)\" permet de cibler uniquement les écrans dont la largeur est inférieure ou égale à 768 pixels, ce qui correspond généralement aux appareils mobiles."
+      },
+      {
+        "type": "debugging",
+        "question": "Ce code ne fonctionne pas correctement pour précharger une police. Identifiez et corrigez l'erreur :",
+        "buggyCode": "<link rel=\"preload\" href=\"font.woff2\" type=\"font/woff2\">",
+        "correctAnswer": "<link rel=\"preload\" href=\"font.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>",
+        "explanation": "Pour précharger correctement une police, il faut ajouter l'attribut 'as=\"font\"' pour indiquer le type de ressource et l'attribut 'crossorigin' car les polices sont généralement chargées en mode CORS."
+      }
+    ]
   }
 }
