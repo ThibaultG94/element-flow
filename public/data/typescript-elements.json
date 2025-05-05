@@ -99,5 +99,106 @@
       }
     ],
     "related": ["Promise", "ReturnType", "Partial", "Required", "async-await", "generics"]
+  },
+  "partial-type": {
+    "name": "Partial<Type>",
+    "category": "utility-types",
+    "description": "Un type utilitaire qui construit un type avec toutes les propriétés de Type définies comme optionnelles. Il représente ainsi tous les sous-ensembles possibles d'un type donné.",
+    "syntax": "Partial<Type>",
+    "attributes": [
+      {
+        "name": "Type",
+        "description": "Le type dont toutes les propriétés doivent être rendues optionnelles."
+      },
+      {
+        "name": "Transformation",
+        "description": "Partial<Type> transforme chaque propriété requise en propriété optionnelle en ajoutant '?' au niveau du type."
+      },
+      {
+        "name": "Usage pratique",
+        "description": "Particulièrement utile pour les fonctions de mise à jour où vous ne voulez modifier qu'une partie des propriétés d'un objet."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Exemple basique avec une interface",
+        "code": "interface Todo {\n  title: string;\n  description: string;\n}\n\n// Créer un type où toutes les propriétés sont optionnelles\ntype TodoPartial = Partial<Todo>;\n// Equivalent à: { title?: string; description?: string; }\n\n// Utilisation en pratique\nconst todo: TodoPartial = {}; // Valide - pas de propriétés requises\nconst todo2: TodoPartial = { title: \"Nettoyer\" }; // Valide - une seule propriété"
+      },
+      {
+        "title": "Cas d'utilisation concret - Fonction de mise à jour",
+        "code": "interface Todo {\n  title: string;\n  description: string;\n  completed: boolean;\n}\n\n// Fonction qui met à jour partiellement un objet Todo\nfunction updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>): Todo {\n  return { ...todo, ...fieldsToUpdate };\n}\n\nconst originalTodo: Todo = {\n  title: \"Organiser le bureau\",\n  description: \"Trier les papiers\",\n  completed: false\n};\n\n// Ne met à jour que la propriété 'completed'\nconst updatedTodo = updateTodo(originalTodo, { completed: true });"
+      }
+    ],
+    "animation": {
+      "steps": [
+        {
+          "title": "Le concept de Partial<Type>",
+          "text": "Partial<Type> crée un nouveau type où toutes les propriétés du type original deviennent optionnelles, permettant la création d'objets partiels.",
+          "code": "interface User {\n  name: string;\n  age: number;\n  email: string;\n}\n\n// Avant: toutes les propriétés requises\nconst user: User = {\n  name: \"Alice\",\n  age: 30,\n  email: \"alice@example.com\"\n};\n\n// Avec Partial: toutes les propriétés optionnelles\nconst partialUser: Partial<User> = {\n  name: \"Bob\"\n  // age et email sont maintenant optionnels\n};",
+          "visualDemo": {
+            "content": "<div style='background: linear-gradient(to bottom, #1e1e1e, #252526); border-radius: 8px; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; color: #d4d4d4; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);'><div style='text-align: center; margin-bottom: 24px;'><h3 style='font-size: 18px; font-weight: 500; color: #f5f5f5; margin-bottom: 8px;'>Transformation Partial</h3><p style='font-size: 14px; color: #999999; margin: 0;'>Rend toutes les propriétés optionnelles</p></div><div style='display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;'><div style='background: #282a36; border-radius: 6px; padding: 16px;'><div style='color: #9cdcfe; font-size: 13px; margin-bottom: 12px; font-weight: 500;'>Type Original</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 13px; line-height: 1.5; color: #f44747;'><span style='color: #569cd6;'>title</span>: <span style='color: #ce9178;'>string</span>;<br><span style='color: #569cd6;'>description</span>: <span style='color: #ce9178;'>string</span>;</div></div><div style='background: #282a36; border-radius: 6px; padding: 16px;'><div style='color: #9cdcfe; font-size: 13px; margin-bottom: 12px; font-weight: 500;'>Type Partial</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 13px; line-height: 1.5; color: #4CAF50;'><span style='color: #569cd6;'>title</span><span style='color: #f44747;'>?</span>: <span style='color: #ce9178;'>string</span>;<br><span style='color: #569cd6;'>description</span><span style='color: #f44747;'>?</span>: <span style='color: #ce9178;'>string</span>;</div></div></div><div style='background: #282a36; border-radius: 6px; padding: 16px; margin-top: 16px;'><div style='text-align: center; color: #f44747; font-size: 13px; font-style: italic;'>Le \"?\" rend les propriétés optionnelles</div></div></div>"
+          }
+        },
+        {
+          "title": "Utilisations pratiques",
+          "text": "Partial<Type> est couramment utilisé pour les cas de mise à jour d'objets, les configurations optionnelles et les états partiels.",
+          "code": "// Configuration de service avec options partielles\ninterface ServiceConfig {\n  timeout: number;\n  retries: number;\n  endpoint: string;\n}\n\nclass DataService {\n  private config: ServiceConfig;\n  \n  constructor(config: Partial<ServiceConfig> = {}) {\n    // Fusion avec les valeurs par défaut\n    this.config = {\n      timeout: 5000,\n      retries: 3,\n      endpoint: '/api/data',\n      ...config\n    };\n  }\n}",
+          "visualDemo": {
+            "content": "<div style='background: linear-gradient(to bottom, #1e1e1e, #252526); border-radius: 8px; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; color: #d4d4d4; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);'><div style='text-align: center; margin-bottom: 24px;'><h3 style='font-size: 18px; font-weight: 500; color: #f5f5f5; margin-bottom: 8px;'>Cas d'utilisation courants</h3></div><div style='display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;'><div style='background: #282a36; border-radius: 6px; padding: 12px;'><div style='color: #9cdcfe; font-size: 12px; margin-bottom: 8px; font-weight: 500;'>Mises à jour</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 11px; line-height: 1.5;'><span style='color: #dcdcaa;'>update</span>(<span style='color: #569cd6;'>Partial</span>&lt;<span style='color: #4ec9b0;'>T</span>&gt;)</div></div><div style='background: #282a36; border-radius: 6px; padding: 12px;'><div style='color: #9cdcfe; font-size: 12px; margin-bottom: 8px; font-weight: 500;'>Configurations</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 11px; line-height: 1.5;'><span style='color: #dcdcaa;'>config</span>: <span style='color: #569cd6;'>Partial</span>&lt;<span style='color: #4ec9b0;'>T</span>&gt;</div></div><div style='background: #282a36; border-radius: 6px; padding: 12px;'><div style='color: #9cdcfe; font-size: 12px; margin-bottom: 8px; font-weight: 500;'>États partiels</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 11px; line-height: 1.5;'><span style='color: #dcdcaa;'>state</span>: <span style='color: #569cd6;'>Partial</span>&lt;<span style='color: #4ec9b0;'>T</span>&gt;</div></div></div><div style='background: #282a36; border-radius: 6px; padding: 16px; margin-top: 16px;'><div style='text-align: center; color: #9cdcfe; font-size: 13px; font-style: italic;'>Partial facilite la souplesse dans les API</div></div></div>"
+          }
+        },
+        {
+          "title": "Pattern updateFunction avec Partial",
+          "text": "Une utilisation classique de Partial<Type> est de créer des fonctions de mise à jour sûres qui ne modifient que les propriétés spécifiées.",
+          "code": "interface Task {\n  id: string;\n  title: string;\n  completed: boolean;\n  priority: 'low' | 'medium' | 'high';\n}\n\n// Fonction de mise à jour type-safe\nfunction updateTask(task: Task, updates: Partial<Task>): Task {\n  return { ...task, ...updates };\n}\n\n// Utilisation\nconst currentTask: Task = {\n  id: '1',\n  title: 'Apprendre TypeScript',\n  completed: false,\n  priority: 'high'\n};\n\n// Mise à jour partielle\nconst updatedTask = updateTask(currentTask, { completed: true });",
+          "visualDemo": {
+            "content": "<div style='background: linear-gradient(to bottom, #1e1e1e, #252526); border-radius: 8px; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; color: #d4d4d4; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);'><div style='text-align: center; margin-bottom: 24px;'><h3 style='font-size: 18px; font-weight: 500; color: #f5f5f5; margin-bottom: 8px;'>Fonction de mise à jour sécurisée</h3></div><div style='background: #282a36; border-radius: 6px; padding: 16px; margin-bottom: 16px;'><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 14px; line-height: 1.5;'><span style='color: #dcdcaa;'>updateTask</span>(<span style='color: #9cdcfe;'>task</span>: <span style='color: #4ec9b0;'>Task</span>, <span style='color: #9cdcfe;'>updates</span>: <span style='color: #569cd6;'>Partial</span>&lt;<span style='color: #4ec9b0;'>Task</span>&gt;)</div></div><div style='display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;'><div style='background: #282a36; border-radius: 6px; padding: 12px;'><div style='color: #9cdcfe; font-size: 12px; margin-bottom: 8px; font-weight: 500;'>Avant</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 11px; line-height: 1.4;'><span style='color: #9cdcfe;'>title</span>: \"<span style='color: #ce9178;'>Apprendre</span>\"<br><span style='color: #9cdcfe;'>completed</span>: <span style='color: #569cd6;'>false</span><br><span style='color: #9cdcfe;'>priority</span>: \"<span style='color: #ce9178;'>high</span>\"</div></div><div style='background: #282a36; border-radius: 6px; padding: 12px;'><div style='color: #9cdcfe; font-size: 12px; margin-bottom: 8px; font-weight: 500;'>Après</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 11px; line-height: 1.4;'><span style='color: #9cdcfe;'>title</span>: \"<span style='color: #ce9178;'>Apprendre</span>\"<br><span style='color: #9cdcfe;'>completed</span>: <span style='color: #569cd6;'>true</span> ✨<br><span style='color: #9cdcfe;'>priority</span>: \"<span style='color: #ce9178;'>high</span>\"</div></div></div><div style='background: #1976d2; border-radius: 6px; padding: 16px; margin-top: 16px; color: #e6f1e6;'><div style='font-size: 13px; text-align: center;'>Mise à jour type-safe et élégante</div></div></div>"
+          }
+        },
+        {
+          "title": "Mécanisme interne de Partial",
+          "text": "Partial<Type> utilise la fonctionnalité de mapped types de TypeScript pour transformer chaque propriété en version optionnelle.",
+          "code": "// Implémentation simplifiée de Partial\ntype Partial<T> = {\n  [P in keyof T]?: T[P];\n};\n\n// Explication: \n// - [P in keyof T] itère sur chaque clé de T\n// - ? rend la propriété optionnelle\n// - T[P] conserve le type original",
+          "visualDemo": {
+            "content": "<div style='background: linear-gradient(to bottom, #1e1e1e, #252526); border-radius: 8px; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; color: #d4d4d4; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);'><div style='text-align: center; margin-bottom: 24px;'><h3 style='font-size: 18px; font-weight: 500; color: #f5f5f5; margin-bottom: 8px;'>Mécanique interne</h3></div><div style='background: #282a36; border-radius: 6px; padding: 16px; margin-bottom: 16px;'><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 14px; line-height: 1.5;'><span style='color: #569cd6;'>type</span> <span style='color: #4ec9b0;'>Partial</span>&lt;<span style='color: #9cdcfe;'>T</span>&gt; = {<br>&nbsp;&nbsp;[<span style='color: #9cdcfe;'>P</span> <span style='color: #569cd6;'>in</span> <span style='color: #569cd6;'>keyof</span> <span style='color: #9cdcfe;'>T</span>]<span style='color: #f44747;'>?</span>: <span style='color: #9cdcfe;'>T</span>[<span style='color: #9cdcfe;'>P</span>];<br>};</div></div><div style='display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;'><div style='background: #282a36; border-radius: 6px; padding: 12px;'><div style='color: #9cdcfe; font-size: 11px; margin-bottom: 6px; font-weight: 500;'>Mapped Type</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 10px; line-height: 1.3;'>[<span style='color: #9cdcfe;'>P</span> <span style='color: #569cd6;'>in</span> keyof <span style='color: #9cdcfe;'>T</span>]</div></div><div style='background: #282a36; border-radius: 6px; padding: 12px;'><div style='color: #9cdcfe; font-size: 11px; margin-bottom: 6px; font-weight: 500;'>Optionnel</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 10px; line-height: 1.3;'><span style='color: #f44747;'>?</span> symbole</div></div><div style='background: #282a36; border-radius: 6px; padding: 12px;'><div style='color: #9cdcfe; font-size: 11px; margin-bottom: 6px; font-weight: 500;'>Type préservé</div><div style='font-family: \"Fira Code\", Consolas, monospace; font-size: 10px; line-height: 1.3;'><span style='color: #9cdcfe;'>T</span>[<span style='color: #9cdcfe;'>P</span>]</div></div></div><div style='background: #252a36; border: 1px dashed #569cd6; border-radius: 6px; padding: 16px; margin-top: 16px; text-align: center;'><div style='font-size: 13px; color: #999999; font-style: italic;'>Chaque propriété devient optionnelle tout en conservant son type</div></div></div>"
+          }
+        }
+      ]
+    },
+    "exercises": [
+      {
+        "type": "qcm",
+        "question": "Quelle est l'utilisation principale de Partial<Type> ?",
+        "options": [
+          "Créer un nouveau type avec toutes les propriétés requises",
+          "Transformer toutes les propriétés du type en optionnelles",
+          "Créer une copie exacte d'un type",
+          "Supprimer des propriétés d'un type"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Partial<Type> transforme toutes les propriétés d'un type donné en propriétés optionnelles en ajoutant le modificateur '?'."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "Partial<Type> peut être utilisé pour les unions de types.",
+        "correctAnswer": false,
+        "explanation": "Partial<Type> fonctionne uniquement avec les types d'objets, pas avec les unions primitives. Il rend optionnelles les propriétés d'un objet, ce qui n'a pas de sens pour les unions de types primitifs."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez le code pour créer une fonction de mise à jour qui accepte des valeurs partielles :",
+        "codeTemplate": "interface User {\n  id: string;\n  name: string;\n  age: number;\n}\n\nfunction updateUser(user: User, updates: [?]<User>): User {\n  return { ...user, ...updates };\n}",
+        "correctAnswer": "Partial",
+        "explanation": "Partial<User> permet d'accepter un objet avec n'importe quelle combinaison de propriétés de User, toutes optionnelles."
+      },
+      {
+        "type": "debugging",
+        "question": "Trouvez l'erreur dans ce code utilisant Partial :",
+        "buggyCode": "interface Task {\n  title: string;\n  priority: number;\n}\n\nconst partialTask: Partial<Task> = {\n  title: \"Nouvelle tâche\"\n};\n\n// Cette fonction attend un Task complet\nfunction createTask(task: Task) {\n  console.log(task.title, task.priority);\n}\n\ncreateTask(partialTask);",
+        "correctAnswer": "interface Task {\n  title: string;\n  priority: number;\n}\n\nconst partialTask: Partial<Task> = {\n  title: \"Nouvelle tâche\"\n};\n\n// Changer le type de paramètre ou fournir des valeurs par défaut\nfunction createTask(task: Partial<Task>) {\n  const finalTask = {\n    title: task.title ?? \"Sans titre\",\n    priority: task.priority ?? 1\n  };\n  console.log(finalTask.title, finalTask.priority);\n}\n\ncreateTask(partialTask);",
+        "explanation": "L'erreur est que createTask attend un objet Task complet avec toutes les propriétés requises, mais partialTask est de type Partial<Task> avec des propriétés optionnelles. Il faut soit changer le type de paramètre, soit fournir des valeurs par défaut pour les propriétés manquantes."
+      }
+    ],
+    "related": ["Required", "Pick", "Omit", "Readonly", "UpdatePattern", "MappedTypes"]
   }
 }
