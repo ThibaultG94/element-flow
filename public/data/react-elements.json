@@ -1,211 +1,122 @@
 {
-    "jsx": {
-      "id": "jsx",
-      "name": "JSX",
-      "description": "Syntaxe d'extension JavaScript pour écrire du HTML dans React",
-      "category": "basics",
-      "attributes": [
-        { "name": "expressions", "description": "Code JavaScript entre accolades {}" },
-        { "name": "fragments", "description": "Groupes d'éléments sans wrapper (<>...</>)" }
-      ],
-      "animation": {
-        "steps": [
-          {
-            "title": "Introduction au JSX",
-            "text": "JSX est une extension syntaxique de JavaScript qui ressemble à du HTML mais avec toute la puissance de JavaScript",
-            "code": "const element = <h1>Bonjour, monde!</h1>;",
-            "visualDemo": {
-              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-size:1.2em; font-weight:bold; margin-bottom:10px;'>Bonjour, monde!</div><div style='font-family:monospace; margin-top:10px; font-size:0.9em;'>const element = &lt;h1&gt;Bonjour, monde!&lt;/h1&gt;;</div></div></div>"
-            }
-          },
-          {
-            "title": "Expressions JavaScript dans JSX",
-            "text": "Vous pouvez inclure des expressions JavaScript entre accolades {} dans JSX",
-            "code": "const name = 'Marie';\nconst element = <h1>Bonjour, {name}!</h1>;",
-            "visualDemo": {
-              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-size:1.2em; font-weight:bold; margin-bottom:10px;'>Bonjour, Marie!</div><div style='font-family:monospace; margin-top:10px; font-size:0.9em;'>const name = 'Marie';<br>const element = &lt;h1&gt;Bonjour, {name}!&lt;/h1&gt;;</div></div></div>"
-            }
-          },
-          {
-            "title": "Attributs en JSX",
-            "text": "JSX utilise camelCase pour les attributs au lieu de la notation HTML standard",
-            "code": "const element = <div className='container'>\n  <img src={userAvatar} alt='Avatar' />\n</div>;",
-            "visualDemo": {
-              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em;'>const element = (<br>&nbsp;&nbsp;&lt;div <span style='color:#e91e63;'>className</span>='container'&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;img <span style='color:#e91e63;'>src</span>={userAvatar} <span style='color:#e91e63;'>alt</span>='Avatar' /&gt;<br>&nbsp;&nbsp;&lt;/div&gt;<br>);</div></div></div>"
-            }
-          },
-          {
-            "title": "Les éléments JSX sont des objets",
-            "text": "Une fois compilés, les éléments JSX deviennent des objets JavaScript réguliers appelés 'React Elements'",
-            "code": "// Ce code JSX\nconst element = <h1 className='greeting'>Bonjour!</h1>;\n\n// Est transformé en cet objet JavaScript\nconst element = React.createElement(\n  'h1',\n  {className: 'greeting'},\n  'Bonjour!'\n);",
-            "visualDemo": {
-              "content": "<div style='padding:20px; background:#eee;'><div style='display:flex; flex-direction:column; gap:20px;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:15px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em;'>const element = &lt;h1 className='greeting'&gt;Bonjour!&lt;/h1&gt;;</div></div><div style='font-size:1.5em; text-align:center;'>⬇️</div><div style='background:#61dafb33; border:1px solid #61dafb; padding:15px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em;'>const element = React.createElement(<br>&nbsp;&nbsp;'h1',<br>&nbsp;&nbsp;{className: 'greeting'},<br>&nbsp;&nbsp;'Bonjour!'<br>);</div></div></div></div>"
-            }
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Exemples d'utilisation de JSX",
-          "code": "// Élément simple\nconst element = <h1>Bonjour</h1>;\n\n// Avec expressions JavaScript\nconst name = 'Marie';\nconst element = <h1>Bonjour, {name}</h1>;\n\n// Avec attributs\nconst element = <img src={user.avatarUrl} alt='Avatar de l\\'utilisateur' />;\n\n// Élément multilignes (doivent être entourés de parenthèses)\nconst element = (\n  <div>\n    <h1>Titre</h1>\n    <p>Paragraphe</p>\n  </div>\n);\n\n// Fragment pour éviter les divs inutiles\nconst element = (\n  <>\n    <h1>Titre</h1>\n    <p>Paragraphe</p>\n  </>\n);"
-        }
-      ],
-      "related": ["components", "props", "conditional-rendering"]
-    },
-    "useState": {
-      "id": "useState",
-      "name": "useState()",
-      "description": "Hook permettant d'ajouter un état local à un composant fonctionnel",
-      "category": "hooks",
-      "attributes": [
-        { "name": "initialState", "description": "Valeur initiale de l'état" },
-        { "name": "stateSetter", "description": "Fonction pour mettre à jour l'état" }
-      ],
-      "animation": {
-        "steps": [
-          {
-            "title": "Le Hook useState",
-            "text": "useState est un hook qui permet aux composants fonctionnels d'avoir un état local",
-            "code": "import React, { useState } from 'react';\n\nfunction Compteur() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    <div>\n      <p>Vous avez cliqué {count} fois</p>\n      <button onClick={() => setCount(count + 1)}>\n        Cliquez ici\n      </button>\n    </div>\n  );\n}",
-            "visualDemo": {
-              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-size:1em; margin-bottom:10px;'>Vous avez cliqué <span style='font-weight:bold;'>0</span> fois</div><button style='background:#61dafb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;'>Cliquez ici</button></div></div>"
-            }
-          },
-          {
-            "title": "Déstructuration du tableau useState",
-            "text": "useState retourne un tableau de deux éléments: la valeur actuelle de l'état et une fonction pour le mettre à jour",
-            "code": "const [count, setCount] = useState(0);\n// count: valeur actuelle (0)\n// setCount: fonction pour mettre à jour count",
-            "visualDemo": {
-              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em; display:flex; flex-direction:column; gap:10px;'><div>const [count, setCount] = useState(0);</div><div style='display:flex; justify-content:space-between;'><div style='border:1px dashed #61dafb; padding:5px 10px; border-radius:3px;'>count = 0</div><div style='border:1px dashed #61dafb; padding:5px 10px; border-radius:3px;'>setCount(newValue)</div></div></div></div></div>"
-            }
-          },
-          {
-            "title": "Mise à jour de l'état",
-            "text": "La fonction de mise à jour d'état (setCount) peut prendre une nouvelle valeur directement ou une fonction qui utilise la valeur précédente",
-            "code": "// Mise à jour directe\nsetCount(count + 1);\n\n// Mise à jour fonctionnelle (plus sûre)\nsetCount(prevCount => prevCount + 1);",
-            "visualDemo": {
-              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace; font-size:0.9em; margin-bottom:15px;'>// Version directe<br>setCount(count + 1);</div><div style='font-family:monospace; font-size:0.9em;'>// Version fonctionnelle<br>setCount(prevCount => prevCount + 1);</div><div style='display:flex; justify-content:center; margin-top:20px; gap:10px;'><div style='border:1px solid #61dafb; padding:8px 16px; border-radius:4px; background:white;'>count = 0</div><span style='font-size:1.5em;'>→</span><div style='border:1px solid #61dafb; padding:8px 16px; border-radius:4px; background:white;'>count = 1</div></div></div></div>"
-            }
-          },
-          {
-            "title": "Utilisations multiples",
-            "text": "Un composant peut utiliser plusieurs états indépendants avec useState",
-            "code": "function Formulaire() {\n  const [nom, setNom] = useState('');\n  const [age, setAge] = useState(0);\n  const [ville, setVille] = useState('');\n  \n  // ...\n}",
-            "visualDemo": {
-              "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='margin-bottom:15px;'><label style='display:block; margin-bottom:5px;'>Nom:</label><input type='text' style='width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;' placeholder='Entrez votre nom' /></div><div style='margin-bottom:15px;'><label style='display:block; margin-bottom:5px;'>Âge:</label><input type='number' style='width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;' placeholder='Entrez votre âge' /></div><div><label style='display:block; margin-bottom:5px;'>Ville:</label><input type='text' style='width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;' placeholder='Entrez votre ville' /></div></div></div>"
-            }
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Exemples d'utilisation de useState",
-          "code": "// État avec valeur simple\nconst [count, setCount] = useState(0);\n\n// État avec valeur booléenne\nconst [isVisible, setIsVisible] = useState(false);\n\n// État avec objet\nconst [user, setUser] = useState({ name: '', email: '' });\n\n// Mise à jour d'un objet (toujours créer un nouvel objet)\nsetUser({ ...user, name: 'Nouveau nom' });\n\n// État avec tableau\nconst [items, setItems] = useState([]);\n\n// Ajouter un élément au tableau\nsetItems([...items, newItem]);\n\n// Supprimer un élément du tableau\nsetItems(items.filter(item => item.id !== itemToRemove.id));"
-        }
-      ],
-      "related": ["useEffect", "useContext", "useReducer"]
-    },
-    "useEffect": {
-    "id": "useEffect",
+  "useEffect": {
     "name": "useEffect()",
-    "description": "Hook pour gérer les effets secondaires dans les composants fonctionnels",
     "category": "hooks",
+    "description": "Hook pour gérer les effets secondaires dans les composants fonctionnels React. Permet d'effectuer des opérations comme les appels API, les abonnements à des événements, ou les modifications manuelles du DOM.",
+    "syntax": "useEffect(setup, dependencies?)",
     "attributes": [
-      { "name": "setup", "description": "Fonction d'effet" },
-      { "name": "dependencies", "description": "Tableau des dépendances" }
+      {
+        "name": "setup",
+        "description": "Fonction contenant le code de l'effet à exécuter. Cette fonction peut retourner une fonction de nettoyage (cleanup) optionnelle."
+      },
+      {
+        "name": "dependencies",
+        "description": "Tableau optionnel de dépendances. Si fourni, l'effet ne s'exécutera que si au moins une des dépendances a changé depuis le dernier rendu."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Effet exécuté à chaque rendu",
+        "code": "import React, { useState, useEffect } from 'react';\n\nfunction ExampleComponent() {\n  const [count, setCount] = useState(0);\n\n  // S'exécute après chaque rendu\n  useEffect(() => {\n    console.log('Le composant a été rendu');\n    document.title = `Vous avez cliqué ${count} fois`;\n  });\n\n  return (\n    <div>\n      <p>Vous avez cliqué {count} fois</p>\n      <button onClick={() => setCount(count + 1)}>\n        Cliquez ici\n      </button>\n    </div>\n  );\n}"
+      },
+      {
+        "title": "Effet avec dépendances",
+        "code": "import React, { useState, useEffect } from 'react';\n\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n\n  // S'exécute uniquement quand userId change\n  useEffect(() => {\n    setLoading(true);\n    fetch(`https://api.example.com/users/${userId}`)\n      .then(response => response.json())\n      .then(data => {\n        setUser(data);\n        setLoading(false);\n      });\n  }, [userId]); // Tableau de dépendances\n\n  if (loading) return <p>Chargement...</p>;\n  if (!user) return <p>Utilisateur non trouvé</p>;\n\n  return (\n    <div>\n      <h1>{user.name}</h1>\n      <p>Email: {user.email}</p>\n    </div>\n  );\n}"
+      },
+      {
+        "title": "Effet avec fonction de nettoyage",
+        "code": "import React, { useState, useEffect } from 'react';\n\nfunction WindowWidth() {\n  const [width, setWidth] = useState(window.innerWidth);\n\n  useEffect(() => {\n    // Définition de l'effet\n    const handleResize = () => setWidth(window.innerWidth);\n    window.addEventListener('resize', handleResize);\n    \n    // Fonction de nettoyage (cleanup)\n    return () => {\n      window.removeEventListener('resize', handleResize);\n    };\n  }, []); // Tableau vide = exécution une seule fois (montage)\n\n  return <p>Largeur de la fenêtre: {width}px</p>;\n}"
+      }
     ],
     "animation": {
       "steps": [
         {
-          "title": "Le Hook useEffect",
-          "text": "useEffect permet de gérer les effets secondaires comme les appels API",
-          "code": "useEffect(() => {\n  document.title = `Vous avez cliqué ${count} fois`;\n});",
+          "title": "Introduction à useEffect",
+          "text": "useEffect est un Hook qui permet d'effectuer des effets secondaires dans les composants fonctionnels. Il remplace les méthodes de cycle de vie comme componentDidMount, componentDidUpdate et componentWillUnmount des composants classe.",
+          "code": "import React, { useEffect } from 'react';\n\nfunction MonComposant() {\n  useEffect(() => {\n    // Code exécuté après le rendu\n    console.log('Composant rendu');\n  });\n  \n  return <div>Contenu du composant</div>;\n}",
           "visualDemo": {
-            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace;'>useEffect(() => { ... });</div></div></div>"
+            "content": "<div style='background: #f0f0f0; padding: 20px; border-radius: 8px; font-family: Arial, sans-serif;'><div style='background: #ffffff; border-radius: 4px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='margin-bottom: 15px;'><code style='background: #f7f7f7; padding: 8px; border-radius: 4px; display: block; font-family: monospace; color: #333;'>useEffect(() => {<br>&nbsp;&nbsp;// Effet exécuté après le rendu<br>});</code></div><div style='display: flex; align-items: center;'><div style='background: #61dafb; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; margin-right: 10px;'>→</div><span>Exécution après chaque rendu du composant</span></div></div></div>"
           }
         },
         {
-          "title": "Dépendances",
-          "text": "Le tableau de dépendances contrôle quand l'effet se déclenche",
-          "code": "useEffect(() => {\n  // S'exécute quand count change\n}, [count]);",
+          "title": "Contrôle des exécutions avec les dépendances",
+          "text": "Le tableau de dépendances permet de contrôler quand l'effet doit s'exécuter. Sans tableau, l'effet s'exécute après chaque rendu. Un tableau vide fait que l'effet ne s'exécute qu'une seule fois. Un tableau avec des valeurs fait que l'effet s'exécute quand ces valeurs changent.",
+          "code": "// Après chaque rendu\nuseEffect(() => {\n  console.log('Exécuté à chaque rendu');\n});\n\n// Une seule fois (équivalent à componentDidMount)\nuseEffect(() => {\n  console.log('Exécuté uniquement au montage');\n}, []);\n\n// Quand count change\nuseEffect(() => {\n  console.log('count a changé:', count);\n}, [count]);",
           "visualDemo": {
-            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='font-family:monospace;'>useEffect(() => { ... }, [count]);</div></div></div>"
-          }
-        }
-      ]
-    },
-    "examples": [
-      {
-        "title": "Exemple basique",
-        "code": "useEffect(() => {\n  document.title = `${count} clics`;\n}, [count]);"
-      }
-    ],
-    "related": ["useState", "useContext"]
-  },
-  "component": {
-    "id": "component",
-    "name": "Component",
-    "description": "Élément de base pour créer des interfaces utilisateur dans React",
-    "category": "components",
-    "attributes": [
-      { "name": "props", "description": "Propriétés passées au composant" },
-      { "name": "state", "description": "État local du composant" }
-    ],
-    "animation": {
-      "steps": [
-        {
-          "title": "Composants fonctionnels",
-          "text": "Les composants fonctionnels sont des fonctions JavaScript qui retournent du JSX",
-          "code": "function Welcome(props) {\n  return <h1>Bonjour, {props.name}</h1>;\n}",
-          "visualDemo": {
-            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><h1 style='margin:0;'>Bonjour, Marie</h1></div></div>"
+            "content": "<div style='background: #f0f0f0; padding: 20px; border-radius: 8px; font-family: Arial, sans-serif;'><div style='display: flex; flex-direction: column; gap: 15px;'><div style='background: #ffffff; border-radius: 4px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; align-items: center; margin-bottom: 10px;'><div style='background: #61dafb; color: white; border-radius: 4px; padding: 4px 8px; margin-right: 10px; font-size: 12px;'>Pas de dépendances</div></div><code style='background: #f7f7f7; padding: 6px; border-radius: 4px; display: block; font-family: monospace; color: #333; font-size: 13px;'>useEffect(() => { ... });</code><div style='margin-top: 10px; font-size: 13px;'>→ S'exécute après <strong>chaque</strong> rendu</div></div><div style='background: #ffffff; border-radius: 4px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; align-items: center; margin-bottom: 10px;'><div style='background: #61dafb; color: white; border-radius: 4px; padding: 4px 8px; margin-right: 10px; font-size: 12px;'>Tableau vide</div></div><code style='background: #f7f7f7; padding: 6px; border-radius: 4px; display: block; font-family: monospace; color: #333; font-size: 13px;'>useEffect(() => { ... }, []);</code><div style='margin-top: 10px; font-size: 13px;'>→ S'exécute <strong>une seule fois</strong> au montage</div></div><div style='background: #ffffff; border-radius: 4px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; align-items: center; margin-bottom: 10px;'><div style='background: #61dafb; color: white; border-radius: 4px; padding: 4px 8px; margin-right: 10px; font-size: 12px;'>Avec dépendances</div></div><code style='background: #f7f7f7; padding: 6px; border-radius: 4px; display: block; font-family: monospace; color: #333; font-size: 13px;'>useEffect(() => { ... }, [count]);</code><div style='margin-top: 10px; font-size: 13px;'>→ S'exécute <strong>uniquement</strong> quand count change</div></div></div></div>"
           }
         },
         {
-          "title": "Composants classe",
-          "text": "Les composants classe étendent React.Component",
-          "code": "class Welcome extends React.Component {\n  render() {\n    return <h1>Bonjour, {this.props.name}</h1>;\n  }\n}",
+          "title": "Nettoyage des effets",
+          "text": "La fonction de nettoyage (cleanup) permet d'éviter les fuites mémoire en nettoyant les ressources utilisées par l'effet, comme les abonnements aux événements ou les timers.",
+          "code": "useEffect(() => {\n  // Création d'un timer\n  const timerId = setInterval(() => {\n    console.log('Timer tick');\n  }, 1000);\n  \n  // Fonction de nettoyage\n  return () => {\n    clearInterval(timerId);\n    console.log('Timer nettoyé');\n  };\n}, []);",
           "visualDemo": {
-            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><h1 style='margin:0;'>Bonjour, Marie</h1></div></div>"
+            "content": "<div style='background: #f0f0f0; padding: 20px; border-radius: 8px; font-family: Arial, sans-serif;'><div style='background: #ffffff; border-radius: 4px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; flex-direction: column; gap: 15px;'><div><h3 style='margin: 0 0 10px 0; font-size: 16px; color: #333;'>Cycle de vie d'un effet</h3><div style='display: flex; align-items: center; margin-bottom: 20px;'><div style='flex: 1; text-align: center; padding: 10px; background: #e6f7ff; border-radius: 4px;'>Montage</div><div style='margin: 0 10px;'>→</div><div style='flex: 1; text-align: center; padding: 10px; background: #e6f7ff; border-radius: 4px;'>Mises à jour</div><div style='margin: 0 10px;'>→</div><div style='flex: 1; text-align: center; padding: 10px; background: #e6f7ff; border-radius: 4px;'>Démontage</div></div></div><div style='display: flex; gap: 15px;'><div style='flex: 1; background: #f0fff0; padding: 15px; border-radius: 4px; border-left: 3px solid #52c41a;'><div style='font-weight: bold; margin-bottom: 5px;'>Configuration</div><div style='font-size: 13px;'>useEffect(() => { ... });</div></div><div style='flex: 1; background: #fff0f0; padding: 15px; border-radius: 4px; border-left: 3px solid #f5222d;'><div style='font-weight: bold; margin-bottom: 5px;'>Nettoyage</div><div style='font-size: 13px;'>return () => { ... };</div></div></div><div style='margin-top: 15px; background: #fffbe6; padding: 12px; border-radius: 4px; border-left: 3px solid #faad14;'><span style='font-weight: bold;'>Important :</span> Le nettoyage s'effectue avant chaque nouvelle exécution de l'effet et au démontage du composant.</div></div></div></div>"
           }
-        }
-      ]
-    },
-    "examples": [
-      {
-        "title": "Composant simple",
-        "code": "function Button(props) {\n  return (\n    <button className={props.className}>\n      {props.label}\n    </button>\n  );\n}"
-      }
-    ],
-    "related": ["props", "jsx", "useState"]
-  },
-  "props": {
-    "id": "props",
-    "name": "Props",
-    "description": "Mécanisme pour passer des données aux composants enfants",
-    "category": "props",
-    "attributes": [
-      { "name": "lecture seule", "description": "Les props sont en lecture seule" },
-      { "name": "propTypes", "description": "Validation des types de props" }
-    ],
-    "animation": {
-      "steps": [
+        },
         {
-          "title": "Utilisation des props",
-          "text": "Les props sont passées depuis le composant parent vers l'enfant",
-          "code": "// Parent\n<Welcome name=\"Sara\" />\n\n// Enfant\nfunction Welcome(props) {\n  return <h1>Bonjour, {props.name}</h1>;\n}",
+          "title": "Cas d'utilisation courants",
+          "text": "useEffect est utilisé pour de nombreuses opérations comme les appels API, la gestion d'abonnements, la manipulation du DOM, et plus encore.",
+          "code": "// Appel API\nuseEffect(() => {\n  fetch('https://api.example.com/data')\n    .then(response => response.json())\n    .then(data => setData(data));\n}, []);\n\n// Abonnement à un événement\nuseEffect(() => {\n  const handleKeyDown = (e) => {\n    if (e.key === 'Escape') onClose();\n  };\n  window.addEventListener('keydown', handleKeyDown);\n  return () => {\n    window.removeEventListener('keydown', handleKeyDown);\n  };\n}, [onClose]);\n\n// Synchronisation avec localStorage\nuseEffect(() => {\n  localStorage.setItem('preferences', JSON.stringify(preferences));\n}, [preferences]);",
           "visualDemo": {
-            "content": "<div style='padding:20px; background:#eee;'><div style='background:#61dafb33; border:1px solid #61dafb; padding:20px; border-radius:5px;'><div style='background:white; border:1px dashed #61dafb; padding:10px; margin-bottom:10px;'><div style='font-family:monospace;'>&lt;Welcome name=\"Sara\" /&gt;</div></div><div style='background:#f5f5f5; border-radius:4px; padding:10px;'><h1 style='margin:0; font-size:1.2em;'>Bonjour, Sara</h1></div></div></div>"
+            "content": "<div style='background: #f0f0f0; padding: 20px; border-radius: 8px; font-family: Arial, sans-serif;'><div style='display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;'><div style='background: #ffffff; border-radius: 4px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; align-items: center; margin-bottom: 10px;'><div style='width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #1890ff; color: white; border-radius: 50%; margin-right: 10px;'>📡</div><div style='font-weight: bold;'>Appels API</div></div><div style='font-size: 13px; color: #666;'>Récupération de données depuis un serveur</div></div><div style='background: #ffffff; border-radius: 4px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; align-items: center; margin-bottom: 10px;'><div style='width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #52c41a; color: white; border-radius: 50%; margin-right: 10px;'>👂</div><div style='font-weight: bold;'>Événements</div></div><div style='font-size: 13px; color: #666;'>Gestion des écouteurs d'événements</div></div><div style='background: #ffffff; border-radius: 4px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; align-items: center; margin-bottom: 10px;'><div style='width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #722ed1; color: white; border-radius: 50%; margin-right: 10px;'>🔄</div><div style='font-weight: bold;'>Synchronisation</div></div><div style='font-size: 13px; color: #666;'>Maintenir des données synchronisées</div></div><div style='background: #ffffff; border-radius: 4px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='display: flex; align-items: center; margin-bottom: 10px;'><div style='width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #fa8c16; color: white; border-radius: 50%; margin-right: 10px;'>🧹</div><div style='font-weight: bold;'>Nettoyage</div></div><div style='font-size: 13px; color: #666;'>Éviter les fuites mémoire</div></div></div></div>"
           }
         }
       ]
     },
-    "examples": [
+    "exercises": [
       {
-        "title": "Passage et utilisation des props",
-        "code": "// Passage de props\n<UserProfile \n  name=\"Marie\" \n  age={28} \n  isAdmin={true} \n  hobbies={['lecture', 'vélo']} \n/>"
+        "type": "qcm",
+        "question": "Quelle est la fonction de nettoyage (cleanup) dans useEffect ?",
+        "options": [
+          "Une fonction séparée appelée useCleanup()",
+          "La fonction retournée par la fonction passée à useEffect",
+          "Un second argument passé à useEffect",
+          "Une méthode intégrée qui s'exécute automatiquement"
+        ],
+        "correctAnswer": 1,
+        "explanation": "La fonction de nettoyage est la fonction optionnelle que vous pouvez retourner depuis la fonction d'effet. Cette fonction de nettoyage s'exécute avant que le composant soit retiré du DOM et avant chaque nouvel effet si les dépendances ont changé."
+      },
+      {
+        "type": "vrai_faux",
+        "question": "Dans useEffect, un tableau de dépendances vide [] signifie que l'effet s'exécutera après chaque rendu du composant.",
+        "correctAnswer": false,
+        "explanation": "Un tableau de dépendances vide [] signifie que l'effet s'exécutera une seule fois après le montage initial du composant (équivalent à componentDidMount dans les composants classe), mais pas lors des rendus suivants."
+      },
+      {
+        "type": "completion",
+        "question": "Complétez ce code pour qu'il exécute l'effet uniquement lorsque la variable 'id' change :",
+        "codeTemplate": "useEffect(() => {\n  fetchData(id);\n}, [?]);",
+        "correctAnswer": "[id]",
+        "explanation": "En passant 'id' dans le tableau de dépendances, vous indiquez à React de n'exécuter l'effet que lorsque la valeur de 'id' change entre les rendus."
+      },
+      {
+        "type": "debugging",
+        "question": "Trouvez et corrigez l'erreur dans ce code qui crée une fuite mémoire :",
+        "buggyCode": "useEffect(() => {\n  const timer = setInterval(() => {\n    setCount(c => c + 1);\n  }, 1000);\n}, []);",
+        "correctAnswer": "useEffect(() => {\n  const timer = setInterval(() => {\n    setCount(c => c + 1);\n  }, 1000);\n  \n  return () => {\n    clearInterval(timer);\n  };\n}, []);",
+        "explanation": "L'erreur est l'absence de fonction de nettoyage pour supprimer l'intervalle. Sans cette fonction de nettoyage, quand le composant est démonté, l'intervalle continuerait à s'exécuter, provoquant une fuite mémoire et potentiellement des erreurs."
+      },
+      {
+        "type": "qcm",
+        "question": "Quand la fonction de nettoyage est-elle exécutée ?",
+        "options": [
+          "Uniquement lorsque le composant est démonté",
+          "Avant chaque nouvelle exécution de l'effet et au démontage",
+          "Seulement si on l'appelle explicitement dans le code",
+          "À chaque rendu du composant"
+        ],
+        "correctAnswer": 1,
+        "explanation": "La fonction de nettoyage est exécutée à deux moments : juste avant que le composant soit retiré du DOM (démonté) et avant chaque nouvelle exécution de l'effet si les dépendances ont changé."
+      },
+      {
+        "type": "debugging",
+        "question": "Ce code contient une erreur courante avec useEffect. Corrigez-la :",
+        "buggyCode": "function SearchResults({ query }) {\n  const [results, setResults] = useState([]);\n  \n  useEffect(() => {\n    fetchResults(query).then(data => {\n      setResults(data);\n    });\n  });\n  \n  return <ResultsList results={results} />;\n}",
+        "correctAnswer": "function SearchResults({ query }) {\n  const [results, setResults] = useState([]);\n  \n  useEffect(() => {\n    fetchResults(query).then(data => {\n      setResults(data);\n    });\n  }, [query]);\n  \n  return <ResultsList results={results} />;\n}",
+        "explanation": "L'erreur est que useEffect n'a pas de tableau de dépendances, ce qui fait qu'il s'exécute après chaque rendu, créant potentiellement une boucle infinie. La correction ajoute [query] comme dépendance, ce qui fait que l'effet ne s'exécute que lorsque query change."
       }
     ],
-    "related": ["component", "state", "propTypes"]
+    "related": ["useState", "useContext", "useReducer", "useCallback", "useMemo"]
   }
 }
